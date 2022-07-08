@@ -6,13 +6,8 @@ import {
   collection,
   query,
   where,
-  getDoc,
-  setDoc,
-  doc,
-  addDoc,
   getDocs,
 } from 'firebase/firestore'
-import { useState, useEffect } from 'react'
 import PostLayout from '@/layouts/PostLayout'
 
 // Initialize Firebase
@@ -38,7 +33,7 @@ function Blog({ postData, prev, next }) {
 }
 export default Blog
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   //process -> Next & Prev
   const allPosts = []
   const queryPosts = query(collection(db, 'posts'))
@@ -66,16 +61,16 @@ export async function getStaticProps({ params }) {
   }
 }
 
-export async function getStaticPaths() {
-  const pathsArray = []
-  const q = query(collection(db, 'posts'))
-  const querySnapshot = await getDocs(q)
-  querySnapshot.forEach((doc) => {
-    pathsArray.push({ params: { slug: [doc.data().frontMatter.slug] } })
-  })
+// export async function getStaticPaths() {
+//   const pathsArray = []
+//   const q = query(collection(db, 'posts'))
+//   const querySnapshot = await getDocs(q)
+//   querySnapshot.forEach((doc) => {
+//     pathsArray.push({ params: { slug: [doc.data().frontMatter.slug] } })
+//   })
 
-  return {
-    paths: pathsArray,
-    fallback: false,
-  }
-}
+//   return {
+//     paths: pathsArray,
+//     fallback: false,
+//   }
+// }
