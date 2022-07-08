@@ -6,6 +6,17 @@ import { getAllFilesFrontMatter } from '@/lib/mdx'
 import formatDate from '@/lib/utils/formatDate'
 
 import NewsletterForm from '@/components/NewsletterForm'
+import { withPublic } from 'src/hook/route'
+
+import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
+import firebaseConfig from 'src/config/firebase.config'
+import { collection, query, where, getDoc, setDoc, doc, addDoc, getDocs } from 'firebase/firestore'
+import { useState, useEffect } from 'react'
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
 
 const MAX_DISPLAY = 5
 
@@ -15,7 +26,39 @@ export async function getStaticProps() {
   return { props: { posts } }
 }
 
-export default function Home({ posts }) {
+function Home({ posts, auth }) {
+  const { user, logout } = auth
+
+  const addData = () => {
+    addDoc(collection(db, 'posts'), {
+      frontMatter: {
+        title: 'Test 1',
+        date: '2022-12-21T00:00:00.000Z',
+        category: [],
+        tags: [],
+        draft: false,
+        summary:
+          'How to derive the OLS Estimator with matrix notation and a tour of math typesetting using markdown with the help of KaTeX.',
+        slug: 'test-1',
+        layout: '',
+        bibliography: '',
+        canonicalurl: '',
+        images: [],
+      },
+      authorDetails: {
+        id: '',
+        name: 'Anup',
+        avatar: '',
+        occupation: 'student',
+        company: 'DU',
+      },
+      content:
+        'How to derive the OLS Estimator with matrix notation and a tour of math typesetting using markdown with the help of KaTeX.',
+      slug: 'test-1',
+    })
+    console.log('Write Data: ')
+  }
+
   return (
     <>
       <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
@@ -24,6 +67,8 @@ export default function Home({ posts }) {
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Latest
           </h1>
+          <button onClick={logout}>Logout | </button>
+          <button onClick={addData}>Add Data</button>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
             {siteMetadata.description}
           </p>
@@ -99,3 +144,5 @@ export default function Home({ posts }) {
     </>
   )
 }
+
+export default withPublic(Home)

@@ -12,6 +12,10 @@ import Analytics from '@/components/analytics'
 import LayoutWrapper from '@/components/LayoutWrapper'
 import { ClientReload } from '@/components/ClientReload'
 
+import { AuthProvider } from '../src/hook/auth'
+import AuthStateChanged from '../src/layout/AuthStateChanged'
+import AppLayout from '../src/layout/AppLayout'
+
 const isDevelopment = process.env.NODE_ENV === 'development'
 const isSocket = process.env.SOCKET
 
@@ -23,9 +27,15 @@ export default function App({ Component, pageProps }) {
       </Head>
       {isDevelopment && isSocket && <ClientReload />}
       <Analytics />
-      <LayoutWrapper>
-        <Component {...pageProps} />
-      </LayoutWrapper>
+      <AuthProvider>
+        <AppLayout>
+          <AuthStateChanged>
+            <LayoutWrapper>
+              <Component {...pageProps} />
+            </LayoutWrapper>
+          </AuthStateChanged>
+        </AppLayout>
+      </AuthProvider>
     </ThemeProvider>
   )
 }

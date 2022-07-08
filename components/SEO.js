@@ -100,12 +100,16 @@ export const BlogSEO = ({
 
   let authorList
   if (authorDetails) {
-    authorList = authorDetails.map((author) => {
-      return {
-        '@type': 'Person',
-        name: author.name,
-      }
-    })
+    // authorList = authorDetails.map((author) => {
+    //   return {
+    //     '@type': 'Person',
+    //     name: author.name,
+    //   }
+    // })
+    authorList = {
+      '@type': 'Person',
+      name: authorDetails.name,
+    }
   } else {
     authorList = {
       '@type': 'Person',

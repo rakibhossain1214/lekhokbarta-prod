@@ -6,8 +6,10 @@ import SectionContainer from './SectionContainer'
 import Footer from './Footer'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
+import { withPublic } from 'src/hook/route'
 
-const LayoutWrapper = ({ children }) => {
+const LayoutWrapper = ({ children, auth }) => {
+  const { user } = auth
   return (
     <SectionContainer>
       <div className="flex h-screen flex-col justify-between">
@@ -39,7 +41,25 @@ const LayoutWrapper = ({ children }) => {
                   {link.title}
                 </Link>
               ))}
+              {user !== null ? (
+                <Link
+                  key="account"
+                  href="/my-account"
+                  className="p-1 font-medium text-blue-500 dark:text-blue-500 sm:p-4"
+                >
+                  My Account
+                </Link>
+              ) : (
+                <Link
+                  key="login"
+                  href="/login"
+                  className="p-1 font-medium text-blue-500 dark:text-blue-500 sm:p-4"
+                >
+                  Login
+                </Link>
+              )}
             </div>
+
             <ThemeSwitch />
             <MobileNav />
           </div>
@@ -51,4 +71,4 @@ const LayoutWrapper = ({ children }) => {
   )
 }
 
-export default LayoutWrapper
+export default withPublic(LayoutWrapper)

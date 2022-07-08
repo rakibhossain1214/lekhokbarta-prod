@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
+import { withPublic } from 'src/hook/route'
 
-const MobileNav = () => {
+const MobileNav = ({ auth }) => {
   const [navShow, setNavShow] = useState(false)
+  const { user } = auth
 
   const onToggleNav = () => {
     setNavShow((status) => {
@@ -76,10 +78,31 @@ const MobileNav = () => {
               </Link>
             </div>
           ))}
+          {user !== null ? (
+            <div key="account" className="px-12 py-4">
+              <Link
+                key="account"
+                href="/my-account"
+                className="text-2xl font-bold tracking-widest text-blue-900 dark:text-blue-500"
+              >
+                My Account
+              </Link>
+            </div>
+          ) : (
+            <div key="login" className="px-12 py-4">
+              <Link
+                key="login"
+                href="/login"
+                className="text-2xl font-bold tracking-widest text-blue-900 dark:text-blue-500"
+              >
+                Login
+              </Link>
+            </div>
+          )}
         </nav>
       </div>
     </div>
   )
 }
 
-export default MobileNav
+export default withPublic(MobileNav)
