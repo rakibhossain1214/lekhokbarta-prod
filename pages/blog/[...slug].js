@@ -17,7 +17,7 @@ const db = getFirestore(app)
 function Blog({ postData, prev, next }) {
   return (
     <div>
-      {postData.frontMatter === undefined ? (
+      {postData === null ? (
         <>Loading...</>
       ) : (
         <PostLayout
@@ -33,7 +33,7 @@ function Blog({ postData, prev, next }) {
 }
 export default Blog
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   //process -> Next & Prev
   const allPosts = []
   const queryPosts = query(collection(db, 'posts'))
@@ -48,7 +48,7 @@ export async function getServerSideProps({ params }) {
   const next = allPosts[postIndex - 1] || null
 
   //process -> post
-  let postData
+  let postData = null;
   const q = query(collection(db, 'posts'), where('slug', '==', params.slug[0]))
   const querySnapshot = await getDocs(q)
 
@@ -58,19 +58,20 @@ export async function getServerSideProps({ params }) {
 
   return {
     props: { postData, prev, next },
+    revalidate: 1
   }
 }
 
-// export async function getStaticPaths() {
-//   const pathsArray = []
-//   const q = query(collection(db, 'posts'))
-//   const querySnapshot = await getDocs(q)
-//   querySnapshot.forEach((doc) => {
-//     pathsArray.push({ params: { slug: [doc.data().frontMatter.slug] } })
-//   })
+export async function getStaticPaths() {
+  const pathsArray = []
+  const q = query(collection(db, 'posts'))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach((doc) => {
+    pathsArray.push({ params: { slug: [doc.data().frontMatter.slug] } })
+  })
 
-//   return {
-//     paths: pathsArray,
-//     fallback: false,
-//   }
-// }
+  return {
+    paths: pathsArray,
+    fallback: 'blocking'
+  }
+}
