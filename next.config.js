@@ -59,10 +59,6 @@ module.exports = withBundleAnalyzer({
     // dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
     ignoreDuringBuilds: true,
   },
-  images: {
-    loader: 'akamai',
-    path: '',
-  },
   async headers() {
     return [
       {

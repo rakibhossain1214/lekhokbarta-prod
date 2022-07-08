@@ -32,14 +32,14 @@ function Home({ posts, auth }) {
   const addData = () => {
     addDoc(collection(db, 'posts'), {
       frontMatter: {
-        title: 'Test 1',
+        title: 'Test 15',
         date: '2022-12-21T00:00:00.000Z',
         category: [],
         tags: [],
         draft: false,
         summary:
           'How to derive the OLS Estimator with matrix notation and a tour of math typesetting using markdown with the help of KaTeX.',
-        slug: 'test-1',
+        slug: 'test-15',
         layout: '',
         bibliography: '',
         canonicalurl: '',
@@ -54,7 +54,7 @@ function Home({ posts, auth }) {
       },
       content:
         'How to derive the OLS Estimator with matrix notation and a tour of math typesetting using markdown with the help of KaTeX.',
-      slug: 'test-1',
+      slug: 'test-15',
     })
     console.log('Write Data: ')
   }
