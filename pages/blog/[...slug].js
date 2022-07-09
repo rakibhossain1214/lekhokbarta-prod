@@ -20,7 +20,7 @@ const db = getFirestore(app)
 function Blog({ postData, prev, next }) {
   return (
     <div>
-      {postData === null ?
+      {postData.frontMatter === undefined ?
         <>Loading...</>
         :
         <PostLayout
@@ -51,7 +51,7 @@ export async function getStaticProps({ params }) {
   const next = allPosts[postIndex - 1] || null
 
   //process -> post
-  let postData = null;
+  let postData;
   console.log("Primary PostData: ", postData)
   const q = query(collection(db, 'posts'), where('slug', '==', params.slug[0]))
   const querySnapshot = await getDocs(q)
