@@ -90,20 +90,21 @@ export async function getServerSideProps({ params }) {
   }
 
   return {
-    props: { postData, prev, next }
+    props: { postData, prev, next },
+    revalidate: 1
   }
 }
 
-// export async function getStaticPaths() {
-//   const pathsArray = []
-//   const q = query(collection(db, 'posts'))
-//   const querySnapshot = await getDocs(q)
-//   querySnapshot.forEach((doc) => {
-//     pathsArray.push({ params: { slug: [doc.data().frontMatter.slug] } })
-//   })
+export async function getStaticPaths() {
+  const pathsArray = []
+  const q = query(collection(db, 'posts'))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach((doc) => {
+    pathsArray.push({ params: { slug: [doc.data().frontMatter.slug] } })
+  })
 
-//   return {
-//     paths: pathsArray,
-//     fallback: true
-//   }
-// }
+  return {
+    paths: pathsArray,
+    fallback: 'blocking'
+  }
+}
