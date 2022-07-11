@@ -10,9 +10,9 @@ import {
 } from 'firebase/firestore'
 import PostLayout from '@/layouts/PostLayout'
 import Link from '@/components/Link'
-// import fs from 'fs'
+import fs from 'fs'
 import PageTitle from '@/components/PageTitle'
-// import generateRss from '@/lib/generate-rss'
+import generateRss from '@/lib/generate-rss'
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
@@ -82,10 +82,10 @@ export async function getServerSideProps({ params }) {
     postData = "NODATA"
   }
 
-  // if (allPosts.length > 0) {
-  //   const rss = generateRss(allPosts)
-  //   fs.writeFileSync('./public/feed.xml', rss)
-  // }
+  if (allPosts.length > 0) {
+    const rss = generateRss(allPosts)
+    fs.writeFileSync('./public/feed.xml', rss)
+  }
 
   return {
     props: { postData, prev, next },
