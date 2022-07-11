@@ -54,7 +54,7 @@ function Blog({ postData, prev, next }) {
 }
 export default Blog
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   //process -> Next & Prev
   const allPosts = []
   const queryPosts = query(collection(db, 'posts'))
@@ -89,20 +89,20 @@ export async function getStaticProps({ params }) {
 
   return {
     props: { postData, prev, next },
-    revalidate: 1
+    // revalidate: 1
   }
 }
 
-export async function getStaticPaths() {
-  const pathsArray = []
-  const q = query(collection(db, 'posts'))
-  const querySnapshot = await getDocs(q)
-  querySnapshot.forEach((doc) => {
-    pathsArray.push({ params: { slug: [doc.data().frontMatter.slug] } })
-  })
+// export async function getStaticPaths() {
+//   const pathsArray = []
+//   const q = query(collection(db, 'posts'))
+//   const querySnapshot = await getDocs(q)
+//   querySnapshot.forEach((doc) => {
+//     pathsArray.push({ params: { slug: [doc.data().frontMatter.slug] } })
+//   })
 
-  return {
-    paths: pathsArray,
-    fallback: 'blocking'
-  }
-}
+//   return {
+//     paths: pathsArray,
+//     fallback: 'blocking'
+//   }
+// }
