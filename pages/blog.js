@@ -6,7 +6,7 @@ import { PageSEO } from '@/components/SEO'
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 import firebaseConfig from 'src/config/firebase.config'
-import { collection, query, addDoc, getDocs } from 'firebase/firestore'
+import { collection, query, getDocs } from 'firebase/firestore'
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
@@ -14,7 +14,7 @@ const db = getFirestore(app)
 
 export const POSTS_PER_PAGE = 5
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const posts = []
   const queryPosts = query(collection(db, 'posts'))
 
@@ -23,8 +23,6 @@ export async function getStaticProps() {
     posts.push(doc.data().frontMatter)
   })
 
-  // const posts = await getAllFilesFrontMatter('blog')
-  // console.log(posts)
   const initialDisplayPosts = posts.slice(0, POSTS_PER_PAGE)
   const pagination = {
     currentPage: 1,

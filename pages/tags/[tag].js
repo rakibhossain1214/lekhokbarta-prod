@@ -1,41 +1,29 @@
 import { TagSEO } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayout'
-import generateRss from '@/lib/generate-rss'
-import { getAllFilesFrontMatter } from '@/lib/mdx'
-import { getAllTags } from '@/lib/tags'
 import kebabCase from '@/lib/utils/kebabCase'
-import fs from 'fs'
-import path from 'path'
 
-const root = process.cwd()
+import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
+import firebaseConfig from 'src/config/firebase.config'
+import { collection, query, addDoc, getDocs } from 'firebase/firestore'
 
-export async function getStaticPaths() {
-  const tags = await getAllTags('blog')
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
 
-  return {
-    paths: Object.keys(tags).map((tag) => ({
-      params: {
-        tag,
-      },
-    })),
-    fallback: false,
-  }
-}
+export async function getServerSideProps({ params }) {
+  const posts = []
+  const queryPosts = query(collection(db, 'posts'))
 
-export async function getStaticProps({ params }) {
-  const allPosts = await getAllFilesFrontMatter('blog')
-  const filteredPosts = allPosts.filter(
+  const querySnapshotPosts = await getDocs(queryPosts)
+  querySnapshotPosts.forEach((doc) => {
+    posts.push(doc.data().frontMatter)
+  })
+
+  const filteredPosts = posts.filter(
     (post) => post.draft !== true && post.tags.map((t) => kebabCase(t)).includes(params.tag)
   )
-
-  // rss
-  if (filteredPosts.length > 0) {
-    const rss = generateRss(filteredPosts, `tags/${params.tag}/feed.xml`)
-    const rssPath = path.join(root, 'public', 'tags', params.tag)
-    fs.mkdirSync(rssPath, { recursive: true })
-    fs.writeFileSync(path.join(rssPath, 'feed.xml'), rss)
-  }
 
   return { props: { posts: filteredPosts, tag: params.tag } }
 }
