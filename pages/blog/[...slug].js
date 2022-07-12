@@ -1,22 +1,10 @@
 import React from 'react'
-import { initializeApp } from 'firebase/app'
-import firebaseConfig from 'src/config/firebase.config'
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-} from 'firebase/firestore'
 import PostLayout from '@/layouts/PostLayout'
 import Link from '@/components/Link'
 // import fs from 'fs'
 import PageTitle from '@/components/PageTitle'
+import { getAllPostsFrontMatter, getPostFrontMatterBySlug } from '@/lib/firestoreConnection'
 // import generateRss from '@/lib/generate-rss'
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const db = getFirestore(app)
 
 function Blog({ postData, prev, next }) {
   return (
@@ -56,31 +44,25 @@ export default Blog
 
 export async function getServerSideProps({ params }) {
   //process -> Next & Prev
-  const allPosts = []
-  const queryPosts = query(collection(db, 'posts'))
-
-  const querySnapshotPosts = await getDocs(queryPosts)
-  querySnapshotPosts.forEach((doc) => {
-    allPosts.push(doc.data().frontMatter)
-  })
+  const allPosts = await getAllPostsFrontMatter();
 
   const postIndex = allPosts.findIndex((post) => post.slug === params.slug.join('/'))
   const prev = allPosts[postIndex + 1] || null
   const next = allPosts[postIndex - 1] || null
 
   //process -> post
-  let postData = null;
+  let postData = await getPostFrontMatterBySlug( params.slug[0] );
 
-  const q = query(collection(db, 'posts'), where('slug', '==', params.slug[0]))
-  const querySnapshot = await getDocs(q)
+  // const q = query(collection(db, 'posts'), where('slug', '==', params.slug[0]))
+  // const querySnapshot = await getDocs(q)
 
-  querySnapshot.forEach((doc) => {
-    postData = doc.data()
-  })
+  // querySnapshot.forEach((doc) => {
+  //   postData = doc.data()
+  // })
 
-  if (postData === null) {
-    postData = "NODATA"
-  }
+  // if (postData === null) {
+  //   postData = "NODATA"
+  // }
 
   // if (allPosts.length > 0) {
   //   const rss = generateRss(allPosts)

@@ -3,27 +3,15 @@ import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayout'
 import { POSTS_PER_PAGE } from '../../blog'
 
-import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
-import firebaseConfig from 'src/config/firebase.config'
-import { collection, query, addDoc, getDocs } from 'firebase/firestore'
+import { getAllPostsFrontMatter } from '@/lib/firestoreConnection'
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const db = getFirestore(app)
 
 export async function getServerSideProps(context) {
   const {
     params: { page },
   } = context
 
-  const posts = []
-  const queryPosts = query(collection(db, 'posts'))
-
-  const querySnapshotPosts = await getDocs(queryPosts)
-  querySnapshotPosts.forEach((doc) => {
-    posts.push(doc.data().frontMatter)
-  })
+  const posts = await getAllPostsFrontMatter();
 
   const pageNumber = parseInt(page)
   const initialDisplayPosts = posts.slice(

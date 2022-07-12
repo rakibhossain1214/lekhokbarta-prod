@@ -2,25 +2,10 @@ import { TagSEO } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayout'
 import kebabCase from '@/lib/utils/kebabCase'
-
-import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
-import firebaseConfig from 'src/config/firebase.config'
-import { collection, query, addDoc, getDocs } from 'firebase/firestore'
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const db = getFirestore(app)
+import { getAllPostsFrontMatter } from '@/lib/firestoreConnection'
 
 export async function getServerSideProps({ params }) {
-  const posts = []
-  const queryPosts = query(collection(db, 'posts'))
-
-  const querySnapshotPosts = await getDocs(queryPosts)
-  querySnapshotPosts.forEach((doc) => {
-    posts.push(doc.data().frontMatter)
-  })
-
+  const posts = await getAllPostsFrontMatter();
   const filteredPosts = posts.filter(
     (post) => post.draft !== true && post.tags.map((t) => kebabCase(t)).includes(params.tag)
   )
