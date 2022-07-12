@@ -10,9 +10,9 @@ import {
 } from 'firebase/firestore'
 import PostLayout from '@/layouts/PostLayout'
 import Link from '@/components/Link'
-import fs from 'fs'
+// import fs from 'fs'
 import PageTitle from '@/components/PageTitle'
-import generateRss from '@/lib/generate-rss'
+// import generateRss from '@/lib/generate-rss'
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
