@@ -2,7 +2,6 @@ import Link from '@/components/Link'
 import { PageSEO } from '@/components/SEO'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
-import { getAllFilesFrontMatter } from '@/lib/mdx'
 import formatDate from '@/lib/utils/formatDate'
 
 import NewsletterForm from '@/components/NewsletterForm'
@@ -11,8 +10,7 @@ import { withPublic } from 'src/hook/route'
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 import firebaseConfig from 'src/config/firebase.config'
-import { collection, query, where, getDoc, setDoc, doc, addDoc, getDocs } from 'firebase/firestore'
-import { useState, useEffect } from 'react'
+import { collection, query, addDoc, getDocs } from 'firebase/firestore'
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
@@ -20,8 +18,14 @@ const db = getFirestore(app)
 
 const MAX_DISPLAY = 5
 
-export async function getStaticProps() {
-  const posts = await getAllFilesFrontMatter('blog')
+export async function getServerSideProps() {
+  const posts = []
+  const queryPosts = query(collection(db, 'posts'))
+
+  const querySnapshotPosts = await getDocs(queryPosts)
+  querySnapshotPosts.forEach((doc) => {
+    posts.push(doc.data().frontMatter)
+  })
 
   return { props: { posts } }
 }
