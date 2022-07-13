@@ -14,14 +14,11 @@ const Editor = dynamic(
 )
 
 
-import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, query, addDoc, getDocs, where } from 'firebase/firestore'
 import { getStorage, ref } from "firebase/storage";
-import firebaseConfig from 'src/config/firebase.config'
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const db = getFirestore(app)
+const db = getFirestore()
 const storage = getStorage();
 const storageRef = ref(storage, 'images/rivers.jpg');
 
