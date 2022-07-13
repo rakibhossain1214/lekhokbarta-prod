@@ -7,11 +7,11 @@ export default function AuthStateChanged({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    AuthService.waitForUser((userCred) => {
+    const AuthState = AuthService.waitForUser((userCred) => {
       setUser(userCred)
       setLoading(false)
     })
-    //eslint-disable-next-line
+    return AuthState
   }, [])
 
   if (loading) {

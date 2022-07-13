@@ -9,15 +9,6 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth'
 
-if (!getApps.length) {
-  initializeApp(firebaseConfig)
-  if (typeof window !== 'undefined') {
-    if ('measurementId' in firebaseConfig) {
-      getAnalytics()
-    }
-  }
-}
-
 class AuthService {
   constructor(firebaseApp) {
     this.auth = getAuth(firebaseApp)

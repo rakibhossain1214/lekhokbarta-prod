@@ -2,7 +2,7 @@ import React from 'react'
 import { withPublic } from '../src/hook/route'
 
 function Login({ auth }) {
-  console.log('Auth: ', auth)
+  // console.log('Auth: ', auth)
   const { user, loginWithGoogleRedirect, error } = auth
   return (
     <div>
