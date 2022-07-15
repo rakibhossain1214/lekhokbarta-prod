@@ -107,14 +107,7 @@ function RichEditor() {
           setEditorState(newState);
           setContent(draftToHtml(convertToRaw(newState.getCurrentContent())));
         }}
-        handlePastedText={handlePastedText}
-        editorStyle={{
-          minHeight: '500px',
-          maxWidth: '1020px',
-          boxShadow: '1px 1px 1px 1px #888888',
-          paddingLeft: '10px',
-          paddingRight: '10px'
-        }}
+     
       />
       {/* <Box margin={5}>
                 <textarea
