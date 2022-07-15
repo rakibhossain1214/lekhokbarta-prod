@@ -65,9 +65,8 @@ function Home({ posts, auth }) {
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
-            const { slug, date, title, summary, tags, postId } = post
+            const { slug, date, title, summary, tags, postId } = post;
 
-            console.log("Post Id ->", postId);
             return (
               <li key={postId} className="py-12">
                 <article>
