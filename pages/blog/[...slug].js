@@ -3,7 +3,7 @@ import PostLayout from '@/layouts/PostLayout'
 import Link from '@/components/Link'
 // import fs from 'fs'
 import PageTitle from '@/components/PageTitle'
-import { getAllPostsFrontMatter, getPostFrontMatterBySlug } from '@/lib/firestoreConnection'
+import { getAllPostsFrontMatterWithPostId, getPostFrontMatterByPostIdAndSlug } from '@/lib/firestoreConnection'
 // import generateRss from '@/lib/generate-rss'
 
 function Blog({ postData, prev, next }) {
@@ -19,6 +19,7 @@ function Blog({ postData, prev, next }) {
             children={postData.content}
             prev={prev}
             next={next}
+            postId={postData.postId}
           />
           :
           <>
@@ -44,30 +45,14 @@ export default Blog
 
 export async function getServerSideProps({ params }) {
   //process -> Next & Prev
-  const allPosts = await getAllPostsFrontMatter();
+  const allPosts = await getAllPostsFrontMatterWithPostId();
 
-  const postIndex = allPosts.findIndex((post) => post.slug === params.slug.join('/'))
+  const postIndex = allPosts.findIndex((post) => post.postId === params.slug[0] && post.slug === params.slug[1])
+
   const prev = allPosts[postIndex + 1] || null
   const next = allPosts[postIndex - 1] || null
 
-  //process -> post
-  let postData = await getPostFrontMatterBySlug( params.slug[0] );
-
-  // const q = query(collection(db, 'posts'), where('slug', '==', params.slug[0]))
-  // const querySnapshot = await getDocs(q)
-
-  // querySnapshot.forEach((doc) => {
-  //   postData = doc.data()
-  // })
-
-  // if (postData === null) {
-  //   postData = "NODATA"
-  // }
-
-  // if (allPosts.length > 0) {
-  //   const rss = generateRss(allPosts)
-  //   fs.writeFileSync('./public/feed.xml', rss)
-  // }
+  let postData = await getPostFrontMatterByPostIdAndSlug(params.slug[0], params.slug[1]);
 
   return {
     props: { postData, prev, next },

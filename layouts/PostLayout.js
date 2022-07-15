@@ -16,13 +16,14 @@ import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
 const postDateTemplate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 
-export default function PostLayout({ frontMatter, authorDetails, next, prev, children }) {
+export default function PostLayout({ frontMatter, authorDetails, next, prev, children, postId }) {
   const { slug, fileName, date, title, images, tags } = frontMatter
+  // console.log("Post Id from Layout: ", postId)
 
   return (
     <SectionContainer>
       <BlogSEO
-        url={`${siteMetadata.siteUrl}/blog/${slug}`}
+        url={`${siteMetadata.siteUrl}/blog/${postId}/${slug}`}
         authorDetails={authorDetails}
         {...frontMatter}
       />
@@ -119,7 +120,7 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                           Previous Article
                         </h2>
                         <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/blog/${prev.slug}`}>{prev.title}</Link>
+                          <Link href={`/blog/${prev.postId}/${prev.slug}`}>{prev.title}</Link>
                         </div>
                       </div>
                     )}
@@ -129,7 +130,7 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                           Next Article
                         </h2>
                         <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/blog/${next.slug}`}>{next.title}</Link>
+                          <Link href={`/blog/${next.postId}/${next.slug}`}>{next.title}</Link>
                         </div>
                       </div>
                     )}
