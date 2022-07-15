@@ -103,7 +103,6 @@ function RichEditor() {
         editorState={editorState}
         wrapperClassName="demo-wrapper"
         editorClassName="demo-editor"
-        handleBeforeInput={_handleBeforeInput}
         onEditorStateChange={newState => {
           setEditorState(newState);
           setContent(draftToHtml(convertToRaw(newState.getCurrentContent())));
