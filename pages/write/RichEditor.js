@@ -27,7 +27,7 @@ let config = {
   ],
   removeButtons:
     // 'Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Find,SelectAll,Scayt,Replace,Form,Checkbox,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,SpecialChar,PageBreak,Iframe,Anchor,ShowBlocks,About,CopyFormatting,Undo,Redo',
-    'Save,NewPage,Print,Templates,Find,Scayt,Replace,Form,Checkbox,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,SpecialChar,PageBreak,Anchor,ShowBlocks,About,CopyFormatting,Source',
+    'Save,NewPage,Print,Templates,Find,Scayt,Replace,Form,Checkbox,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,SpecialChar,PageBreak,Anchor,ShowBlocks,About,CopyFormatting,Source,Maximize',
 
   fontSize_sizes: '16/16px;24/24px;48/48px;',
   font_names:
