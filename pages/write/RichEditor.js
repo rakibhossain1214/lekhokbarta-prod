@@ -424,16 +424,17 @@ class Example extends React.Component {
   onChange(evt) {
     // console.log("onChange fired with event info: ", evt);
     var html = evt.editor.getData()
-    console.log('this', this)
+    // console.log('this', this)
     this.setState({ html })
+    this.props.handleChange(html)
   }
 
   onBlur(evt) {
-    console.log('onBlur event called with event info: ', evt)
+    // console.log('onBlur event called with event info: ', evt)
   }
 
   afterPaste(evt) {
-    console.log('afterPaste event called with event info: ', evt)
+    // console.log('afterPaste event called with event info: ', evt)
   }
 
   render() {
