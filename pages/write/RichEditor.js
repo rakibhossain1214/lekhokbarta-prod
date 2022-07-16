@@ -1,8 +1,5 @@
 import React from 'react'
 import CKEditor from 'react-ckeditor-component'
-import data from '../../data/data'
-
-// import "./styles.css";
 
 let config = {
   toolbarGroups: [
@@ -29,7 +26,9 @@ let config = {
     { name: 'about', groups: ['about'] },
   ],
   removeButtons:
-    'Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Find,SelectAll,Scayt,Replace,Form,Checkbox,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,SpecialChar,PageBreak,Iframe,Anchor,ShowBlocks,About,CopyFormatting,Undo,Redo',
+    // 'Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Find,SelectAll,Scayt,Replace,Form,Checkbox,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,SpecialChar,PageBreak,Iframe,Anchor,ShowBlocks,About,CopyFormatting,Undo,Redo',
+    'Save,NewPage,Print,Templates,Find,Scayt,Replace,Form,Checkbox,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,SpecialChar,PageBreak,Anchor,ShowBlocks,About,CopyFormatting,Source',
+
   fontSize_sizes: '16/16px;24/24px;48/48px;',
   font_names:
     'Arial/Arial, Helvetica, sans-serif;' +
@@ -453,14 +452,5 @@ class Example extends React.Component {
     )
   }
 }
-
-// function App() {
-//   return (
-//     <div className="App">
-//       {data.map((d, i) => <Example key={i} html={d} />)}
-//       {/* <Example /> */}
-//     </div>
-//   );
-// }
 
 export default Example
