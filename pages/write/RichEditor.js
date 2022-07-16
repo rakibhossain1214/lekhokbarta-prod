@@ -1,6 +1,6 @@
 import React from 'react'
 import CKEditor from 'react-ckeditor-component'
-import data from './data'
+import data from '../../data/data'
 
 // import "./styles.css";
 
