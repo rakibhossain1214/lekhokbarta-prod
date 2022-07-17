@@ -33,7 +33,7 @@ let config = {
     'Times New Roman/Times New Roman, Times, serif;' +
     'Verdana',
   allowedContent: true,
-  height: typeof window !== 'undefined' ? window.innerHeight : '450',
+  height: 350,
   // plugins: "autogrow"
   // disableNativeSpellChecker: false
   // skin: "moono",
