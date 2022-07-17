@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CKEditor from 'react-ckeditor-component'
 
 let config = {
@@ -410,49 +410,38 @@ let config = {
 //   wsc_version: "4.4.4 | %Rev%"
 // };
 
-class Example extends React.Component {
-  constructor(props) {
-    super(props)
-    this.blur = this.onBlur.bind(this)
-    this.afterPaste = this.afterPaste.bind(this)
-    this.onChange = this.onChange.bind(this)
+function MyRichEditor(props) {
+  const [html, setHtml] = useState(props.editorContent)
 
-    this.state = {
-      html: this.props.html,
-    }
-  }
-
-  onChange(evt) {
+  function onChange(evt) {
     // console.log("onChange fired with event info: ", evt);
     var html = evt.editor.getData()
     // console.log('this', this)
-    this.setState({ html })
-    this.props.handleChange(html)
+    setHtml(html)
+    props.handleChange(html)
   }
 
-  onBlur(evt) {
+  function onBlur(evt) {
     // console.log('onBlur event called with event info: ', evt)
   }
 
-  afterPaste(evt) {
+  function afterPaste(evt) {
     // console.log('afterPaste event called with event info: ', evt)
   }
 
-  render() {
-    return (
-      <CKEditor
-        activeClass="p10"
-        config={config}
-        content={this.state.html}
-        // onChange={this.onChange}
-        events={{
-          blur: this.onBlur,
-          afterPaste: this.afterPaste,
-          change: this.onChange,
-        }}
-      />
-    )
-  }
+  return (
+    <CKEditor
+      activeClass="p10"
+      config={config}
+      content={html}
+      // onChange={this.onChange}
+      events={{
+        blur: onBlur,
+        afterPaste: afterPaste,
+        change: onChange,
+      }}
+    />
+  )
 }
 
-export default Example
+export default MyRichEditor

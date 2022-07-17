@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import RichEditor from './RichEditor'
 import { addDoc, collection, getFirestore, doc, setDoc } from 'firebase/firestore'
+import { getTestPost } from '@/lib/firestoreConnection'
 
-function Write() {
+function Write({ content }) {
   const [editorData, setEditorData] = useState(null)
 
   const handleChange = (data) => {
@@ -21,10 +22,19 @@ function Write() {
 
   return (
     <div>
-      <RichEditor handleChange={handleChange} />
+      <RichEditor handleChange={handleChange} editorContent={content} />
       <button onClick={addData}>Add Data</button>
     </div>
   )
 }
 
 export default Write
+
+export async function getServerSideProps() {
+  const content = await getTestPost()
+
+  return {
+    props: { content },
+    // revalidate: 1
+  }
+}
