@@ -42,13 +42,22 @@ const LayoutWrapper = ({ children, auth }) => {
                 </Link>
               ))}
               {user !== null ? (
-                <Link
-                  key="account"
-                  href="/my-account"
-                  className="p-1 font-medium text-blue-500 dark:text-blue-500 sm:p-4"
-                >
-                  My Account
-                </Link>
+                <>
+                  <Link
+                    key="write"
+                    href="/write"
+                    className="p-1 font-medium text-primary-500 dark:text-primary-500 sm:p-4"
+                  >
+                    Write
+                  </Link>
+                  <Link
+                    key="dashboard"
+                    href="/dashboard"
+                    className="p-1 font-medium text-blue-500 dark:text-blue-500 sm:p-4"
+                  >
+                    Dashboard
+                  </Link>
+                </>
               ) : (
                 <Link
                   key="login"
@@ -61,6 +70,7 @@ const LayoutWrapper = ({ children, auth }) => {
             </div>
 
             <ThemeSwitch />
+
             <MobileNav />
           </div>
         </header>

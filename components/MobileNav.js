@@ -79,15 +79,26 @@ const MobileNav = ({ auth }) => {
             </div>
           ))}
           {user !== null ? (
-            <div key="account" className="px-12 py-4">
-              <Link
-                key="account"
-                href="/my-account"
-                className="text-2xl font-bold tracking-widest text-blue-900 dark:text-blue-500"
-              >
-                My Account
-              </Link>
-            </div>
+            <>
+              <div key="account" className="px-12 py-4">
+                <Link
+                  key="write"
+                  href="/write"
+                  className="text-2xl font-bold tracking-widest text-primary-500 dark:text-primary-400"
+                >
+                  Write
+                </Link>
+              </div>
+              <div key="account" className="px-12 py-4">
+                <Link
+                  key="dashboard"
+                  href="/dashboard"
+                  className="text-2xl font-bold tracking-widest text-blue-500 dark:text-blue-500"
+                >
+                  Dashboard
+                </Link>
+              </div>
+            </>
           ) : (
             <div key="login" className="px-12 py-4">
               <Link
