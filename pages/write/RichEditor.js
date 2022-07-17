@@ -14,13 +14,11 @@ let config = {
       name: 'paragraph',
       groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'],
     },
-    '/',
     { name: 'links', groups: ['links'] },
     { name: 'insert', groups: ['insert'] },
     { name: 'styles', groups: ['styles'] },
     { name: 'colors', groups: ['colors'] },
     { name: 'tools', groups: ['tools'] },
-    '/',
     { name: 'clipboard', groups: ['clipboard', 'undo'] },
     { name: 'others', groups: ['others'] },
     { name: 'about', groups: ['about'] },
@@ -35,6 +33,7 @@ let config = {
     'Times New Roman/Times New Roman, Times, serif;' +
     'Verdana',
   allowedContent: true,
+  height: 400,
   // plugins: "autogrow"
   // disableNativeSpellChecker: false
   // skin: "moono",
