@@ -35,6 +35,7 @@ let config = {
   allowedContent: true,
   toolbarLocation: 'bottom',
   height: 350,
+  removePlugins: 'contextmenu',
   // plugins: "colorbutton"
   // disableNativeSpellChecker: false
   // skin: "moono",
