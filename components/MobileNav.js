@@ -80,7 +80,7 @@ const MobileNav = ({ auth }) => {
           ))}
           {user !== null ? (
             <>
-              <div key="account" className="px-12 py-4">
+              <div key="write" className="px-12 py-4">
                 <Link
                   key="write"
                   href="/write"
@@ -89,7 +89,7 @@ const MobileNav = ({ auth }) => {
                   Write
                 </Link>
               </div>
-              <div key="account" className="px-12 py-4">
+              <div key="dashboard" className="px-12 py-4">
                 <Link
                   key="dashboard"
                   href="/dashboard"

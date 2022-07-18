@@ -35,7 +35,7 @@ let config = {
   allowedContent: true,
   toolbarLocation: 'bottom',
   height: 350,
-  // plugins: "autogrow"
+  // plugins: "colorbutton"
   // disableNativeSpellChecker: false
   // skin: "moono",
   // plugins:
@@ -435,6 +435,7 @@ function MyRichEditor(props) {
       config={config}
       content={html}
       // onChange={this.onChange}
+      // scriptUrl="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"
       events={{
         blur: onBlur,
         afterPaste: afterPaste,
