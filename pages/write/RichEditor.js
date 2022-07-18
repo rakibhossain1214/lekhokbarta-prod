@@ -24,8 +24,8 @@ let config = {
     { name: 'about', groups: ['about'] },
   ],
   removeButtons:
-    // 'Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Find,SelectAll,Scayt,Replace,Form,Checkbox,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,SpecialChar,PageBreak,Iframe,Anchor,ShowBlocks,About,CopyFormatting,Undo,Redo',
-    'Save,NewPage,Preview,Print,Templates,Find,Scayt,Replace,Form,Checkbox,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,SpecialChar,PageBreak,Anchor,Iframe,ShowBlocks,About,CopyFormatting,Source,Maximize',
+    // 'Save,NewPage,Preview,Print,Templates,Find,SelectAll,Scayt,Replace,Form,Checkbox,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,SpecialChar,PageBreak,Iframe,Anchor,ShowBlocks,About,CopyFormatting,Undo,Redo',
+    'Cut,Copy,Paste,PasteText,PasteFromWord,Save,NewPage,Preview,Print,Templates,Find,Scayt,Replace,Form,Checkbox,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,BidiLtr,BidiRtl,Language,Flash,Smiley,SpecialChar,PageBreak,Anchor,Iframe,ShowBlocks,About,CopyFormatting,Source,Maximize',
 
   fontSize_sizes: '16/16px;24/24px;48/48px;',
   font_names:
@@ -435,7 +435,7 @@ function MyRichEditor(props) {
       config={config}
       content={html}
       // onChange={this.onChange}
-      // scriptUrl="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"
+      scriptUrl="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"
       events={{
         blur: onBlur,
         afterPaste: afterPaste,
