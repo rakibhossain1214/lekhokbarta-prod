@@ -32,6 +32,8 @@ const CustomSunEditor = (props) => {
               ],
 
         imageFileInput: false,
+        imageAlignShow: false,
+        videoAlignShow: false,
         minHeight: 300,
         defaultStyle: 'font-size:16px; font-family: Arial',
         font: [...defaultTheme.fontFamily.sans],
