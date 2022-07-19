@@ -24,17 +24,21 @@ const CustomSunEditor = () => {
         buttonList: [
           ['undo', 'redo'],
           ['font', 'fontSize', 'formatBlock'],
-          ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
-          ['strike', 'subscript', 'superscript', 'removeFormat'],
-          ['align', 'horizontalRule', 'list', 'outdent', 'indent'],
+          ['align', 'list', 'outdent', 'indent'],
           ['table', 'link', 'image', 'video', 'fullScreen', 'showBlocks'],
-          ['save'],
+          ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
+          ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
+          ['preview', 'save'],
         ],
         imageFileInput: false,
         minHeight: 300,
         defaultStyle: 'font-size:16px; font-family: Arial',
         font: [...defaultTheme.fontFamily.sans],
-        mode: 'inline',
+        // mode: 'classic',
+        callBackSave: function (contents, isChanged) {
+          // alert(contents); => html output
+          // alert(isChanged); => True/False
+        },
       }}
     />
   )
