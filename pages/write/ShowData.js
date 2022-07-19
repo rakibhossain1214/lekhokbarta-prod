@@ -1,18 +1,31 @@
 import React, { useState } from 'react'
 import { getTestPost } from '@/lib/firestoreConnection'
-
+import 'suneditor/dist/css/suneditor.min.css'
+import dynamic from 'next/dynamic'
+const SunViewer = dynamic(() => import('@/components/SunViewer'), {
+  ssr: false,
+})
 function ShowData({ content }) {
+  // function createMarkup() {
+  //   return { __html: content }
+  // }
+
   function createMarkup() {
-    return { __html: content }
+    console.log(content.length)
+
+    return content
   }
 
   if (content === null) {
     return <>No Data</>
   }
 
+  // console.log("content: ", content);
+  // console.log("markup: ", content);
+
   return (
     <div>
-      <article
+      {/* <article
         className="
             prose 
             max-w-none 
@@ -25,7 +38,9 @@ function ShowData({ content }) {
           "
       >
         <div dangerouslySetInnerHTML={createMarkup()} />
-      </article>
+      </article> */}
+
+      <SunViewer editorContent={createMarkup()} />
     </div>
   )
 }
