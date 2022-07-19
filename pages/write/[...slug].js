@@ -10,27 +10,34 @@ const SunEditor = dynamic(() => import('@/components/SunEditor'), {
 })
 
 function CreateContent({ content }) {
+  const db = getFirestore()
+  const cityRef = doc(db, 'content', 'test')
+
   const [editorData, setEditorData] = useState(null)
 
   const handleChange = (data) => {
     setEditorData(data)
+
+    setDoc(cityRef, { editorData: data })
   }
 
   // console.log("EditorData: ", editorData);
-  const db = getFirestore()
 
-  const addData = () => {
-    //   addDoc(collection(db, 'content'), {
-    //     content: editorData
-    //   })
-    const cityRef = doc(db, 'content', 'test')
-    setDoc(cityRef, { editorData })
-  }
+  // const addData = () => {
+  //   //   addDoc(collection(db, 'content'), {
+  //   //     content: editorData
+  //   //   })
+  //   setDoc(cityRef, { editorData })
+  // }
 
   return (
     <div>
-      <SunEditor handleChange={handleChange} editorContent={content} />
-      <button onClick={addData}>Add Data</button>
+      <SunEditor
+        handleChange={handleChange}
+        editorContent={content}
+        // saveData={saveData}
+      />
+      {/* <button onClick={addData}>Add Data</button> */}
     </div>
   )
 }
@@ -39,9 +46,9 @@ export default CreateContent
 
 export async function getServerSideProps() {
   const content = await getTestPost()
-
+  // console.log(content)
   return {
-    props: { content },
+    props: { content: content !== undefined ? content : null },
     // revalidate: 1
   }
 }

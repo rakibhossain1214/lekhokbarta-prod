@@ -18,7 +18,7 @@ const CustomSunEditor = (props) => {
                 ['align', 'list', 'outdent', 'indent'],
                 ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
                 ['link', 'table', 'image', 'video'],
-                ['undo', 'redo', 'save', 'preview'],
+                ['undo', 'redo'],
               ]
             : [
                 ['fullScreen', 'showBlocks'],
@@ -28,7 +28,7 @@ const CustomSunEditor = (props) => {
                 ['link', 'table', 'image', 'video'],
                 '/',
                 ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
-                ['undo', 'redo', 'save', 'preview'],
+                ['undo', 'redo'],
               ],
 
         imageFileInput: false,
@@ -36,10 +36,11 @@ const CustomSunEditor = (props) => {
         defaultStyle: 'font-size:16px; font-family: Arial',
         font: [...defaultTheme.fontFamily.sans],
         mode: 'classic',
-        callBackSave: function (contents, isChanged) {
-          // alert(contents); => html output
-          // alert(isChanged); => True/False
-        },
+        // callBackSave: function (contents, isChanged) {
+        //   // alert(contents); => html output
+        //   // alert(isChanged); => True/False
+        // //   props.saveData(contents);
+        // },
       }}
       setContents={props.editorContent}
       onChange={props.handleChange}
