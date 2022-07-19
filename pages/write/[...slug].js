@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
-import RichEditor from './RichEditor'
+// import RichEditor from './RichEditor'
+// import SunEditor from '@/components/SunEditor'
 import { addDoc, collection, getFirestore, doc, setDoc } from 'firebase/firestore'
 import { getTestPost } from '@/lib/firestoreConnection'
+
+import dynamic from 'next/dynamic'
+const SunEditor = dynamic(() => import('@/components/SunEditor'), {
+  ssr: false,
+})
 
 function CreateContent({ content }) {
   const [editorData, setEditorData] = useState(null)
@@ -12,6 +18,7 @@ function CreateContent({ content }) {
 
   // console.log("EditorData: ", editorData);
   const db = getFirestore()
+
   const addData = () => {
     //   addDoc(collection(db, 'content'), {
     //     content: editorData
@@ -22,7 +29,7 @@ function CreateContent({ content }) {
 
   return (
     <div>
-      <RichEditor handleChange={handleChange} editorContent={content} />
+      <SunEditor handleChange={handleChange} editorContent={content} />
       <button onClick={addData}>Add Data</button>
     </div>
   )
