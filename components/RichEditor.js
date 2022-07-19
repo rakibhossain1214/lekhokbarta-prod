@@ -34,7 +34,7 @@ const CustomSunEditor = () => {
         minHeight: 300,
         defaultStyle: 'font-size:16px; font-family: Arial',
         font: [...defaultTheme.fontFamily.sans],
-        mode: 'balloon-always',
+        mode: 'classic',
       }}
     />
   )
