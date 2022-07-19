@@ -35,7 +35,7 @@ const CustomSunEditor = () => {
         minHeight: 300,
         defaultStyle: 'font-size:16px; font-family: Arial',
         font: [...defaultTheme.fontFamily.sans],
-        mode: 'inline',
+        mode: 'classic',
         callBackSave: function (contents, isChanged) {
           // alert(contents); => html output
           // alert(isChanged); => True/False
