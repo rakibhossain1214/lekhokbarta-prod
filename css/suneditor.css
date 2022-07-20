@@ -5,3 +5,10 @@
 .dark .sun-editor-edit {
   background-color: rgb(23 23 23) !important;
 }
+
+.google-ads {
+  width: 100%;
+  text-align: center;
+  border: 1px solid red;
+  height: 50px;
+}

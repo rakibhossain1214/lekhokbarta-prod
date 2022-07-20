@@ -10,10 +10,23 @@ function ShowData({ content }) {
   //   return { __html: content }
   // }
 
-  function createMarkup() {
-    console.log(content.length)
+  // function createTestMarkup() {
+  //   // console.log(content.length)
 
-    return content
+  //   let arr = content.split(/br/);
+
+  //   console.log(arr);
+
+  //   return content
+  // }
+  const googleAds =
+    "<br> <div class='google-ads dark:prose-p:text-gray-300'> <p>Google Ads Banner</p></div> <br>"
+
+  function createMarkup() {
+    // console.log(content)
+    let arr = content.split(/<br>/)
+    // console.log(arr)
+    return arr.join(googleAds).toString()
   }
 
   if (content === null) {
