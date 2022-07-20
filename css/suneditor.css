@@ -1,6 +1,7 @@
-/* .sun-editor-edit{
-    background-color: blue !important;
-} */
+.sun-editor {
+  border: none !important;
+}
+
 .dark .sun-editor-edit {
   background-color: rgb(23 23 23) !important;
 }
