@@ -1,5 +1,7 @@
 import { getApps, initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
+import { getPerformance } from 'firebase/performance'
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -16,6 +18,7 @@ if (!getApps.length) {
   if (typeof window !== 'undefined') {
     if ('measurementId' in firebaseConfig) {
       getAnalytics()
+      getPerformance()
     }
   }
 }
