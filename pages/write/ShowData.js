@@ -9,16 +9,6 @@ function ShowData({ content }) {
   // function createMarkup() {
   //   return { __html: content }
   // }
-
-  // function createTestMarkup() {
-  //   // console.log(content.length)
-
-  //   let arr = content.split(/br/);
-
-  //   console.log(arr);
-
-  //   return content
-  // }
   const googleAds =
     "<br> <div class='google-ads dark:prose-p:text-gray-300'> <p>Google Ads Banner</p></div> <br>"
   const googleNativeAds =
@@ -34,26 +24,8 @@ function ShowData({ content }) {
     return <>No Data</>
   }
 
-  // console.log("content: ", content);
-  // console.log("markup: ", content);
-
   return (
     <div>
-      {/* <article
-        className="
-            prose 
-            max-w-none 
-            dark:prose-invert
-            dark:prose-headings:text-gray-100
-            dark:prose-p:text-gray-400
-            dark:prose-strong:text-gray-300
-            dark:prose-table:text-gray-300
-            dark:prose-lead:text-gray-300
-          "
-      >
-        <div dangerouslySetInnerHTML={createMarkup()} />
-      </article> */}
-
       <SunViewer editorContent={createMarkup()} />
     </div>
   )
