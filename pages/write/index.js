@@ -3,6 +3,8 @@ import { Grid } from '@material-ui/core'
 import { withProtected } from '../../src/hook/route'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
+import Router, { useRouter } from 'next/router'
+import { addPost } from '@/lib/firestoreConnection'
 
 const LoginSchema = Yup.object().shape({
   title: Yup.string()
@@ -18,6 +20,8 @@ function Write({ auth }) {
   // const formSubmit = (e) => {
   //   console.log(e)
   // }
+
+  const router = useRouter()
 
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -41,8 +45,19 @@ function Write({ auth }) {
           initialValues={{ title: '', category: '' }}
           validationSchema={LoginSchema}
           onSubmit={(values) => {
-            console.log(values)
+            // console.log(values)
             // alert("Form is validated! Submitting the form...");
+
+            addPost({ values: { ...values, category: [values.category] }, user })
+              .then(function (docRef) {
+                // console.log("Document written with ID: ", docRef.id);
+                router.push(`write/${user.uid}/${docRef.id}`)
+              })
+              .catch(function (error) {
+                console.error('Error adding document: ', error)
+              })
+            // console.log("Post ID from firebaseConnect: ", postId)
+            // postId.then((pId)=> router.push(`write/${user.uid}/${pId}`) )
           }}
         >
           {({ touched, errors, isSubmitting, values }) =>
@@ -73,11 +88,12 @@ function Write({ auth }) {
                       name="category"
                       className="focus:shadow-outline block w-full appearance-none rounded border-b border-teal-500 bg-white px-4 py-2 pr-8 leading-tight text-gray-500 shadow hover:border-gray-500 focus:outline-none dark:bg-black dark:text-gray-400"
                     >
-                      <option value="t">Trending</option>
-                      <option value="r">Review</option>
-                      <option value="s">Sports</option>
-                      <option value="e">Entertainment</option>
-                      <option value="o">other</option>
+                      <option value="">Select a category</option>
+                      <option value="trending">Trending</option>
+                      <option value="review">Review</option>
+                      <option value="sports">Sports</option>
+                      <option value="entertainment">Entertainment</option>
+                      <option value="other">other</option>
                     </Field>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                       <svg
