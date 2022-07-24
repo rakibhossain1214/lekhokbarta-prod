@@ -12,7 +12,7 @@ export function AuthProvider(props) {
     const { error, user } = await AuthService.loginWithGoogle()
     setUser(user ?? null)
     setError(error ?? '')
-    Router.replace('/').then(() => Router.reload())
+    Router.push('/')
   }
 
   const loginWithGoogleNoRedirect = async () => {
@@ -24,7 +24,7 @@ export function AuthProvider(props) {
   const logout = async () => {
     await AuthService.logout()
     setUser(null)
-    Router.replace('/').then(() => Router.reload())
+    Router.push('/')
   }
   const value = { user, error, loginWithGoogleNoRedirect, loginWithGoogleRedirect, logout, setUser }
 
