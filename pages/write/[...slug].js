@@ -13,13 +13,22 @@ const SunEditor = dynamic(() => import('@/components/SunEditor'), {
 function CreateContent({ postData, auth }) {
   const { user, logout } = auth
   const db = getFirestore()
-  const postRef = doc(db, 'posts', postData.postId)
 
-  const handleChange = (data) => {
-    setDoc(postRef, { ...postData, content: data })
+  console.log('Post Data -> ', postData)
+
+  let postRef = null
+
+  if (postData !== 'NODATA' && postData !== null) {
+    postRef = doc(db, 'posts', postData.postId)
   }
 
-  if (postData?.authorDetails?.id !== user.uid) {
+  const handleChange = (data) => {
+    if (postRef !== null) {
+      setDoc(postRef, { ...postData, content: data })
+    }
+  }
+
+  if (postData?.authorDetails?.id !== user.uid || postData === 'NODATA') {
     return (
       <>
         <div className="mt-24 text-center">
