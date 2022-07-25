@@ -9,13 +9,13 @@ import { addPost, getUserInfo } from '@/lib/firestoreConnection'
 const LoginSchema = Yup.object().shape({
   title: Yup.string()
     .min(5, 'Title must be 5 characters at minimum')
-    .max(100, 'Title must be 100 characters at maximum')
+    .max(50, 'Title must be 50 characters at maximum')
     .required('Blog title is required'),
   category: Yup.string().required('Category is required'),
   summary: Yup.string()
     .required('Summary is required')
     .min(10, 'Summary must be 10 characters at minimum')
-    .max(50, 'Summary must be 50 characters at maximum')
+    .max(100, 'Summary must be 100 characters at maximum'),
 })
 
 function Write({ auth }) {
@@ -38,7 +38,7 @@ function Write({ auth }) {
           Write
         </h1>
         <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-          Start writing a blog &rarr; title,  category & summary
+          Start writing a blog &rarr; title, category & summary
         </p>
       </div>
       <Grid
