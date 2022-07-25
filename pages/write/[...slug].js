@@ -13,9 +13,6 @@ const SunEditor = dynamic(() => import('@/components/SunEditor'), {
 function CreateContent({ postData, auth }) {
   const { user, logout } = auth
   const db = getFirestore()
-
-  console.log('Post Data -> ', postData)
-
   let postRef = null
 
   if (postData !== 'NODATA' && postData !== null) {
@@ -24,8 +21,7 @@ function CreateContent({ postData, auth }) {
 
   const handleChange = (data) => {
     if (postRef !== null) {
-      postData.frontMatter.content = data;
-      console.log("Matter -> ", postData)
+      postData.frontMatter.content = data
       setDoc(postRef, { ...postData })
     }
   }
