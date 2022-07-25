@@ -82,8 +82,8 @@ export const BlogSEO = ({
   canonicalUrl,
 }) => {
   const router = useRouter()
-  const publishedAt = new Date(date).toISOString()
-  const modifiedAt = new Date(lastmod || date).toISOString()
+  const publishedAt = date
+  const modifiedAt = lastmod
   let imagesArr =
     images.length === 0
       ? [siteMetadata.socialBanner]

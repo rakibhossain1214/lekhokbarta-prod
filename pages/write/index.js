@@ -12,10 +12,14 @@ const LoginSchema = Yup.object().shape({
     .max(100, 'Title must be 100 characters at maximum')
     .required('Blog title is required'),
   category: Yup.string().required('Category is required'),
+  summary: Yup.string()
+    .required('Summary is required')
+    .min(10, 'Summary must be 10 characters at minimum')
+    .max(50, 'Summary must be 50 characters at maximum')
 })
 
 function Write({ auth }) {
-  const { user, loginWithGoogleRedirect, error } = auth
+  const { user } = auth
 
   const [author, setAuthor] = useState(null)
 
@@ -34,7 +38,7 @@ function Write({ auth }) {
           Write
         </h1>
         <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-          Start writing a blog &rarr; title and category
+          Start writing a blog &rarr; title,  category & summary
         </p>
       </div>
       <Grid
@@ -46,7 +50,7 @@ function Write({ auth }) {
         justifyContent="center"
       >
         <Formik
-          initialValues={{ title: '', category: '' }}
+          initialValues={{ title: '', category: '', summary: '' }}
           validationSchema={LoginSchema}
           onSubmit={(values) => {
             addPost({ values: { ...values, category: [values.category] }, author })
@@ -106,6 +110,24 @@ function Write({ auth }) {
                   <ErrorMessage className="text-red-400 " component="p" name="category" />
                 </div>
 
+                <div className="form-group pt-4">
+                  <div className="border-b border-teal-500 py-1">
+                    <Field
+                      className={`focus:outline-none} w-full 
+                      appearance-none border-none bg-transparent py-1 leading-tight 
+                      text-gray-500 dark:text-gray-400
+                      ${touched.summary && errors.summary ? 'is-invalid' : ''}
+                      `}
+                      as="textarea"
+                      placeholder="Blog Summary (max: 50 characters)"
+                      aria-label="Summary"
+                      name="summary"
+                      autoComplete="off"
+                    />
+                  </div>
+                  <ErrorMessage className="text-red-400 " component="p" name="summary" />
+                </div>
+
                 <div className="flex justify-end text-base font-medium leading-6">
                   <button
                     className="mt-5 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
@@ -117,10 +139,7 @@ function Write({ auth }) {
               </Form>
             ) : (
               <div>
-                <h1 className="mt-5 p-3">Form Submitted</h1>
-                <div className="alert alert-success mt-3">
-                  Thank for your connecting with us. Here's what we got from you !
-                </div>
+                <h1 className="mt-5 p-3">Please wait...</h1>
               </div>
             )
           }

@@ -8,11 +8,15 @@ import siteMetadata from '@/data/siteMetadata'
 import Comments from '@/components/comments'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import ShowPost from '../components/ShowPost'
+import DoneAllIcon from '@material-ui/icons/DoneAll';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import { Button } from '@material-ui/core'
+
+
 const postDateTemplate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 
-export default function PostLayout({ frontMatter, authorDetails, next, prev, children, postId }) {
-  const { slug, fileName, date, title, images, tags } = frontMatter
-  // console.log("Post Id from Layout: ", postId)
+export default function PostLayout({ frontMatter, authorDetails, next, prev, children, postId, date, lastmod }) {
+  const { slug, title, images, tags } = frontMatter
 
   return (
     <SectionContainer>
@@ -45,7 +49,7 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
             className="divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0"
             style={{ gridTemplateRows: 'auto 1fr' }}
           >
-            <dl className="pt-6 pb-10 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
+            <dl className="pt-6 pb-2 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
               <dt className="sr-only">Authors</dt>
               <dd>
                 <ul className="flex justify-center space-x-8 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
@@ -60,29 +64,62 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                         className="h-10 w-10 rounded-full"
                       />
                     )}
-                    <dl className="whitespace-nowrap text-sm font-medium leading-5">
-                      {/* <dt className="sr-only">Name</dt>
-                        <dd className="text-gray-900 dark:text-gray-100">{authorDetails.name}</dd>
-                        <dt className="sr-only">Twitter</dt>
-                        <dd>
-                          {author.twitter && (
-                            <Link
-                              href={author.twitter}
-                              className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                            >
-                              {author.twitter.replace('https://twitter.com/', '@')}
-                            </Link>
-                          )}
-                        </dd> */}
+                    <dl className="text-sm font-medium leading-5">
+                      <dt className="sr-only">Name</dt>
+                      <dd className="text-gray-900 dark:text-gray-100">
+                        <Link
+                          href={"/profilr"}
+                          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                        >
+                          {authorDetails.name}
+                        </Link>
+                      </dd>
+                      <dt className="sr-only">Twitter</dt>
+                      <dd>
+                        2.2k followers
+                      </dd>
+                      {/* {authorDetails.name} */}
                     </dl>
                   </li>
-                  <li className="flex items-center space-x-2">{authorDetails.name}</li>
+                  {/* <li className="flex items-center space-x-2">{authorDetails.name}</li> */}
                   {/* ))} */}
                 </ul>
               </dd>
+
+              <dd>
+                <ul className="flex justify-center space-x-8 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
+                  <li className="flex items-center space-x-2">
+                    <dl className="text-sm font-medium leading-5">
+                      <dt className="sr-only">Follow</dt>
+                      <dd className="mt-4">
+                        <Button
+                          variant="outlined"
+                          color="secondary"
+                          style={{ fontSize: '9px', }}
+                          startIcon={<CheckBoxIcon />}
+                        >
+                          Follow
+                        </Button>
+                        {/* <Button
+                          variant="outlined"
+                          color="accent"
+                          style={{ fontSize: '10px', }}
+                          startIcon={<DoneAllIcon />}
+                        >
+                          Following
+                        </Button> */}
+                      </dd>
+                      <dd>
+                      </dd>
+                    </dl>
+                  </li>
+                </ul>
+              </dd>
+
+
             </dl>
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
-              <div className="prose max-w-none pt-10 pb-8 dark:prose-dark">
+              <div className="prose max-w-none pt-0 pb-8 dark:prose-dark">
                 <ShowPost content={children} />
               </div>
               {/* <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">

@@ -6,14 +6,15 @@ const SunViewer = dynamic(() => import('@/components/SunViewer'), {
   ssr: false,
 })
 function ShowData({ content }) {
-  const googleAds =
-    "<br> <div class='google-ads dark:prose-p:text-gray-300'> <p>Google Ads Banner</p></div> <br>"
-  const googleNativeAds =
-    "<div class='google-ads-native dark:prose-p:text-gray-300'> <p>Google Ads Native Banner</p></div>"
+  // const googleAds =
+  //   "<br> <div class='google-ads dark:prose-p:text-gray-300'> <p>Google Ads Banner</p></div> <br>"
+  // const googleNativeAds =
+  //   "<div class='google-ads-native dark:prose-p:text-gray-300'> <p>Google Ads Native Banner</p></div>"
 
   function createMarkup() {
-    let arr = content.split(/<br>/)
-    return googleNativeAds + arr.join(googleAds).toString() + googleNativeAds
+    // let arr = content.split(/<br>/)
+    // return googleNativeAds + arr.join(googleAds).toString() + googleNativeAds
+    return content;
   }
 
   if (content === null) {

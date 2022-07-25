@@ -24,7 +24,9 @@ function CreateContent({ postData, auth }) {
 
   const handleChange = (data) => {
     if (postRef !== null) {
-      setDoc(postRef, { ...postData, content: data })
+      postData.frontMatter.content = data;
+      console.log("Matter -> ", postData)
+      setDoc(postRef, { ...postData })
     }
   }
 
@@ -50,7 +52,7 @@ function CreateContent({ postData, auth }) {
 
   return (
     <div>
-      <SunEditor handleChange={handleChange} editorContent={postData.content} />
+      <SunEditor handleChange={handleChange} editorContent={postData.frontMatter.content} />
     </div>
   )
 }
