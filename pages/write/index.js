@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid } from '@material-ui/core'
 import { withProtected } from '../../src/hook/route'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import Router, { useRouter } from 'next/router'
-import { addPost } from '@/lib/firestoreConnection'
+import { addPost, getUserInfo } from '@/lib/firestoreConnection'
 
 const LoginSchema = Yup.object().shape({
   title: Yup.string()
@@ -16,10 +16,14 @@ const LoginSchema = Yup.object().shape({
 
 function Write({ auth }) {
   const { user, loginWithGoogleRedirect, error } = auth
-  console.log(user.uid)
-  // const formSubmit = (e) => {
-  //   console.log(e)
-  // }
+
+  const [author, setAuthor] = useState(null)
+
+  useEffect(() => {
+    getUserInfo(user.uid).then((data) => {
+      setAuthor(data)
+    })
+  }, [])
 
   const router = useRouter()
 
@@ -45,19 +49,13 @@ function Write({ auth }) {
           initialValues={{ title: '', category: '' }}
           validationSchema={LoginSchema}
           onSubmit={(values) => {
-            // console.log(values)
-            // alert("Form is validated! Submitting the form...");
-
-            addPost({ values: { ...values, category: [values.category] }, user })
+            addPost({ values: { ...values, category: [values.category] }, author })
               .then(function (docRef) {
-                // console.log("Document written with ID: ", docRef.id);
                 router.push(`write/${user.uid}/${docRef.id}`)
               })
               .catch(function (error) {
                 console.error('Error adding document: ', error)
               })
-            // console.log("Post ID from firebaseConnect: ", postId)
-            // postId.then((pId)=> router.push(`write/${user.uid}/${pId}`) )
           }}
         >
           {({ touched, errors, isSubmitting, values }) =>

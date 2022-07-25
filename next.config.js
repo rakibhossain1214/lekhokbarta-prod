@@ -53,6 +53,9 @@ const securityHeaders = [
 ]
 
 module.exports = withBundleAnalyzer({
+  images: {
+    domains: ['lh3.googleusercontent.com'],
+  },
   reactStrictMode: false,
   pageExtensions: ['js', 'jsx', 'md', 'mdx'],
   eslint: {
