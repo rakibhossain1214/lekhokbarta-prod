@@ -5,6 +5,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import Router, { useRouter } from 'next/router'
 import { addPost, getUserInfo } from '@/lib/firestoreConnection'
+import Link from '@/components/Link'
+import PageTitle from '@/components/PageTitle'
 
 const LoginSchema = Yup.object().shape({
   title: Yup.string()
@@ -53,13 +55,17 @@ function Write({ auth }) {
           initialValues={{ title: '', category: '', summary: '' }}
           validationSchema={LoginSchema}
           onSubmit={(values) => {
-            addPost({ values: { ...values, category: [values.category] }, author })
-              .then(function (docRef) {
-                router.push(`write/${user.uid}/${docRef.id}`)
-              })
-              .catch(function (error) {
-                console.error('Error adding document: ', error)
-              })
+            if (author !== null) {
+              addPost({ values: { ...values, category: [values.category] }, author })
+                .then(function (docRef) {
+                  router.push(`write/${user.uid}/${docRef.id}`)
+                })
+                .catch(function (error) {
+                  console.error('Error adding document: ', error)
+                })
+            } else {
+              setAuthor('NODATA')
+            }
           }}
         >
           {({ touched, errors, isSubmitting, values }) =>
@@ -137,6 +143,20 @@ function Write({ auth }) {
                   </button>
                 </div>
               </Form>
+            ) : author === 'NODATA' ? (
+              <div className="mt-24 text-center">
+                <PageTitle>
+                  Something went wrong!{' '}
+                  <span role="img" aria-label="roadwork sign">
+                    🚧
+                  </span>
+                </PageTitle>
+                <Link href="/">
+                  <button className="focus:shadow-outline-blue my-5 inline rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-blue-700 focus:outline-none dark:hover:bg-blue-500">
+                    Back to homepage
+                  </button>
+                </Link>
+              </div>
             ) : (
               <div>
                 <h1 className="mt-5 p-3">Please wait...</h1>

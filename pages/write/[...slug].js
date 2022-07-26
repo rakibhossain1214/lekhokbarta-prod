@@ -21,7 +21,7 @@ function CreateContent({ postData, auth }) {
   const { user, logout } = auth
   const [titleError, setTitleError] = useState('')
   const [summaryError, setSummaryError] = useState('')
-  const [category, setCategory] = useState(postData.frontMatter.category)
+  const [category, setCategory] = useState(postData?.frontMatter?.category[0])
 
   const db = getFirestore()
   let postRef = null
@@ -54,7 +54,7 @@ function CreateContent({ postData, auth }) {
   const handleChangeCategory = (data) => {
     if (postRef !== null) {
       setCategory(data.target.value)
-      postData.frontMatter.category = data.target.value
+      postData.frontMatter.category[0] = data.target.value
       setDoc(postRef, { ...postData })
     }
   }
