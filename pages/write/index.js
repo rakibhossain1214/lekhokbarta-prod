@@ -3,10 +3,16 @@ import { Grid } from '@material-ui/core'
 import { withProtected } from '../../src/hook/route'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import Router, { useRouter } from 'next/router'
-import { addPost, getUserInfo } from '@/lib/firestoreConnection'
+import { useRouter } from 'next/router'
+import { addPost, getAllTagsArray, getUserInfo } from '@/lib/firestoreConnection'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
+import CreatableSelect from 'react-select/creatable'
+
+export async function getServerSideProps() {
+  const tagsOptions = await getAllTagsArray()
+  return { props: { tagsOptions } }
+}
 
 const LoginSchema = Yup.object().shape({
   title: Yup.string()
@@ -18,12 +24,15 @@ const LoginSchema = Yup.object().shape({
     .required('Summary is required')
     .min(10, 'Summary must be 10 characters at minimum')
     .max(100, 'Summary must be 100 characters at maximum'),
+  tags: Yup.array(),
 })
 
-function Write({ auth }) {
+function Write({ auth, tagsOptions }) {
   const { user } = auth
 
   const [author, setAuthor] = useState(null)
+
+  const [selectedTags, setSelectedTags] = useState([])
 
   useEffect(() => {
     getUserInfo(user.uid).then((data) => {
@@ -32,6 +41,14 @@ function Write({ auth }) {
   }, [])
 
   const router = useRouter()
+
+  const handleChange = (newValue) => {
+    let tagArray = []
+    newValue.map((node) => {
+      tagArray.push({ label: node.label, value: node.value })
+    })
+    setSelectedTags(tagArray)
+  }
 
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -56,7 +73,7 @@ function Write({ auth }) {
           validationSchema={LoginSchema}
           onSubmit={(values) => {
             if (author !== null) {
-              addPost({ values: { ...values, category: [values.category] }, author })
+              addPost({ values: { ...values, category: [values.category] }, author, selectedTags })
                 .then(function (docRef) {
                   router.push(`write/${user.uid}/${docRef.id}`)
                 })
@@ -115,6 +132,8 @@ function Write({ auth }) {
                   </div>
                   <ErrorMessage className="text-red-400 " component="p" name="category" />
                 </div>
+
+                <CreatableSelect isMulti onChange={handleChange} options={tagsOptions} />
 
                 <div className="form-group pt-4">
                   <div className="border-b border-teal-500 py-1">

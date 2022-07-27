@@ -5,9 +5,8 @@ import siteMetadata from '@/data/siteMetadata'
 import formatDate from '@/lib/utils/formatDate'
 import { withPublic } from 'src/hook/route'
 import { getAllPostsFrontMatterWithPostId } from '@/lib/firestoreConnection'
-import Moment from 'react-moment';
-import 'moment-timezone';
-
+import Moment from 'react-moment'
+import 'moment-timezone'
 
 const MAX_DISPLAY = 5
 
@@ -74,10 +73,10 @@ function Home({ posts, auth }) {
                   <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                     <dl>
                       <dt className="sr-only">Published on</dt>
-                      <dd className="text-base font-medium leading-1 text-gray-500 dark:text-gray-400">
+                      <dd className="leading-1 text-base font-medium text-gray-500 dark:text-gray-400">
                         <Moment fromNow>{date}</Moment>
                       </dd>
-                      <dd className="text-base mt-2 font-medium leading-1 text-gray-500 dark:text-gray-400">
+                      <dd className="leading-1 mt-2 text-base font-medium text-gray-500 dark:text-gray-400">
                         <time dateTime={date}>{formatDate(date)}</time>
                       </dd>
                     </dl>
@@ -94,7 +93,7 @@ function Home({ posts, auth }) {
                           </h2>
                           <div className="flex flex-wrap">
                             {tags.map((tag) => (
-                              <Tag key={tag} text={tag} />
+                              <Tag key={tag.value} text={tag.value} />
                             ))}
                           </div>
                         </div>

@@ -2,12 +2,12 @@ import { TagSEO } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayout'
 import kebabCase from '@/lib/utils/kebabCase'
-import { getAllPostsFrontMatter } from '@/lib/firestoreConnection'
+import { getAllPostsFrontMatterWithPostId } from '@/lib/firestoreConnection'
 
 export async function getServerSideProps({ params }) {
-  const posts = await getAllPostsFrontMatter();
+  const posts = await getAllPostsFrontMatterWithPostId()
   const filteredPosts = posts.filter(
-    (post) => post.draft !== true && post.tags.map((t) => kebabCase(t)).includes(params.tag)
+    (post) => post.draft !== true && post.tags.map((t) => kebabCase(t.value)).includes(params.tag)
   )
 
   return { props: { posts: filteredPosts, tag: params.tag } }

@@ -4,8 +4,8 @@ import siteMetadata from '@/data/siteMetadata'
 import { useState } from 'react'
 import Pagination from '@/components/Pagination'
 import formatDate from '@/lib/utils/formatDate'
-import Moment from 'react-moment';
-import 'moment-timezone';
+import Moment from 'react-moment'
+import 'moment-timezone'
 
 export default function ListLayout({ posts, title, initialDisplayPosts = [], pagination }) {
   const [searchValue, setSearchValue] = useState('')
@@ -58,9 +58,9 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
                 <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                   <dl>
                     <dt className="sr-only">Published on</dt>
-                    <dd className="text-base font-medium leading-1 text-gray-500 dark:text-gray-400">
-                        <Moment fromNow>{date}</Moment>
-                      </dd>
+                    <dd className="leading-1 text-base font-medium text-gray-500 dark:text-gray-400">
+                      <Moment fromNow>{date}</Moment>
+                    </dd>
                     <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                       <time dateTime={date}>{formatDate(date)}</time>
                     </dd>
@@ -77,7 +77,7 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
                       </h3>
                       <div className="flex flex-wrap">
                         {tags.map((tag) => (
-                          <Tag key={tag} text={tag} />
+                          <Tag key={tag.value} text={tag.value} />
                         ))}
                       </div>
                     </div>

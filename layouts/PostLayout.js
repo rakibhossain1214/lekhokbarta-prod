@@ -8,14 +8,22 @@ import siteMetadata from '@/data/siteMetadata'
 import Comments from '@/components/comments'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import ShowPost from '../components/ShowPost'
-import DoneAllIcon from '@material-ui/icons/DoneAll';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import DoneAllIcon from '@material-ui/icons/DoneAll'
+import CheckBoxIcon from '@material-ui/icons/CheckBox'
 import { Button } from '@material-ui/core'
-
 
 const postDateTemplate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 
-export default function PostLayout({ frontMatter, authorDetails, next, prev, children, postId, date, lastmod }) {
+export default function PostLayout({
+  frontMatter,
+  authorDetails,
+  next,
+  prev,
+  children,
+  postId,
+  date,
+  lastmod,
+}) {
   const { slug, title, images, tags } = frontMatter
 
   return (
@@ -68,16 +76,14 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                       <dt className="sr-only">Name</dt>
                       <dd className="text-gray-900 dark:text-gray-100">
                         <Link
-                          href={"/profilr"}
+                          href={'/profilr'}
                           className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                         >
                           {authorDetails.name}
                         </Link>
                       </dd>
                       <dt className="sr-only">Twitter</dt>
-                      <dd>
-                        2.2k followers
-                      </dd>
+                      <dd>2.2k followers</dd>
                       {/* {authorDetails.name} */}
                     </dl>
                   </li>
@@ -95,7 +101,7 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                         <Button
                           variant="outlined"
                           color="secondary"
-                          style={{ fontSize: '9px', }}
+                          style={{ fontSize: '9px' }}
                           startIcon={<CheckBoxIcon />}
                         >
                           Follow
@@ -109,14 +115,11 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                           Following
                         </Button> */}
                       </dd>
-                      <dd>
-                      </dd>
+                      <dd></dd>
                     </dl>
                   </li>
                 </ul>
               </dd>
-
-
             </dl>
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className="prose max-w-none pt-0 pb-8 dark:prose-dark">
@@ -140,7 +143,7 @@ export default function PostLayout({ frontMatter, authorDetails, next, prev, chi
                     </h2>
                     <div className="flex flex-wrap">
                       {tags.map((tag) => (
-                        <Tag key={tag} text={tag} />
+                        <Tag key={tag.value} text={tag.value} />
                       ))}
                     </div>
                   </div>
