@@ -57,7 +57,7 @@ function Write({ auth, tagsOptions }) {
           Write
         </h1>
         <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-          Start writing a blog &rarr; title, category & summary
+          Start writing a blog &rarr; title, category, tags & summary
         </p>
       </div>
       <Grid
@@ -142,6 +142,14 @@ function Write({ auth, tagsOptions }) {
                       onChange={handleChange}
                       options={tagsOptions}
                       placeholder="tags [optional]"
+                      styles={{
+                        input: (base) => ({
+                          ...base,
+                          'input:focus': {
+                            boxShadow: 'none',
+                          },
+                        }),
+                      }}
                     />
                   </div>
                 </div>

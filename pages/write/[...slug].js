@@ -111,9 +111,37 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
   }
 
   return (
-    <div>
-      {/* <Typography variant="h6" className="text-red-400">All Data will be saved automatically in real time.</Typography> */}
-      <Accordion>
+    <div className="divide-y divide-gray-200 dark:divide-gray-700">
+      <div className="space-y-2 pt-6 pb-2 md:space-y-5 grid grid-cols-2 gap-4">
+        {/* <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+          Write
+        </h1> */}
+        <div>
+          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+            All data will be saved in real time.
+          </p>
+        </div>
+        <div className='flex justify-end'>
+
+          <div className="text-base font-medium leading-6">
+          <button className="focus:shadow-outline-blue mx-1 inline rounded-lg border border-transparent bg-red-600 px-4 py-1 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-teal-700 focus:outline-none dark:hover:bg-teal-500">
+              Draft
+            </button>
+          </div>
+
+          <div className="text-base font-medium leading-6">
+          <button className="focus:shadow-outline-blue mx-1 inline rounded-lg border border-transparent bg-blue-600 px-4 py-1 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-teal-700 focus:outline-none dark:hover:bg-teal-500">
+              Publish
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <SunEditor handleChange={handleChangeEditor} editorContent={postData.frontMatter.content} />
+
+      <Accordion className='mt-3'>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -174,11 +202,21 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
             <div className="form-group">
               <div className="relative mt-5 inline-block w-full">
                 <CreatableSelect
+                  className=
+                  'prose sun-editor-edit max-w-none dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-400 dark:prose-strong:text-gray-300 dark:prose-table:text-gray-300 dark:prose-lead:text-gray-300'
                   defaultValue={defaultTags}
                   isMulti
                   onChange={handleChange}
                   options={tagsOptions}
                   placeholder="tags [optional]"
+                  styles={{
+                    input: (base) => ({
+                      ...base,
+                      'input:focus': {
+                        boxShadow: 'none',
+                      },
+                    }),
+                  }}
                 />
               </div>
             </div>
@@ -203,22 +241,10 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
               </div>
             </div>
           </div>
-          {/* <input
-            className={`w-full 
-                      appearance-none border-none bg-transparent py-1 leading-tight 
-                      text-gray-500 dark:text-gray-400`}
-            type="text"
-            placeholder="Blog title"
-            aria-label="Title"
-            name="title"
-            defaultValue={postData.frontMatter.title}
-            onChange={handleChangeTitle}
-            autoComplete="off"
-          /> */}
-          {/* <div>{titleError}</div> */}
+
         </AccordionDetails>
       </Accordion>
-      <SunEditor handleChange={handleChangeEditor} editorContent={postData.frontMatter.content} />
+
     </div>
   )
 }
@@ -240,7 +266,7 @@ export async function getServerSideProps({ params }) {
   let defaultTags = [];
 
   postData?.frontMatter?.tags?.map((item) => {
-    defaultTags.push({label: item.label, value: item.value })
+    defaultTags.push({ label: item.label, value: item.value })
   })
 
   return {
