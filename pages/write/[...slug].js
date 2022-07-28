@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
-import { getPostFrontMatterByUserIdAndPostId } from '@/lib/firestoreConnection'
+import { getPostFrontMatterByUserIdAndPostId, getAllTagsArray } from '@/lib/firestoreConnection'
 import { withProtected } from 'src/hook/route'
 import { getFirestore, doc, setDoc } from 'firebase/firestore'
 import Accordion from '@material-ui/core/Accordion'
@@ -10,6 +10,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
+import CreatableSelect from 'react-select/creatable'
 
 import dynamic from 'next/dynamic'
 import { title } from '@/data/siteMetadata'
@@ -17,7 +18,7 @@ const SunEditor = dynamic(() => import('@/components/SunEditor'), {
   ssr: false,
 })
 
-function CreateContent({ postData, auth }) {
+function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
   const { user, logout } = auth
   const [titleError, setTitleError] = useState('')
   const [summaryError, setSummaryError] = useState('')
@@ -93,6 +94,22 @@ function CreateContent({ postData, auth }) {
     )
   }
 
+  const [selectedTags, setSelectedTags] = useState([])
+
+  const handleChange = (newValue) => {
+    let tagArray = []
+    newValue.map((node) => {
+      tagArray.push({ label: node.label, value: node.value })
+    })
+    setSelectedTags(tagArray)
+
+
+    if (postRef !== null) {
+      postData.frontMatter.tags = tagArray
+      setDoc(postRef, { ...postData })
+    }
+  }
+
   return (
     <div>
       {/* <Typography variant="h6" className="text-red-400">All Data will be saved automatically in real time.</Typography> */}
@@ -154,6 +171,18 @@ function CreateContent({ postData, auth }) {
               <div className="text-red-400 " component="p" name="category"></div>
             </div>
 
+            <div className="form-group">
+              <div className="relative mt-5 inline-block w-full">
+                <CreatableSelect
+                  defaultValue={defaultTags}
+                  isMulti
+                  onChange={handleChange}
+                  options={tagsOptions}
+                  placeholder="tags [optional]"
+                />
+              </div>
+            </div>
+
             <div className="form-group mt-3 w-full">
               <div className="border-b border-teal-500 py-1">
                 Summary:
@@ -204,8 +233,18 @@ export async function getServerSideProps({ params }) {
   }
 
   const postData = await getPostFrontMatterByUserIdAndPostId(params.slug[0], params.slug[1])
+
+  const tagsOptions = await getAllTagsArray()
+  console.log("PostData: ", postData)
+
+  let defaultTags = [];
+
+  postData?.frontMatter?.tags?.map((item) => {
+    defaultTags.push({label: item.label, value: item.value })
+  })
+
   return {
-    props: { postData: postData !== undefined ? postData : null },
+    props: { postData: postData !== undefined ? postData : null, tagsOptions, defaultTags },
     // revalidate: 1
   }
 }

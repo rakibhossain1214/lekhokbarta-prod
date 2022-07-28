@@ -6,6 +6,14 @@
   background-color: rgb(23 23 23) !important;
 }
 
+.css-b62m3t-container{
+  border: 1px solid #14b8a6;
+}
+
+/* .dark .css-1s2u09g-control{
+  background-color: rgb(23 23 23) !important;
+} */
+
 .google-ads {
   display: flex;
   align-items: center;

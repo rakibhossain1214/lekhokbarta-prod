@@ -133,7 +133,18 @@ function Write({ auth, tagsOptions }) {
                   <ErrorMessage className="text-red-400 " component="p" name="category" />
                 </div>
 
-                <CreatableSelect isMulti onChange={handleChange} options={tagsOptions} />
+                <div className="form-group">
+                  <div className="relative mt-5 inline-block w-full">
+                    <CreatableSelect
+                    className=
+                    'prose sun-editor-edit max-w-none dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-400 dark:prose-strong:text-gray-300 dark:prose-table:text-gray-300 dark:prose-lead:text-gray-300'
+                      isMulti
+                      onChange={handleChange}
+                      options={tagsOptions}
+                      placeholder="tags [optional]"
+                    />
+                  </div>
+                </div>
 
                 <div className="form-group pt-4">
                   <div className="border-b border-teal-500 py-1">
