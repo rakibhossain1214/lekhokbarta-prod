@@ -112,32 +112,19 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
 
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
-      <div className="space-y-2 pt-6 pb-2 md:space-y-5 grid grid-cols-2 gap-4">
-        {/* <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-          Write
-        </h1> */}
-        <div>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            All data will be saved in real time.
-          </p>
-        </div>
-        <div className='flex justify-end'>
-
+      <h5>Tips: Blog content will be updated & saved in realtime.</h5>
+      <div className='flex justify-end my-2 pt-2'>
           <div className="text-base font-medium leading-6">
-          <button className="focus:shadow-outline-blue mx-1 inline rounded-lg border border-transparent bg-red-600 px-4 py-1 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-teal-700 focus:outline-none dark:hover:bg-teal-500">
+            <button className="focus:shadow-outline-blue mx-1 inline rounded-lg border border-transparent bg-red-500 px-4 py-1 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-blue-700 focus:outline-none dark:hover:bg-blue-500">
               Draft
             </button>
           </div>
-
           <div className="text-base font-medium leading-6">
-          <button className="focus:shadow-outline-blue mx-1 inline rounded-lg border border-transparent bg-blue-600 px-4 py-1 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-teal-700 focus:outline-none dark:hover:bg-teal-500">
+            <button className="focus:shadow-outline-teal mx-1 inline rounded-lg border border-transparent bg-teal-600 px-4 py-1 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-blue-700 focus:outline-none dark:hover:bg-blue-500">
               Publish
             </button>
           </div>
-
         </div>
-
-      </div>
 
       <SunEditor handleChange={handleChangeEditor} editorContent={postData.frontMatter.content} />
 

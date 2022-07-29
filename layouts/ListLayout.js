@@ -10,7 +10,7 @@ import 'moment-timezone'
 export default function ListLayout({ posts, title, initialDisplayPosts = [], pagination }) {
   const [searchValue, setSearchValue] = useState('')
   const filteredBlogPosts = posts.filter((frontMatter) => {
-    const searchContent = frontMatter.title + frontMatter.summary + frontMatter.tags.join(' ')
+    const searchContent = frontMatter.title + frontMatter.summary + frontMatter?.tags?.map((tag) => { return tag?.value }).join(' ')
     return searchContent.toLowerCase().includes(searchValue.toLowerCase())
   })
 

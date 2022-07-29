@@ -57,7 +57,7 @@ function Write({ auth, tagsOptions }) {
           Write
         </h1>
         <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-          Start writing a blog &rarr; title, category, tags & summary
+          Tips: Following fields are important for your SEO ranking.
         </p>
       </div>
       <Grid
@@ -97,7 +97,7 @@ function Write({ auth, tagsOptions }) {
                       ${touched.title && errors.title ? 'is-invalid' : ''}
                       `}
                       type="text"
-                      placeholder="Blog title"
+                      placeholder="Blog title (max: 50 characters)"
                       aria-label="Title"
                       name="title"
                       autoComplete="off"
@@ -163,7 +163,7 @@ function Write({ auth, tagsOptions }) {
                       ${touched.summary && errors.summary ? 'is-invalid' : ''}
                       `}
                       as="textarea"
-                      placeholder="Blog Summary (max: 50 characters)"
+                      placeholder="Blog Summary (max: 100 characters)"
                       aria-label="Summary"
                       name="summary"
                       autoComplete="off"
