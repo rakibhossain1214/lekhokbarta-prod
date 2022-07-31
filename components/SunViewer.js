@@ -9,6 +9,7 @@ const CustomSunEditor = (props) => {
       setOptions={{
         width: '100%',
         height: '100%',
+        minHeight: '350px',
         defaultStyle: 'font-size:16px; font-family: Arial;',
         resizingBar: false,
         showPathLabel: false,

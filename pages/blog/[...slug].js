@@ -55,7 +55,7 @@ export async function getServerSideProps({ params }) {
   const next = allPosts[postIndex - 1] || null
 
   let postData = await getPostFrontMatterByPostIdAndSlug(params.slug[0], params.slug[1]);
-  console.log("Post data from slug:; ", postData)
+
   return {
     props: { postData, prev, next },
     // revalidate: 1

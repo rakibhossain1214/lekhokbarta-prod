@@ -11,6 +11,8 @@ import ShowPost from '../components/ShowPost'
 import DoneAllIcon from '@material-ui/icons/DoneAll'
 import CheckBoxIcon from '@material-ui/icons/CheckBox'
 import { Button } from '@material-ui/core'
+import CommentBox from '@/components/CommentBox'
+import CommentList from '@/components/CommentList'
 
 const postDateTemplate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 
@@ -133,6 +135,12 @@ export default function PostLayout({
                 <Link href={editUrl(fileName)}>{'View on GitHub'}</Link>
               </div> */}
               {/* <Comments frontMatter={frontMatter} /> */}
+              <h4 className='pt-2 pb-2'>
+                <button>⬆️</button>(5) | <button>⬇️</button>(5) | <button>Comments </button> (5)
+              </h4>
+              {/* <h4 className='pb-1'>Comments (5)</h4> */}
+              <CommentList />
+              <CommentBox />
             </div>
             <footer>
               <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
