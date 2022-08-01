@@ -19,6 +19,7 @@ function CommentList({ postId, auth }) {
   const [editable, setEditable] = useState(false)
   const [buttonActive, setButtonActive] = useState(false)
   const [commentText, setCommentText] = useState('')
+  const [voteError, setVoteError] = useState('')
 
   const db = getFirestore()
   const postRef = doc(db, 'posts', postId)
@@ -60,15 +61,23 @@ function CommentList({ postId, auth }) {
   }
 
   const handleUpvote = () => {
-    setDownVoted(false)
-    setUpVoted(!upVoted)
-    increaseVote({ postId: postId, uid: user?.uid, postData: postData })
+    if (user !== null) {
+      setDownVoted(false)
+      setUpVoted(!upVoted)
+      increaseVote({ postId: postId, uid: user?.uid, postData: postData })
+    } else {
+      setVoteError('Please login to vote...')
+    }
   }
 
   const handleDownVote = () => {
-    setUpVoted(false)
-    setDownVoted(!downVoted)
-    decreaseVote({ postId: postId, uid: user?.uid, postData: postData })
+    if (user !== null) {
+      setUpVoted(false)
+      setDownVoted(!downVoted)
+      decreaseVote({ postId: postId, uid: user?.uid, postData: postData })
+    } else {
+      setVoteError('Please login to vote...')
+    }
   }
 
   const onOptionsEdit = (id) => {
@@ -102,8 +111,8 @@ function CommentList({ postId, auth }) {
         <button onClick={handleUpvote}>
           <Image
             src={UpArrow}
-            width="32px"
-            height="32px"
+            width="25px"
+            height="25px"
             alt="avatar"
             className="h-10 w-10 rounded-full"
           />
@@ -113,8 +122,8 @@ function CommentList({ postId, auth }) {
         <button className="pl-4" onClick={handleDownVote}>
           <Image
             src={DownArrow}
-            width="32px"
-            height="32px"
+            width="25px"
+            height="25px"
             alt="avatar"
             className="h-10 w-10 rounded-full"
           />
@@ -123,6 +132,7 @@ function CommentList({ postId, auth }) {
         <span> ( {postData.downVote.length} ) </span> |<button className="pl-4"> Comments </button>
         <span> ( {postData.comments.length} ) </span>
       </h4>
+      <p className="ml-4 text-red-500">{voteError}</p>
       {postData.comments.map((comment, i) => (
         <div
           key={i++}
