@@ -34,7 +34,7 @@ function CommentList({ postId, auth }) {
   useEffect(() => {
     const unsub1 = onSnapshot(postRef, (doc) => {
       doc.data()?.upVote.map((item) => {
-        if (item === user.uid) {
+        if (item === user?.uid) {
           setUpVoted(true)
         } else {
           setUpVoted(false)
@@ -46,7 +46,7 @@ function CommentList({ postId, auth }) {
   useEffect(() => {
     const unsub2 = onSnapshot(postRef, (doc) => {
       doc.data()?.downVote.map((item) => {
-        if (item === user.uid) {
+        if (item === user?.uid) {
           setDownVoted(true)
         } else {
           setDownVoted(false)
@@ -62,13 +62,13 @@ function CommentList({ postId, auth }) {
   const handleUpvote = () => {
     setDownVoted(false)
     setUpVoted(!upVoted)
-    increaseVote({ postId: postId, uid: user.uid, postData: postData })
+    increaseVote({ postId: postId, uid: user?.uid, postData: postData })
   }
 
   const handleDownVote = () => {
     setUpVoted(false)
     setDownVoted(!downVoted)
-    decreaseVote({ postId: postId, uid: user.uid, postData: postData })
+    decreaseVote({ postId: postId, uid: user?.uid, postData: postData })
   }
 
   const onOptionsEdit = (id) => {
@@ -145,7 +145,7 @@ function CommentList({ postId, auth }) {
                 <Moment fromNow>{comment.modifiedAt}</Moment>
               </p>
             </div>
-            {comment?.uid === user.uid ? (
+            {comment?.uid === user?.uid ? (
               <CommentOptions
                 onEdit={onOptionsEdit}
                 onDelete={onOptionsDelete}

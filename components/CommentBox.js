@@ -3,7 +3,6 @@ import { withPublic } from '../src/hook/route'
 import { AddComment } from '@/lib/firestoreConnection'
 import Image from '@/components/Image'
 
-
 function CommentBox({ auth, postId, postData }) {
   const { user } = auth
   const [commentText, setCommentText] = useState('')
@@ -20,12 +19,12 @@ function CommentBox({ auth, postId, postData }) {
 
   const handleSubmit = () => {
     document.getElementById('commentArea').value = ''
-    AddComment({ postId, user, commentText, postData });
+    AddComment({ postId, user, commentText, postData })
     // console.log(commentText)
   }
 
   if (user === null) {
-    return <>Please Log in to comment...</>
+    return <div className="p-3 text-red-500">Please Log in to comment...</div>
   }
   return (
     <div className="mt-1 w-full rounded bg-white pt-3 shadow-lg dark:bg-gray-900">
