@@ -22,6 +22,7 @@ function Blog({ postData, prev, next }) {
             date={postData.date}
             lastmod={postData.lastmod}
             postId={postData.postId}
+            postData={postData}
           />
           :
           <>

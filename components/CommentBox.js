@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { withPublic } from '../src/hook/route'
+import { AddComment } from '@/lib/firestoreConnection'
+import Image from '@/components/Image'
 
-function CommentBox({ auth }) {
+
+function CommentBox({ auth, postId, postData }) {
   const { user } = auth
   const [commentText, setCommentText] = useState('')
   const [buttonActive, setButtonActive] = useState(false)
@@ -17,7 +20,8 @@ function CommentBox({ auth }) {
 
   const handleSubmit = () => {
     document.getElementById('commentArea').value = ''
-    console.log(commentText)
+    AddComment({ postId, user, commentText, postData });
+    // console.log(commentText)
   }
 
   if (user === null) {
@@ -27,11 +31,18 @@ function CommentBox({ auth }) {
     <div className="mt-1 w-full rounded bg-white pt-3 shadow-lg dark:bg-gray-900">
       <div className="ml-3 flex">
         <div className="mr-3">
-          <img src={user.photoURL} alt="" className="rounded-full" style={{ width: '40px' }} />
+          <Image
+            src={user?.photoURL}
+            width="38px"
+            height="38px"
+            alt="avatar"
+            className="h-10 w-10 rounded-full"
+          />
+          {/* <img src={user?.photoURL} alt="" className="rounded-full" style={{ width: '40px' }} /> */}
         </div>
         <div>
-          <h4 className="font-semibold">{user.displayName}</h4>
-          <p className="text-xs text-gray-500">2 seconds ago</p>
+          <h4 className="font-semibold">{user?.displayName}</h4>
+          <p className="text-xs text-gray-500">{user?.email}</p>
         </div>
       </div>
 
