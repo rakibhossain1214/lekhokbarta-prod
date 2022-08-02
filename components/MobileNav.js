@@ -82,18 +82,18 @@ const MobileNav = ({ auth }) => {
             <>
               <div key="write" className="px-12 py-4">
                 <Link
-                  key="write"
                   href="/write"
                   className="text-2xl font-bold tracking-widest text-primary-500 dark:text-primary-400"
+                  onClick={onToggleNav}
                 >
                   Write
                 </Link>
               </div>
               <div key="dashboard" className="px-12 py-4">
                 <Link
-                  key="dashboard"
                   href="/dashboard"
                   className="text-2xl font-bold tracking-widest text-blue-500 dark:text-blue-500"
+                  onClick={onToggleNav}
                 >
                   Dashboard
                 </Link>
@@ -102,9 +102,9 @@ const MobileNav = ({ auth }) => {
           ) : (
             <div key="login" className="px-12 py-4">
               <Link
-                key="login"
                 href="/login"
                 className="text-2xl font-bold tracking-widest text-blue-900 dark:text-blue-500"
+                onClick={onToggleNav}
               >
                 Login
               </Link>
