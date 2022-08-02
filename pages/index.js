@@ -18,36 +18,6 @@ export async function getServerSideProps() {
 function Home({ posts, auth }) {
   const { user, logout } = auth
 
-  // const addData = () => {
-  //   addDoc(collection(db, 'posts'), {
-  //     frontMatter: {
-  //       title: 'Test 14',
-  //       date: '2022-12-21T00:00:00.000Z',
-  //       category: [],
-  //       tags: [],
-  //       draft: false,
-  //       summary:
-  //         'How to derive the OLS Estimator with matrix notation and a tour of math typesetting using markdown with the help of KaTeX.',
-  //       slug: 'test-14',
-  //       layout: '',
-  //       bibliography: '',
-  //       canonicalurl: '',
-  //       images: [],
-  //     },
-  //     authorDetails: {
-  //       id: '',
-  //       name: 'Anup',
-  //       avatar: '',
-  //       occupation: 'student',
-  //       company: 'DU',
-  //     },
-  //     content:
-  //       'How to derive the OLS Estimator with matrix notation and a tour of math typesetting using markdown with the help of KaTeX.',
-  //     slug: 'test-14',
-  //   })
-  //   console.log('Write Data: ')
-  // }
-
   return (
     <>
       <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
@@ -76,7 +46,7 @@ function Home({ posts, auth }) {
                       <dd className="leading-1 text-base font-medium text-gray-500 dark:text-gray-400">
                         <Moment fromNow>{date}</Moment>
                       </dd>
-                      <dd className="leading-1 mt-2 text-base font-medium text-gray-500 dark:text-gray-400">
+                      <dd className="leading-1 mt-2 text-xs font-medium text-gray-500 dark:text-gray-400">
                         <time dateTime={date}>{formatDate(date)}</time>
                       </dd>
                     </dl>

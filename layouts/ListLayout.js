@@ -10,7 +10,14 @@ import 'moment-timezone'
 export default function ListLayout({ posts, title, initialDisplayPosts = [], pagination }) {
   const [searchValue, setSearchValue] = useState('')
   const filteredBlogPosts = posts.filter((frontMatter) => {
-    const searchContent = frontMatter.title + frontMatter.summary + frontMatter?.tags?.map((tag) => { return tag?.value }).join(' ')
+    const searchContent =
+      frontMatter.title +
+      frontMatter.summary +
+      frontMatter?.tags
+        ?.map((tag) => {
+          return tag?.value
+        })
+        .join(' ')
     return searchContent.toLowerCase().includes(searchValue.toLowerCase())
   })
 
@@ -61,7 +68,7 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
                     <dd className="leading-1 text-base font-medium text-gray-500 dark:text-gray-400">
                       <Moment fromNow>{date}</Moment>
                     </dd>
-                    <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                    <dd className="text-xs font-medium leading-6 text-gray-500 dark:text-gray-400">
                       <time dateTime={date}>{formatDate(date)}</time>
                     </dd>
                   </dl>
