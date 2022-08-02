@@ -3,15 +3,14 @@ import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayout'
 import { POSTS_PER_PAGE } from '../../blog'
 
-import { getAllPostsFrontMatter } from '@/lib/firestoreConnection'
-
+import { getAllPostsFrontMatterWithPostId } from '@/lib/firestoreConnection'
 
 export async function getServerSideProps(context) {
   const {
     params: { page },
   } = context
 
-  const posts = await getAllPostsFrontMatter();
+  const posts = await getAllPostsFrontMatterWithPostId()
 
   const pageNumber = parseInt(page)
   const initialDisplayPosts = posts.slice(
