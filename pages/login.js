@@ -8,7 +8,7 @@ function Login({ auth }) {
     <div>
       {error && <h1>{error}</h1>}
       <button onClick={loginWithGoogleRedirect}>login</button>
-      <h1>{user?.uid}</h1>
+      {/* <h1>{user?.uid}</h1> */}
     </div>
   )
 }

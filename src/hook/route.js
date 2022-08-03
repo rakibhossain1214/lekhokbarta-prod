@@ -20,7 +20,7 @@ export function withProtected(Component) {
     const router = useRouter()
     if (!auth.user) {
       router.replace('/login')
-      return <h1>Loading...</h1>
+      return <p>Loading...</p>
     }
     return <Component auth={auth} {...props} />
   }
