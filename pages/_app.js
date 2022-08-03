@@ -26,15 +26,15 @@ export default function App({ Component, pageProps }) {
       <Head>
         <meta content="width=device-width, initial-scale=1" name="viewport" />
       </Head>
-      {isDevelopment && isSocket && <ClientReload />}
+      {/* {isDevelopment && isSocket && <ClientReload />} */}
       <Analytics />
       <AuthProvider>
         {/* <AppLayout> */}
-          <AuthStateChanged>
-            <LayoutWrapper>
-              <Component {...pageProps} />
-            </LayoutWrapper>
-          </AuthStateChanged>
+        <AuthStateChanged>
+          <LayoutWrapper>
+            <Component {...pageProps} />
+          </LayoutWrapper>
+        </AuthStateChanged>
         {/* </AppLayout> */}
       </AuthProvider>
     </ThemeProvider>

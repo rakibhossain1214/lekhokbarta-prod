@@ -3,9 +3,8 @@ import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
 import { withPublic } from 'src/hook/route'
 
-const MobileNav = ({ auth }) => {
+const MobileNav = ({ user }) => {
   const [navShow, setNavShow] = useState(false)
-  const { user } = auth
 
   const onToggleNav = () => {
     setNavShow((status) => {
@@ -116,4 +115,4 @@ const MobileNav = ({ auth }) => {
   )
 }
 
-export default withPublic(MobileNav)
+export default MobileNav

@@ -11,15 +11,14 @@ import { useRouter } from 'next/dist/client/router'
 
 const LayoutWrapper = ({ children, auth }) => {
   const { user } = auth
-  const router = useRouter();
-  const showHeader = 
-    router.pathname === '/dashboard' || 
-    router.pathname === '/dashboard/profile' ? false : true;
+  const router = useRouter()
+  const showHeader =
+    router.pathname === '/dashboard' || router.pathname === '/dashboard/profile' ? false : true
 
   return (
     <SectionContainer showHeader={showHeader}>
       <div className="flex h-screen flex-col justify-between">
-        {showHeader &&
+        {showHeader && (
           <header className="flex items-center justify-between py-10">
             <div>
               <Link href="/" aria-label={siteMetadata.headerTitle}>
@@ -78,14 +77,12 @@ const LayoutWrapper = ({ children, auth }) => {
 
               <ThemeSwitch />
 
-              <MobileNav />
+              <MobileNav user={user} />
             </div>
           </header>
-        }
+        )}
         <main className="mb-auto">{children}</main>
-        {showHeader &&
-          <Footer />
-        }
+        {showHeader && <Footer />}
       </div>
     </SectionContainer>
   )
