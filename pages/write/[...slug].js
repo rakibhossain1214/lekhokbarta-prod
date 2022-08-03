@@ -248,7 +248,6 @@ export async function getServerSideProps({ params }) {
   const postData = await getPostFrontMatterByUserIdAndPostId(params.slug[0], params.slug[1])
 
   const tagsOptions = await getAllTagsArray()
-  console.log("PostData: ", postData)
 
   let defaultTags = [];
 
