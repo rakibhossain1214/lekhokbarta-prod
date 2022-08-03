@@ -1,13 +1,9 @@
 import { useRouter } from 'next/dist/client/router'
 import React from 'react'
-import useAuth from '../hook/auth'
 import { motion } from 'framer-motion'
 
 export default function AppLayout({ children }) {
-  const auth = useAuth()
-
   const router = useRouter()
-
   const variants = {
     out: {
       opacity: 0,
@@ -36,7 +32,7 @@ export default function AppLayout({ children }) {
         transition={{ type: 'linear' }}
         key={router.pathname}
       >
-        <main>{children}</main>
+        {children}
       </motion.main>
     )
   } else {

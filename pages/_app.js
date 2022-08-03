@@ -18,7 +18,7 @@ import AuthStateChanged from '../src/layout/AuthStateChanged'
 import AppLayout from '../src/layout/AppLayout'
 import { AnimatePresence } from 'framer-motion'
 
-const isDevelopment = process.env.NODE_ENV === 'development'
+const isDevelopment = process.env.NODE_ENV === 'production'
 const isSocket = process.env.SOCKET
 
 export default function App({ Component, pageProps }) {
