@@ -27,7 +27,7 @@ function CommentBox({ auth, postId, postData }) {
     return <div className="p-3 text-red-500">Please Log in to comment...</div>
   }
   return (
-    <div className="mt-1 w-full rounded bg-white pt-3 shadow-lg dark:bg-gray-900">
+    <div className="mt-1 w-full rounded bg-white pt-3 pb-3 pl-1 pr-1 shadow-lg dark:bg-gray-900">
       <div className="ml-3 flex">
         <div className="mr-3">
           <Image

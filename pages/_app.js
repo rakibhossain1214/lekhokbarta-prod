@@ -16,6 +16,7 @@ import { ClientReload } from '@/components/ClientReload'
 import { AuthProvider } from '../src/hook/auth'
 import AuthStateChanged from '../src/layout/AuthStateChanged'
 import AppLayout from '../src/layout/AppLayout'
+import { AnimatePresence } from 'framer-motion'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 const isSocket = process.env.SOCKET
@@ -29,13 +30,19 @@ export default function App({ Component, pageProps }) {
       {isDevelopment && isSocket && <ClientReload />}
       <Analytics />
       <AuthProvider>
-        <AppLayout>
-          <AuthStateChanged>
-            <LayoutWrapper>
-              <Component {...pageProps} />
-            </LayoutWrapper>
-          </AuthStateChanged>
-        </AppLayout>
+        <AnimatePresence
+          exitBeforeEnter
+          initial={false}
+          // onExitComplete={() => window.scrollTo(0, 0)}
+        >
+          <AppLayout>
+            <AuthStateChanged>
+              <LayoutWrapper>
+                <Component {...pageProps} />
+              </LayoutWrapper>
+            </AuthStateChanged>
+          </AppLayout>
+        </AnimatePresence>
       </AuthProvider>
     </ThemeProvider>
   )
