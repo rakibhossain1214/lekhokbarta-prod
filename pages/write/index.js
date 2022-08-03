@@ -9,11 +9,6 @@ import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import CreatableSelect from 'react-select/creatable'
 
-export async function getServerSideProps() {
-  const tagsOptions = await getAllTagsArray()
-  return { props: { tagsOptions } }
-}
-
 const LoginSchema = Yup.object().shape({
   title: Yup.string()
     .min(5, 'Title must be 5 characters at minimum')
@@ -27,8 +22,10 @@ const LoginSchema = Yup.object().shape({
   tags: Yup.array(),
 })
 
-function Write({ auth, tagsOptions }) {
+function Write({ auth }) {
   const { user } = auth
+
+  const [tagsOptions, setTagsOptions] = useState([])
 
   const [author, setAuthor] = useState(null)
 
@@ -38,6 +35,14 @@ function Write({ auth, tagsOptions }) {
     getUserInfo(user.uid).then((data) => {
       setAuthor(data)
     })
+  }, [])
+
+  useEffect(() => {
+    async function GetTagsOptions() {
+      const options = await getAllTagsArray()
+      setTagsOptions(options)
+    }
+    return GetTagsOptions()
   }, [])
 
   const router = useRouter()
@@ -136,8 +141,7 @@ function Write({ auth, tagsOptions }) {
                 <div className="form-group">
                   <div className="relative mt-5 inline-block w-full">
                     <CreatableSelect
-                    className=
-                    'prose sun-editor-edit max-w-none dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-400 dark:prose-strong:text-gray-300 dark:prose-table:text-gray-300 dark:prose-lead:text-gray-300'
+                      className="sun-editor-edit prose max-w-none dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-400 dark:prose-strong:text-gray-300 dark:prose-table:text-gray-300 dark:prose-lead:text-gray-300"
                       isMulti
                       onChange={handleChange}
                       options={tagsOptions}
