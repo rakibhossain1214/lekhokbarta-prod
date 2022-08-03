@@ -1,9 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
-import NotificationDropdown from 'components/Dropdowns/NotificationDropdown.js'
-import UserDropdown from 'components/Dropdowns/UserDropdown.js'
 import CustomNavDropdown from '@/components/Dropdowns/CustomNavDropdown'
 
 import Image from '@/components/Image'
@@ -93,16 +90,7 @@ export default function Sidebar({ userInfo }) {
                 </div>
               </div>
             </div>
-            {/* Form */}
-            {/* <form className="mt-6 mb-4 md:hidden">
-              <div className="mb-3 pt-0">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="border-0 px-3 py-2 h-12 border border-solid  border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
-                />
-              </div>
-            </form> */}
+
             <div className="flex">
               <div className="w-10 flex-none">
                 {userInfo !== undefined ? (
@@ -121,15 +109,6 @@ export default function Sidebar({ userInfo }) {
                 <div className="flex items-center py-2">
                   <p className="text-sm">{userInfo.displayName}</p>
                 </div>
-                {/* <div className="flex flex-wrap">
-                  <p className="text-xs flex">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                    </svg>
-                    {user.email.split('@')[0]}
-                  </p>
-                </div> */}
               </div>
             </div>
 

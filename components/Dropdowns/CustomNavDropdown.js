@@ -5,10 +5,6 @@ import Image from '../Image'
 import Link from 'next/link'
 import { withProtected } from 'src/hook/route'
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
 function CustomNavDropdown({ userInfo, auth }) {
   const { logout } = auth
 
