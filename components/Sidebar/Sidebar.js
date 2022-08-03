@@ -10,7 +10,7 @@ export default function Sidebar({ userInfo }) {
   const router = useRouter()
   return (
     <>
-      <nav className="relative z-10 flex flex-wrap items-center justify-between bg-white py-4 px-6 shadow-xl md:fixed md:left-0 md:top-0 md:bottom-0 md:block md:w-64 md:flex-row md:flex-nowrap md:overflow-hidden md:overflow-y-auto">
+      <nav className="relative z-50 flex flex-wrap items-center justify-between bg-white py-4 px-6 shadow-xl md:fixed md:left-0 md:top-0 md:bottom-0 md:block md:w-64 md:flex-row md:flex-nowrap md:overflow-hidden md:overflow-y-auto">
         <div className="mx-auto flex w-full flex-wrap items-center justify-between px-0 md:min-h-full md:flex-col md:flex-nowrap md:items-stretch">
           {/* Toggler */}
           <button
@@ -35,9 +35,9 @@ export default function Sidebar({ userInfo }) {
           <Link href="/">
             <a
               href="#pablo"
-              className="text-blueGray-600 mr-0 inline-block whitespace-nowrap p-4 px-0 text-left text-sm font-bold uppercase md:block md:pb-2"
+              className="text-blue-600 mr-0 inline-block whitespace-nowrap p-4 px-0 text-left text-md font-bold uppercase md:block md:pb-2"
             >
-              Lekhok Barta
+              &larr; Lekhokbarta
             </a>
           </Link>
           {/* User */}
@@ -61,9 +61,9 @@ export default function Sidebar({ userInfo }) {
                   <Link href="/">
                     <a
                       href="#pablo"
-                      className="text-blueGray-600 mr-0 inline-block whitespace-nowrap p-4 px-0 text-left text-sm font-bold uppercase md:block md:pb-2"
+                      className="text-blue-600 mr-0 inline-block whitespace-nowrap p-4 px-0 text-left text-sm font-bold uppercase md:block md:pb-2"
                     >
-                      Lekhok Barta
+                      &larr; Lekhokbarta
                     </a>
                   </Link>
                 </div>
@@ -73,7 +73,7 @@ export default function Sidebar({ userInfo }) {
                     className="cursor-pointer rounded border border-solid border-transparent bg-transparent px-3 py-1 text-xl leading-none text-black opacity-50 md:hidden"
                     onClick={() => setCollapseShow('hidden')}
                   >
-                    {/* <i className="fas fa-times"></i> */}
+                    <i className="fas fa-times"></i>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
@@ -164,7 +164,7 @@ export default function Sidebar({ userInfo }) {
                           : 'text-blueGray-300')
                       }
                     ></i>{' '}
-                    My Posts
+                    My Blogs
                   </a>
                 </Link>
               </li>
@@ -246,10 +246,9 @@ export default function Sidebar({ userInfo }) {
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
             <h6 className="text-blueGray-500 block pt-1 pb-4 text-xs font-bold uppercase no-underline md:min-w-full">
-              Personal Profile Section
+              Advertiser Secion
             </h6>
             {/* Navigation */}
-
             <ul className="flex list-none flex-col md:mb-4 md:min-w-full md:flex-col">
               <li className="items-center">
                 <Link href="/auth/login">
@@ -257,7 +256,7 @@ export default function Sidebar({ userInfo }) {
                     href="#pablo"
                     className="text-blueGray-700 hover:text-blueGray-500 block py-3 text-xs font-bold uppercase"
                   >
-                    <i className="fas fa-fingerprint text-blueGray-400 mr-2 text-sm"></i> Profile
+                    <i className="fas fa-fingerprint text-blueGray-400 mr-2 text-sm"></i> Overview
                   </a>
                 </Link>
               </li>
@@ -267,10 +266,11 @@ export default function Sidebar({ userInfo }) {
                   href="#pablo"
                   className="text-blueGray-700 hover:text-blueGray-500 block py-3 text-xs font-bold uppercase"
                 >
-                  <i className="fas fa-clipboard-list text-blueGray-300 mr-2 text-sm"></i> Log out
+                  <i className="fas fa-clipboard-list text-blueGray-300 mr-2 text-sm"></i> Other
                 </a>
               </li>
             </ul>
+ 
           </div>
         </div>
       </nav>
