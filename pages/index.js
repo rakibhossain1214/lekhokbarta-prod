@@ -15,9 +15,7 @@ export async function getServerSideProps() {
   return { props: { posts } }
 }
 
-function Home({ posts, auth }) {
-  const { user, logout } = auth
-
+function Home({ posts }) {
   return (
     <>
       <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
@@ -26,8 +24,6 @@ function Home({ posts, auth }) {
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Latest
           </h1>
-          {/* <button onClick={logout}>Logout | </button> */}
-          {/* <button onClick={addData}>Add Data</button> */}
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
             {siteMetadata.description}
           </p>
@@ -99,11 +95,6 @@ function Home({ posts, auth }) {
           </Link>
         </div>
       )}
-      {/* {siteMetadata.newsletter.provider !== '' && (
-        <div className="flex items-center justify-center pt-4">
-          <NewsletterForm />
-        </div>
-      )} */}
     </>
   )
 }
