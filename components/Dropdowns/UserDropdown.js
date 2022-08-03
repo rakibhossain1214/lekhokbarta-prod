@@ -34,7 +34,7 @@ const UserDropdown = ({ userInfo, auth }) => {
         }}
       >
         <div className="flex items-center">
-          <span className="bg-blueGray-200 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full text-sm text-white">
+          <span className="bg-blueGray-200 inline-flex h-12 w-12 items-center justify-center rounded-full text-sm text-white">
             {/* <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
@@ -72,21 +72,21 @@ const UserDropdown = ({ userInfo, auth }) => {
           Profile
         </a> */}
 
-        {/* <Link href="/dashboard/profile"> */}
-        <a
-          href="#pablo"
-          className={
-            'text-blueGray-700 block w-full whitespace-nowrap bg-transparent py-2 px-4 text-sm font-normal'
-          }
-        >
-          {/* <i
+        <Link href="/dashboard/profile">
+          <a
+            href="#pablo"
+            className={
+              'text-blueGray-700 block w-full whitespace-nowrap bg-transparent py-2 px-4 text-sm font-normal'
+            }
+          >
+            {/* <i
                       className={
                         "fas fa-tv mr-2 text-sm " 
                       }
                     ></i>{" "} */}
-          Profile
-        </a>
-        {/* </Link> */}
+            Profile
+          </a>
+        </Link>
 
         {/* <a
           href="#pablo"
@@ -107,22 +107,22 @@ const UserDropdown = ({ userInfo, auth }) => {
           Something else here
         </a> */}
         <div className="border-blueGray-100 my-2 h-0 border border-solid" />
-        {/* <Link href="#"> */}
-        <a
-          href="#pablo"
-          className={
-            'text-blueGray-700 block w-full whitespace-nowrap bg-transparent py-2 px-4 text-sm font-normal'
-          }
-          onClick={logout}
-        >
-          {/* <i
+        <Link href="#">
+          <a
+            href="#pablo"
+            className={
+              'text-blueGray-700 block w-full whitespace-nowrap bg-transparent py-2 px-4 text-sm font-normal'
+            }
+            onClick={logout}
+          >
+            {/* <i
                       className={
                         "fas fa-tv mr-2 text-sm " 
                       }
                     ></i>{" "} */}
-          Log out
-        </a>
-        {/* </Link> */}
+            Log out
+          </a>
+        </Link>
       </div>
     </>
   )
