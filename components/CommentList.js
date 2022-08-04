@@ -11,7 +11,6 @@ import { increaseVote, decreaseVote, updateComment, deleteComment } from '@/lib/
 
 function CommentList({ postId, auth }) {
   const { user } = auth
-  // console.log("User: ", user)
   const [upVoted, setUpVoted] = useState(false)
   const [downVoted, setDownVoted] = useState(false)
   const [comEditId, setComEditId] = useState(null)
@@ -30,7 +29,7 @@ function CommentList({ postId, auth }) {
     const unsub = onSnapshot(postRef, (doc) => {
       setPostData(doc.data())
     })
-  }, [])
+  }, [postId])
 
   useEffect(() => {
     const unsub1 = onSnapshot(postRef, (doc) => {
