@@ -15,7 +15,7 @@ import { ClientReload } from '@/components/ClientReload'
 
 import { AuthProvider } from '../src/hook/auth'
 import AuthStateChanged from '../src/layout/AuthStateChanged'
-// import AppLayout from '../src/layout/AppLayout'
+import NextNProgress from "nextjs-progressbar";
 
 const isDevelopment = process.env.NODE_ENV === 'production'
 const isSocket = process.env.SOCKET
@@ -29,13 +29,12 @@ export default function App({ Component, pageProps }) {
       {isDevelopment && isSocket && <ClientReload />}
       <Analytics />
       <AuthProvider>
-        {/* <AppLayout> */}
         <AuthStateChanged>
           <LayoutWrapper>
+            <NextNProgress />
             <Component {...pageProps} />
           </LayoutWrapper>
         </AuthStateChanged>
-        {/* </AppLayout> */}
       </AuthProvider>
     </ThemeProvider>
   )

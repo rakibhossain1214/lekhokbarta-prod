@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import CustomNavDropdown from '@/components/Dropdowns/CustomNavDropdown'
 
-import Image from '@/components/Image'
-
 export default function Sidebar({ userInfo }) {
   const [collapseShow, setCollapseShow] = React.useState('hidden')
   const router = useRouter()
@@ -16,7 +14,7 @@ export default function Sidebar({ userInfo }) {
           <button
             className="cursor-pointer rounded border border-solid border-transparent bg-transparent px-3 py-1 text-xl leading-none text-black opacity-50 md:hidden"
             type="button"
-            onClick={() => setCollapseShow('bg-white m-2 py-3 px-6')}
+            onClick={() => setCollapseShow('bg-white py-3 px-6')}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +48,8 @@ export default function Sidebar({ userInfo }) {
           {/* Collapse */}
           <div
             className={
-              'absolute top-0 left-0 right-0 z-40 h-auto flex-1 items-center overflow-y-auto overflow-x-hidden rounded shadow md:relative md:mt-4 md:flex md:flex-col md:items-stretch md:opacity-100 md:shadow-none ' +
+              'w-64 fixed top-0 left-0 right-0 z-40 h-screen flex-1 items-center overflow-y-auto overflow-x-hidden rounded shadow md:relative md:mt-4 md:flex md:flex-col md:items-stretch md:opacity-100 md:shadow-none  '+
+              // 'absolute top-0 left-0 right-0 z-40 h-auto flex-1 items-center overflow-y-auto overflow-x-hidden rounded shadow md:relative md:mt-4 md:flex md:flex-col md:items-stretch md:opacity-100 md:shadow-none ' +
               collapseShow
             }
           >
@@ -91,7 +90,7 @@ export default function Sidebar({ userInfo }) {
               </div>
             </div>
 
-            <div className="flex">
+            {/* <div className="flex">
               <div className="w-10 flex-none">
                 {userInfo !== undefined ? (
                   <Image
@@ -110,10 +109,10 @@ export default function Sidebar({ userInfo }) {
                   <p className="text-sm">{userInfo.displayName}</p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Divider */}
-            <hr className="my-4 md:min-w-full" />
+            <hr className="my-4 md:min-w-full hidden md:flex" />
             {/* Heading */}
             <h6 className="text-blueGray-500 block pt-1 pb-4 text-xs font-bold uppercase no-underline md:min-w-full">
               Publisher Section

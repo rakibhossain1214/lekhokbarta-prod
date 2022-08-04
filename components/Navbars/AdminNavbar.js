@@ -12,7 +12,7 @@ export default function Navbar({ userInfo }) {
 
           <Link href="/dashboard">
             <a
-              className="text-sm font-semibold uppercase text-gray-500 lg:inline-block"
+              className="text-sm font-semibold uppercase text-gray-500 hidden md:inline-block"
               href="#"
             >
               Dashboard

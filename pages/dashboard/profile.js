@@ -17,7 +17,7 @@ function profile({ auth }) {
 
     return (
         <DashboardLayout userInfo={userInfo}>
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700 my-10">
+            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700">
                 <div className="rounded-t mb-0 px-4 bg-transparent">
                     <div className="flex flex-wrap items-center">
                         <div className="relative w-full max-w-full flex-grow flex-1">
