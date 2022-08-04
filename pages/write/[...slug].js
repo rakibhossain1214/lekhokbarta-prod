@@ -34,7 +34,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
   const handleChangeEditor = (data) => {
     if (postRef !== null) {
       postData.frontMatter.content = data
-      setDoc(postRef, { ...postData })
+      setDoc(postRef, { ...postData, lastmod: new Date().toString() })
     }
   }
 
@@ -47,7 +47,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
       setTitleError('')
       if (postRef !== null) {
         postData.frontMatter.title = data.target.value
-        setDoc(postRef, { ...postData })
+        setDoc(postRef, { ...postData, lastmod: new Date().toString() })
       }
     }
   }
@@ -56,7 +56,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
     if (postRef !== null) {
       setCategory(data.target.value)
       postData.frontMatter.category[0] = data.target.value
-      setDoc(postRef, { ...postData })
+      setDoc(postRef, { ...postData, lastmod: new Date().toString()})
     }
   }
 
@@ -69,7 +69,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
       setSummaryError('')
       if (postRef !== null) {
         postData.frontMatter.summary = data.target.value
-        setDoc(postRef, { ...postData })
+        setDoc(postRef, { ...postData, lastmod: new Date().toString() })
       }
     }
   }
@@ -106,7 +106,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
 
     if (postRef !== null) {
       postData.frontMatter.tags = tagArray
-      setDoc(postRef, { ...postData })
+      setDoc(postRef, { ...postData, lastmod: new Date().toString() })
     }
   }
 
