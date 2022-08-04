@@ -7,21 +7,20 @@ import { withProtected } from 'src/hook/route'
 
 function CustomNavDropdown({ userInfo, auth }) {
   const { logout } = auth
-
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex w-full justify-center rounded-md  bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-          {userInfo !== undefined ? (
+          {userInfo !== null ? (
             <Image
-              src={userInfo !== undefined ? userInfo.photoURL : ''}
+              src={userInfo.photoURL}
               width="35px"
               height="35px"
               alt="avatar"
               className="w-full rounded-full border-none align-middle shadow-lg"
             />
           ) : (
-            'Profile'
+            'User Menu'
           )}
         </Menu.Button>
       </div>

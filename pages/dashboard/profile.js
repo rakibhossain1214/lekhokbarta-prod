@@ -13,6 +13,7 @@ function profile({ auth }) {
             const userData = await getUserInfo(user.uid)
             setUserInfo(userData)
         }
+        return getUser();      
     }, [])
 
     return (
@@ -41,4 +42,3 @@ function profile({ auth }) {
 }
 
 export default withProtected(profile);
-

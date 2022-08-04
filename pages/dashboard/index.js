@@ -21,6 +21,7 @@ function Dashboard({auth}) {
       const userData = await getUserInfo(user.uid)
       setUserInfo(userData)
     }
+    return getUser()
   },[])
 
   return (
