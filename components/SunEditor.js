@@ -1,32 +1,65 @@
-import React, { useState } from 'react'
+import React from 'react'
 import 'suneditor/dist/css/suneditor.min.css'
 import SunEditor from 'suneditor-react'
 const defaultTheme = require('tailwindcss/defaultTheme')
-import { UploadToServer } from '@/lib/firestoreConnection'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+
+const storage = getStorage()
+const metadata = {
+  contentType: 'image/jpeg',
+}
 
 const CustomSunEditor = (props) => {
-  async function handleImageUploadBefore(files, info, uploadHandler) {
-    // uploadHandler is a function
-    // Upload image to Server
-    const src = await UploadToServer(files[0], props.postId);
-    // result
-    const response = {
-      // The response must have a "result" array.
-      "result": [
-        {
-          "url": src,
-          "name": files[0].name,
-          "size": files[0].size
-        },
-      ]
-    }
-    uploadHandler(response);
-  }
+  function handleImageUploadBefore(files, info, uploadHandler) {
+    const storageRef = ref(storage, 'images/' + props.postId + '/' + files[0].name)
+    const uploadTask = uploadBytesResumable(storageRef, files[0], metadata)
 
-  // function handleImageUpload(targetImgElement, index, state, imageInfo, remainingFilesCount){
-  //   // console.log(targetImgElement, index, state, imageInfo, remainingFilesCount)
-  //   console.log(imageInfo)
-  // }
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        console.log('Upload is ' + progress + '% done')
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused')
+            break
+          case 'running':
+            console.log('Upload is running')
+            break
+        }
+      },
+      (error) => {
+        switch (error.code) {
+          case 'storage/unauthorized':
+            // User doesn't have permission to access the object
+            break
+          case 'storage/canceled':
+            // User canceled the upload
+            break
+          case 'storage/unknown':
+            // Unknown error occurred, inspect error.serverResponse
+            break
+        }
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          const response = {
+            // The response must have a "result" array.
+            result: [
+              {
+                url: downloadURL,
+                name: files[0].name,
+                size: files[0].size,
+              },
+            ],
+          }
+          uploadHandler(response)
+        })
+      }
+    )
+  }
 
   return (
     <div style={{ border: '1px solid #e5e5e5' }}>
@@ -36,36 +69,35 @@ const CustomSunEditor = (props) => {
           buttonList:
             screen.width >= 768
               ? [
-                ['fullScreen', 'showBlocks'],
-                ['font', 'fontSize', 'formatBlock'],
-                ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
-                ['align', 'list', 'outdent', 'indent'],
-                ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
-                ['link', 'table', 'image', 'video'],
-                ['undo', 'redo'],
-              ]
+                  ['fullScreen', 'showBlocks'],
+                  ['font', 'fontSize', 'formatBlock'],
+                  ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
+                  ['align', 'list', 'outdent', 'indent'],
+                  ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
+                  ['link', 'table', 'image', 'video'],
+                  ['undo', 'redo'],
+                ]
               : [
-                ['fullScreen', 'showBlocks'],
-                ['font', 'fontSize', 'formatBlock'],
-                ['align', 'list', 'outdent', 'indent'],
-                ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
-                ['link', 'table', 'image', 'video'],
-                '/',
-                ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
-                ['undo', 'redo'],
-              ],
+                  ['fullScreen', 'showBlocks'],
+                  ['font', 'fontSize', 'formatBlock'],
+                  ['align', 'list', 'outdent', 'indent'],
+                  ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
+                  ['link', 'table', 'image', 'video'],
+                  '/',
+                  ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor'],
+                  ['undo', 'redo'],
+                ],
 
           // imageFileInput: false,
           minHeight: 300,
           defaultStyle: 'font-size:16px; font-family: Arial',
           font: [...defaultTheme.fontFamily.sans],
           mode: 'classic',
-          imageUploadSizeLimit: "2500000",
+          imageUploadSizeLimit: '2500000',
         }}
         setContents={props.editorContent}
         onChange={props.handleChange}
         onImageUploadBefore={handleImageUploadBefore}
-        // onImageUpload={handleImageUpload}
       />
     </div>
   )
