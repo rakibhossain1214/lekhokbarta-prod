@@ -101,9 +101,10 @@ const CustomSunEditor = (props) => {
           // imageFileInput: false,
           minHeight: 300,
           defaultStyle: 'font-size:16px; font-family: Arial',
-          font: [...defaultTheme.fontFamily.sans],
+          font: [ 'Arial', 'Roboto', 'tahoma', 'Courier New,Courier', 'sans-serif', 'Georgia', 'Verdana', 'Comic Sans MS', 'Trebuchet MS', 'impact' ],
+          formats: ['p', 'h1', 'h2', 'h3', 'h4', 'blockquote'],
           mode: 'classic',
-          imageUploadSizeLimit: '2500000',
+          imageUploadSizeLimit: '1000000',
         }}
         setContents={props.editorContent}
         onChange={props.handleChange}

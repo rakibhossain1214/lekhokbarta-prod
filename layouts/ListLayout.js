@@ -65,7 +65,7 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
                 <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                   <dl>
                     <dt className="sr-only">Published on</dt>
-                    <dd className="leading-1 text-base font-medium text-gray-500 dark:text-gray-400">
+                    <dd className="leading-1 text-sm font-medium text-gray-500 dark:text-gray-400">
                       <Moment fromNow>{date}</Moment>
                     </dd>
                     <dd className="text-xs font-medium leading-6 text-gray-500 dark:text-gray-400">

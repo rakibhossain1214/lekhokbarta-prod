@@ -97,8 +97,8 @@ function Write({ auth }) {
                   <div className="border-b border-teal-500 py-1">
                     <Field
                       className={`focus:outline-none} w-full 
-                      appearance-none border-none bg-transparent py-1 leading-tight 
-                      text-gray-500 dark:text-gray-400
+                      appearance-none border-none bg-transparent py-2 leading-tight 
+                      text-gray-600 dark:bg-white
                       ${touched.title && errors.title ? 'is-invalid' : ''}
                       `}
                       type="text"
@@ -116,7 +116,7 @@ function Write({ auth }) {
                     <Field
                       as="select"
                       name="category"
-                      className="focus:shadow-outline block w-full appearance-none rounded border-b border-teal-500 bg-white px-4 py-2 pr-8 leading-tight text-gray-500 shadow hover:border-gray-500 focus:outline-none dark:bg-black dark:text-gray-400"
+                      className="focus:shadow-outline block w-full appearance-none rounded border-b border-teal-500 bg-white px-4 py-2 pr-8 leading-tight text-gray-500 shadow hover:border-gray-500 focus:outline-none"
                     >
                       <option value="">Select a category</option>
                       <option value="trending">Trending</option>
@@ -163,7 +163,7 @@ function Write({ auth }) {
                     <Field
                       className={`focus:outline-none} w-full 
                       appearance-none border-none bg-transparent py-1 leading-tight 
-                      text-gray-500 dark:text-gray-400
+                      text-gray-600 dark:bg-white
                       ${touched.summary && errors.summary ? 'is-invalid' : ''}
                       `}
                       as="textarea"

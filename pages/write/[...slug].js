@@ -144,7 +144,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
                 <input
                   className={`w-full 
                       appearance-none border-none bg-transparent py-1 leading-tight 
-                      text-gray-500 dark:text-gray-400`}
+                      text-gray-600`}
                   type="text"
                   placeholder="Blog title"
                   aria-label="Title"
@@ -214,7 +214,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
                 <textarea
                   className={`w-full 
                       appearance-none border-none bg-transparent py-1 leading-tight 
-                      text-gray-500 dark:text-gray-400`}
+                      text-gray-600`}
                   type="text"
                   placeholder="Blog summary"
                   aria-label="Summary"
