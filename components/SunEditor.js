@@ -128,7 +128,7 @@ const CustomSunEditor = (props) => {
           ],
           formats: ['p', 'h1', 'h2', 'h3', 'h4', 'blockquote'],
           mode: 'classic',
-          imageUploadSizeLimit: '1000000',
+          // imageUploadSizeLimit: '1000000',
         }}
         setContents={props.editorContent}
         onChange={props.handleChange}
