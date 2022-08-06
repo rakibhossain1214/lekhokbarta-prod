@@ -2,7 +2,13 @@ import React, { useState } from 'react'
 import 'suneditor/dist/css/suneditor.min.css'
 import SunEditor from 'suneditor-react'
 const defaultTheme = require('tailwindcss/defaultTheme')
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage'
 import Compressor from 'compressorjs'
 
 const storage = getStorage()
@@ -18,10 +24,7 @@ const CustomSunEditor = (props) => {
       quality: 0.2, // 0.6 can also be used, but its not recommended to go below.
       success: (compressedResult) => {
         // compressedResult has the compressed file.
-        // Use the compressed file to upload the images to your server.
-        // setCompressedFile(compressedResult)
         const uploadTask = uploadBytesResumable(storageRef, compressedResult, metadata)
-
         uploadTask.on(
           'state_changed',
           (snapshot) => {
@@ -71,6 +74,26 @@ const CustomSunEditor = (props) => {
     })
   }
 
+  let imageArray = []
+  function onImageUpload(targetElement, index, state, imageInfo, remainingFilesCount) {
+    if (state === 'delete') {
+      // Create a reference to the file to delete
+      var fileRef = ref(storage, imageArray[index])
+      // Delete the file
+      deleteObject(fileRef)
+        .then(() => {
+          // File deleted successfully
+        })
+        .catch((error) => {
+          // Uh-oh, an error occurred!
+        })
+    } else {
+      if (state === 'create') {
+        imageArray.push(imageInfo.src)
+      }
+    }
+  }
+
   return (
     <div style={{ border: '1px solid #e5e5e5' }}>
       <SunEditor
@@ -108,10 +131,7 @@ const CustomSunEditor = (props) => {
                   [':r-More Rich-default.more_plus', 'link', 'table', 'image', 'video'],
                   ['undo', 'redo'],
                   ['fullScreen'],
-                  // [':i-More Misc-default.more_vertical','fullScreen', 'showBlocks'],
                 ],
-
-          // imageFileInput: false,
           minHeight: 300,
           defaultStyle: 'font-size:16px; font-family: Arial',
           font: [
@@ -128,11 +148,11 @@ const CustomSunEditor = (props) => {
           ],
           formats: ['p', 'h1', 'h2', 'h3', 'h4', 'blockquote'],
           mode: 'classic',
-          // imageUploadSizeLimit: '1000000',
         }}
         setContents={props.editorContent}
         onChange={props.handleChange}
         onImageUploadBefore={handleImageUploadBefore}
+        onImageUpload={onImageUpload}
       />
     </div>
   )
