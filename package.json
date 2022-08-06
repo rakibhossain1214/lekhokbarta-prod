@@ -23,6 +23,7 @@
     "@tailwindcss/typography": "^0.5.4",
     "autoprefixer": "^10.4.0",
     "chart.js": "^3.8.2",
+    "compressorjs": "^1.1.1",
     "esbuild": "^0.13.13",
     "firebase": "^9.9.0",
     "formik": "^2.2.9",
