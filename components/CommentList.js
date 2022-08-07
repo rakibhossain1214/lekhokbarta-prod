@@ -23,7 +23,7 @@ function CommentList({ postId, user, defaultPostData }) {
   const db = getFirestore()
   const postRef = doc(db, 'posts', postId)
 
-  const [postData, setPostData] = useState(null)
+  const [postData, setPostData] = useState(defaultPostData)
 
   useEffect(() => {
     setUpVoted(false)
