@@ -9,8 +9,8 @@ import UpArrow from '../public/static/images/up-arrow.png'
 import DownArrow from '../public/static/images/down-arrow.png'
 import { increaseVote, decreaseVote, updateComment, deleteComment } from '@/lib/firestoreConnection'
 
-function CommentList({ postId, auth }) {
-  const { user } = auth
+function CommentList({ postId, user, defaultPostData }) {
+  // const { user } = auth
   const [upVoted, setUpVoted] = useState(false)
   const [downVoted, setDownVoted] = useState(false)
   const [comEditId, setComEditId] = useState(null)
@@ -23,7 +23,7 @@ function CommentList({ postId, auth }) {
   const db = getFirestore()
   const postRef = doc(db, 'posts', postId)
 
-  const [postData, setPostData] = useState(null)
+  const [postData, setPostData] = useState(defaultPostData)
 
   useEffect(() => {
     const unsub = onSnapshot(postRef, (doc) => {

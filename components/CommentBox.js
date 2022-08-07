@@ -3,8 +3,8 @@ import { withPublic } from '../src/hook/route'
 import { AddComment } from '@/lib/firestoreConnection'
 import Image from '@/components/Image'
 
-function CommentBox({ auth, postId, postData }) {
-  const { user } = auth
+function CommentBox({ user, postId, postData }) {
+
   const [commentText, setCommentText] = useState('')
   const [buttonActive, setButtonActive] = useState(false)
 
@@ -19,6 +19,7 @@ function CommentBox({ auth, postId, postData }) {
 
   const handleSubmit = () => {
     document.getElementById('commentArea').value = ''
+    setButtonActive(false)
     AddComment({ postId, user, commentText, postData })
     // console.log(commentText)
   }

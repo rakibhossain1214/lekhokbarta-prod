@@ -25,7 +25,8 @@ export default function PostLayout({
   postId,
   date,
   lastmod,
-  postData
+  postData,
+  user
 }) {
   const { slug, title, images, tags } = frontMatter
 
@@ -140,8 +141,8 @@ export default function PostLayout({
                 <button>⬆️</button>(5) | <button>⬇️</button>(5) | <button>Comments </button> ({postData.comments.length})
               </h4> */}
               {/* <h4 className='pb-1'>Comments (5)</h4> */}
-              <CommentList postId={postId} postData={postData}/>
-              <CommentBox postId={postId} postData={postData}/>
+              <CommentList postId={postId} defaultPostData={postData} user={user}/>
+              <CommentBox postId={postId} postData={postData} user={user}/>
             </div>
             <footer>
               <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
