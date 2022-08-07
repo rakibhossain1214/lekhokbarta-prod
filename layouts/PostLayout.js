@@ -5,7 +5,6 @@ import { BlogSEO } from '@/components/SEO'
 import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
-import Comments from '@/components/comments'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import ShowPost from '../components/ShowPost'
 import DoneAllIcon from '@material-ui/icons/DoneAll'
@@ -26,7 +25,7 @@ export default function PostLayout({
   date,
   lastmod,
   postData,
-  user
+  user,
 }) {
   const { slug, title, images, tags } = frontMatter
 
@@ -141,8 +140,8 @@ export default function PostLayout({
                 <button>⬆️</button>(5) | <button>⬇️</button>(5) | <button>Comments </button> ({postData.comments.length})
               </h4> */}
               {/* <h4 className='pb-1'>Comments (5)</h4> */}
-              <CommentList postId={postId} defaultPostData={postData} user={user}/>
-              <CommentBox postId={postId} postData={postData} user={user}/>
+              <CommentList postId={postId} defaultPostData={postData} user={user} />
+              <CommentBox postId={postId} postData={postData} user={user} />
             </div>
             <footer>
               <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">

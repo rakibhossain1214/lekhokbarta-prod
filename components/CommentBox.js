@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { withPublic } from '../src/hook/route'
 import { AddComment } from '@/lib/firestoreConnection'
 import Image from '@/components/Image'
 
 function CommentBox({ user, postId, postData }) {
-
   const [commentText, setCommentText] = useState('')
   const [buttonActive, setButtonActive] = useState(false)
 
@@ -83,4 +81,4 @@ function CommentBox({ user, postId, postData }) {
   )
 }
 
-export default withPublic(CommentBox)
+export default CommentBox

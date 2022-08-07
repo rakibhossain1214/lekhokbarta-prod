@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { withPublic } from '../src/hook/route'
 import CommentOptions from './CommentOptions'
 import Moment from 'react-moment'
 import 'moment-timezone'
 import { getFirestore, doc, getDoc, onSnapshot } from 'firebase/firestore'
 import Image from '@/components/Image'
-import UpArrow from '../public/static/images/up-arrow.png'
-import DownArrow from '../public/static/images/down-arrow.png'
+import UpArrow from '../public/static/images/up-vote.png'
+import DownArrow from '../public/static/images/down-vote.png'
+import Accept from '../public/static/images/accept.png'
 import { increaseVote, decreaseVote, updateComment, deleteComment } from '@/lib/firestoreConnection'
 
 function CommentList({ postId, user, defaultPostData }) {
-  // const { user } = auth
   const [upVoted, setUpVoted] = useState(false)
   const [downVoted, setDownVoted] = useState(false)
   const [comEditId, setComEditId] = useState(null)
@@ -36,24 +35,26 @@ function CommentList({ postId, user, defaultPostData }) {
       doc.data()?.upVote.map((item) => {
         if (item === user?.uid) {
           setUpVoted(true)
+          setDownVoted(false)
         } else {
           setUpVoted(false)
         }
       })
     })
-  }, [])
+  }, [postId])
 
   useEffect(() => {
     const unsub2 = onSnapshot(postRef, (doc) => {
       doc.data()?.downVote.map((item) => {
         if (item === user?.uid) {
           setDownVoted(true)
+          setUpVoted(false)
         } else {
           setDownVoted(false)
         }
       })
     })
-  }, [])
+  }, [postId])
 
   if (postData === null) {
     return <>Loading...</>
@@ -90,7 +91,7 @@ function CommentList({ postId, user, defaultPostData }) {
   }
 
   const handleChangeComment = (e) => {
-    if (e.target.value !== '') {
+    if (e.target.value !== document.getElementById('commentArea').defaultValue) {
       setButtonActive(true)
       setCommentText(e.target.value)
     } else {
@@ -100,37 +101,61 @@ function CommentList({ postId, user, defaultPostData }) {
 
   const handleUpdate = (e) => {
     e.preventDefault()
+    setButtonActive(false)
     setEditable(false)
+    document.getElementById('commentArea').value =
+      document.getElementById('commentArea').defaultValue
     updateComment({ postId, user, commentText, postData, commentId: comEditId })
   }
 
   return (
     <div className="bg-white dark:bg-stone-800">
-      <h4 className="p-2">
-        <button onClick={handleUpvote}>
-          <Image
-            src={UpArrow}
-            width="25px"
-            height="25px"
-            alt="avatar"
-            className="h-10 w-10 rounded-full"
-          />
-          {upVoted ? 'Voted' : 'Up vote'}
+      <p className="p-2">
+        <button className="rounded border-b border-teal-500 p-1" onClick={handleUpvote}>
+          {upVoted ? (
+            <Image
+              src={Accept}
+              width="25px"
+              height="25px"
+              alt="avatar"
+              className="h-10 w-10 rounded-full"
+            />
+          ) : (
+            <Image
+              src={UpArrow}
+              width="25px"
+              height="25px"
+              alt="avatar"
+              className="h-10 w-10 rounded-full"
+            />
+          )}
+          <span> ( {postData.upVote.length} ) </span>
         </button>
-        <span> ( {postData.upVote.length} ) </span> |
-        <button className="pl-4" onClick={handleDownVote}>
-          <Image
-            src={DownArrow}
-            width="25px"
-            height="25px"
-            alt="avatar"
-            className="h-10 w-10 rounded-full"
-          />
-          {downVoted ? 'Voted' : 'Down vote'}
+
+        <button className="ml-2 mr-2 rounded border-b border-teal-500 p-1" onClick={handleDownVote}>
+          {downVoted ? (
+            <Image
+              src={Accept}
+              width="25px"
+              height="25px"
+              alt="avatar"
+              className="h-10 w-10 rounded-full"
+            />
+          ) : (
+            <Image
+              src={DownArrow}
+              width="25px"
+              height="25px"
+              alt="avatar"
+              className="h-10 w-10 rounded-full"
+            />
+          )}
+          <span> ( {postData.downVote.length} ) </span>
         </button>
-        <span> ( {postData.downVote.length} ) </span> |<button className="pl-4"> Comments </button>
-        <span> ( {postData.comments.length} ) </span>
-      </h4>
+        <button className="border-b border-teal-500 p-1">
+          Comments <span> ( {postData.comments.length} ) </span>
+        </button>
+      </p>
       <p className="ml-4 text-red-500">{voteError}</p>
       {postData.comments.map((comment, i) => (
         <div
@@ -146,7 +171,6 @@ function CommentList({ postId, user, defaultPostData }) {
                 alt="avatar"
                 className="h-10 w-10 rounded-full"
               />
-              {/* <img src={comment?.photoURL} alt="" className='rounded-full' style={{ width: '40px' }} /> */}
             </div>
             <div>
               <h4 className="font-semibold">{comment?.displayName}</h4>
@@ -170,7 +194,7 @@ function CommentList({ postId, user, defaultPostData }) {
             {comEditId === i && editable ? (
               <div className="mt-1 w-full p-1">
                 <textarea
-                  // id="commentArea"
+                  id="commentArea"
                   rows="3"
                   onChange={handleChangeComment}
                   className="w-full rounded border p-2 dark:bg-gray-900"
@@ -214,4 +238,4 @@ function CommentList({ postId, user, defaultPostData }) {
   )
 }
 
-export default withPublic(CommentList)
+export default CommentList
