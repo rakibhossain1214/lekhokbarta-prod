@@ -3,7 +3,7 @@
 }
 
 .prose .se-table-selected-cell {
-  display: none !important;
+  outline: none !important;
 }
 
 .prose .se-notice {
