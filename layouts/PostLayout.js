@@ -5,12 +5,10 @@ import { BlogSEO } from '@/components/SEO'
 import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
-import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import ShowPost from '../components/ShowPost'
 import DoneAllIcon from '@material-ui/icons/DoneAll'
 import CheckBoxIcon from '@material-ui/icons/CheckBox'
 import { Button } from '@material-ui/core'
-import CommentBox from '@/components/CommentBox'
 import CommentList from '@/components/CommentList'
 
 const postDateTemplate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
@@ -27,7 +25,7 @@ export default function PostLayout({
   postData,
   user,
 }) {
-  const { slug, title, images, tags } = frontMatter
+  const { slug, title, tags } = frontMatter
 
   return (
     <SectionContainer>
@@ -36,7 +34,6 @@ export default function PostLayout({
         authorDetails={authorDetails}
         {...frontMatter}
       />
-      {/* <ScrollTopAndComment /> */}
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="pt-6 xl:pb-6">
@@ -64,7 +61,6 @@ export default function PostLayout({
               <dt className="sr-only">Authors</dt>
               <dd>
                 <ul className="flex justify-center space-x-8 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
-                  {/* {authorDetails.map((author) => ( */}
                   <li className="flex items-center space-x-2">
                     {authorDetails.avatar && (
                       <Image
@@ -87,11 +83,8 @@ export default function PostLayout({
                       </dd>
                       <dt className="sr-only">Twitter</dt>
                       <dd>2.2k followers</dd>
-                      {/* {authorDetails.name} */}
                     </dl>
                   </li>
-                  {/* <li className="flex items-center space-x-2">{authorDetails.name}</li> */}
-                  {/* ))} */}
                 </ul>
               </dd>
 
@@ -128,20 +121,7 @@ export default function PostLayout({
               <div className="prose max-w-none pt-0 pb-8 dark:prose-dark">
                 <ShowPost content={children} />
               </div>
-              {/* <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
-                <Link href={discussUrl(slug)} rel="nofollow">
-                  {'Discuss on Twitter'}
-                </Link>
-                {` • `}
-                <Link href={editUrl(fileName)}>{'View on GitHub'}</Link>
-              </div> */}
-              {/* <Comments frontMatter={frontMatter} /> */}
-              {/* <h4 className='pt-2 pb-2'>
-                <button>⬆️</button>(5) | <button>⬇️</button>(5) | <button>Comments </button> ({postData.comments.length})
-              </h4> */}
-              {/* <h4 className='pb-1'>Comments (5)</h4> */}
               <CommentList postId={postId} defaultPostData={postData} user={user} />
-              <CommentBox postId={postId} postData={postData} user={user} />
             </div>
             <footer>
               <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
