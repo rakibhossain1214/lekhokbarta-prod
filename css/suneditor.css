@@ -2,17 +2,36 @@
   border: none !important;
 }
 
+.prose .se-notice {
+  display: none !important;
+}
+
+.prose .se-controller {
+  display: none !important;
+}
+
+.prose .se-resizing-container {
+  display: none !important;
+}
+
+.prose .se-resize-dot {
+  display: none !important;
+}
+
+.prose .se-line-breaker-component {
+  display: none !important;
+}
+.prose .se-controller-resizing {
+  display: none !important;
+}
+
 .dark .sun-editor-edit {
   background-color: rgb(23 23 23) !important;
 }
 
-.css-b62m3t-container{
+.css-b62m3t-container {
   border: 1px solid #14b8a6;
 }
-
-/* .dark .css-1s2u09g-control{
-  background-color: rgb(23 23 23) !important;
-} */
 
 .google-ads {
   display: flex;
