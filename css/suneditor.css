@@ -2,6 +2,10 @@
   border: none !important;
 }
 
+.prose .se-table-selected-cell {
+  display: none !important;
+}
+
 .prose .se-notice {
   display: none !important;
 }
