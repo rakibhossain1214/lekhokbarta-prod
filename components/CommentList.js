@@ -86,6 +86,7 @@ function CommentList({ postId, user, defaultPostData }) {
   }
 
   const onOptionsDelete = (id) => {
+    setEditable(false)
     setComDeleteId(id)
     deleteComment({ postId, postData, commentId: id })
   }
@@ -212,6 +213,17 @@ function CommentList({ postId, user, defaultPostData }) {
                         Update
                       </button>
                     </div>
+                    <div className="text-base font-medium leading-6">
+                      <button
+                        onClick={() => {
+                          setButtonActive(false)
+                          setEditable(false)
+                        }}
+                        className="focus:shadow-outline-teal mx-1 inline rounded-lg border border-transparent bg-teal-600 px-4 py-1 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-blue-700 focus:outline-none dark:hover:bg-blue-500"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <div className="flex justify-end">
@@ -221,6 +233,17 @@ function CommentList({ postId, user, defaultPostData }) {
                         className="focus:shadow-outline-gray mx-1 inline rounded-lg border border-transparent bg-gray-300 px-4 py-1 text-sm font-medium leading-5 text-gray-500"
                       >
                         Update
+                      </button>
+                    </div>
+                    <div className="text-base font-medium leading-6">
+                      <button
+                        onClick={() => {
+                          setButtonActive(false)
+                          setEditable(false)
+                        }}
+                        className="focus:shadow-outline-teal mx-1 inline rounded-lg border border-transparent bg-teal-600 px-4 py-1 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-blue-700 focus:outline-none dark:hover:bg-blue-500"
+                      >
+                        Cancel
                       </button>
                     </div>
                   </div>
