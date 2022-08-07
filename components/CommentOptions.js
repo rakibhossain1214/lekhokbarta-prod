@@ -6,8 +6,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example({ postData, commentId, onEdit, onDelete }) {
-  // let commentList = []
+export default function Example({ commentId, onEdit, onDelete }) {
   const [showModal, setShowModal] = useState(false)
 
   const handleEdit = () => {
