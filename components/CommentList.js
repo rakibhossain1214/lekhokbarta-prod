@@ -9,6 +9,25 @@ import DownArrow from '../public/static/images/down-vote.png'
 import Accept from '../public/static/images/accept.png'
 import { increaseVote, decreaseVote, updateComment, deleteComment } from '@/lib/firestoreConnection'
 import CommentBox from './CommentBox'
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  WhatsappShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  LinkedinIcon,
+  WhatsappIcon,
+} from 'react-share'
+
+let url = 'https://lekhokbarta.com'
+let title = 'Lekhokbarta'
+let size = 32
+
+if (typeof window !== 'undefined') {
+  url = String(window.location)
+  title = String(window.title)
+}
 
 function CommentList({ postId, user, defaultPostData }) {
   const [upVoted, setUpVoted] = useState(false)
@@ -114,61 +133,87 @@ function CommentList({ postId, user, defaultPostData }) {
   return (
     <>
       <div className="bg-white dark:bg-stone-800">
-        <p className="p-2">
-          <button className="rounded border-b border-teal-500 p-1" onClick={handleUpvote}>
-            {upVoted ? (
-              <Image
-                src={Accept}
-                width="25px"
-                height="25px"
-                alt="avatar"
-                className="h-10 w-10 rounded-full"
-              />
-            ) : (
-              <Image
-                src={UpArrow}
-                width="25px"
-                height="25px"
-                alt="avatar"
-                className="h-10 w-10 rounded-full"
-              />
-            )}
-            <span> ( {postData.upVote?.length} ) </span>
-          </button>
+        <div className="block sm:flex sm:justify-between">
+          <div className="flex justify-end">
+            <FacebookShareButton quote={title} url={url} className="m-1">
+              <FacebookIcon size={size} />
+            </FacebookShareButton>
 
-          <button
-            className="ml-2 mr-2 rounded border-b border-teal-500 p-1"
-            onClick={handleDownVote}
-          >
-            {downVoted ? (
-              <Image
-                src={Accept}
-                width="25px"
-                height="25px"
-                alt="avatar"
-                className="h-10 w-10 rounded-full"
-              />
-            ) : (
-              <Image
-                src={DownArrow}
-                width="25px"
-                height="25px"
-                alt="avatar"
-                className="h-10 w-10 rounded-full"
-              />
-            )}
-            <span> ( {postData.downVote?.length} ) </span>
-          </button>
-          <button
-            className="border-b border-teal-500 p-1"
-            onClick={() => setLoadComment(!loadComment)}
-          >
-            {loadComment ? 'Hide Comments' : 'Load Comments'}
-            <span> ( {postData.comments.length} ) </span>
-          </button>
-        </p>
+            <TwitterShareButton title={title} url={url} className="m-1">
+              <TwitterIcon size={size} />
+            </TwitterShareButton>
+
+            <WhatsappShareButton title={title} separator=":: " url={url} className="m-1">
+              <WhatsappIcon size={size} />
+            </WhatsappShareButton>
+
+            <LinkedinShareButton
+              title={title}
+              windowWidth={750}
+              windowHeight={600}
+              url={url}
+              className="m-1"
+            >
+              <LinkedinIcon size={size} />
+            </LinkedinShareButton>
+          </div>
+
+          <p className="p-2">
+            <button className="rounded border-b border-teal-500 p-1" onClick={handleUpvote}>
+              {upVoted ? (
+                <Image
+                  src={Accept}
+                  width="25px"
+                  height="25px"
+                  alt="avatar"
+                  className="h-10 w-10 rounded-full"
+                />
+              ) : (
+                <Image
+                  src={UpArrow}
+                  width="25px"
+                  height="25px"
+                  alt="avatar"
+                  className="h-10 w-10 rounded-full"
+                />
+              )}
+              <span> ( {postData.upVote?.length} ) </span>
+            </button>
+
+            <button
+              className="ml-2 mr-2 rounded border-b border-teal-500 p-1"
+              onClick={handleDownVote}
+            >
+              {downVoted ? (
+                <Image
+                  src={Accept}
+                  width="25px"
+                  height="25px"
+                  alt="avatar"
+                  className="h-10 w-10 rounded-full"
+                />
+              ) : (
+                <Image
+                  src={DownArrow}
+                  width="25px"
+                  height="25px"
+                  alt="avatar"
+                  className="h-10 w-10 rounded-full"
+                />
+              )}
+              <span> ( {postData.downVote?.length} ) </span>
+            </button>
+            <button
+              className="border-b border-teal-500 p-1"
+              onClick={() => setLoadComment(!loadComment)}
+            >
+              {loadComment ? 'Hide Comments' : 'Load Comments'}
+              <span> ( {postData.comments.length} ) </span>
+            </button>
+          </p>
+        </div>
+
         <p className="ml-4 text-red-500">{voteError}</p>
-
         {loadComment &&
           postData.comments.map((comment, i) => (
             <div
