@@ -8,9 +8,25 @@ import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import { withPublic } from 'src/hook/route'
 import { useRouter } from 'next/dist/client/router'
+import { useEffect, useState } from 'react'
+import { getUserInfo } from '@/lib/firestoreConnection'
+import CustomNavDropdown from './Dropdowns/CustomNavDropdown'
 
 const LayoutWrapper = ({ children, auth }) => {
   const { user } = auth
+  const [userInfo, setUserInfo] = useState(user)
+
+  useEffect(() => {
+    async function getUser() {
+      const userData = await getUserInfo(user.uid)
+      setUserInfo(userData)
+    }
+
+    return function cleanup() {
+      getUser()
+    }
+  }, [])
+
   const router = useRouter()
   const showHeader =
     router.pathname === '/dashboard' || router.pathname === '/dashboard/profile' ? false : true
@@ -47,33 +63,18 @@ const LayoutWrapper = ({ children, auth }) => {
                     {link.title}
                   </Link>
                 ))}
-                {user !== null ? (
-                  <>
-                    <Link
-                      key="write"
-                      href="/write"
-                      className="p-1 font-medium text-primary-500 dark:text-primary-500 sm:p-4"
-                    >
-                      Write
-                    </Link>
-                    <Link
-                      key="dashboard"
-                      href="/dashboard"
-                      className="p-1 font-medium text-blue-500 dark:text-blue-500 sm:p-4"
-                    >
-                      Dashboard
-                    </Link>
-                  </>
-                ) : (
-                  <Link
-                    key="login"
-                    href="/login"
-                    className="p-1 font-medium text-blue-500 dark:text-blue-500 sm:p-4"
-                  >
-                    Login
-                  </Link>
-                )}
               </div>
+              {user !== null ? (
+                <CustomNavDropdown userInfo={userInfo} />
+              ) : (
+                <Link
+                  key="login"
+                  href="/login"
+                  className="p-1 font-medium text-blue-500 dark:text-blue-500 sm:p-4"
+                >
+                  Login
+                </Link>
+              )}
 
               <ThemeSwitch />
 

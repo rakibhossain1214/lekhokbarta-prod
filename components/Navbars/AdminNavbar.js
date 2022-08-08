@@ -2,7 +2,7 @@ import React from 'react'
 import CustomNavDropdown from '@/components/Dropdowns/CustomNavDropdown'
 import Link from 'next/link'
 
-export default function Navbar({ userInfo }) {
+export default function Navbar() {
   return (
     <>
       {/* Navbar */}
@@ -12,16 +12,12 @@ export default function Navbar({ userInfo }) {
 
           <Link href="/dashboard">
             <a
-              className="text-sm font-semibold uppercase text-gray-500 hidden md:inline-block"
+              className="hidden py-4 text-sm font-semibold uppercase text-gray-500 md:inline-block"
               href="#"
             >
               Dashboard
             </a>
           </Link>
-
-          <ul className="hidden list-none flex-col items-center md:flex md:flex-row">
-            <CustomNavDropdown userInfo={userInfo} />
-          </ul>
         </div>
       </nav>
       {/* End Navbar */}
