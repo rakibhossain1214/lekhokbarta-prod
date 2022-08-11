@@ -29,7 +29,7 @@ const LayoutWrapper = ({ children, auth }) => {
 
   const router = useRouter()
   const showHeader =
-    router.pathname === '/dashboard' || router.pathname === '/dashboard/profile' ? false : true
+    router.pathname === '/dashboard' ? false : true
 
   return (
     <SectionContainer showHeader={showHeader}>
