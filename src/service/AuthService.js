@@ -1,6 +1,4 @@
-import { getApps, initializeApp, getApp } from 'firebase/app'
-import { getAnalytics } from 'firebase/analytics'
-import firebaseConfig from 'src/config/firebase.config'
+import { getApp } from 'firebase/app'
 import {
   signInWithPopup,
   getAuth,
