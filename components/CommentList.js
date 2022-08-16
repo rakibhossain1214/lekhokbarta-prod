@@ -37,7 +37,6 @@ function CommentList({ postId, user, defaultPostData }) {
   const [editable, setEditable] = useState(false)
   const [buttonActive, setButtonActive] = useState(false)
   const [commentText, setCommentText] = useState('')
-  const [voteError, setVoteError] = useState('')
   const [loadComment, setLoadComment] = useState(false)
 
   const db = getFirestore()
@@ -86,9 +85,7 @@ function CommentList({ postId, user, defaultPostData }) {
       setDownVoted(false)
       setUpVoted(!upVoted)
       increaseVote({ postId: postId, uid: user?.uid, postData: postData })
-    } else {
-      setVoteError('Please login to vote...')
-    }
+    } 
   }
 
   const handleDownVote = () => {
@@ -96,9 +93,7 @@ function CommentList({ postId, user, defaultPostData }) {
       setUpVoted(false)
       setDownVoted(!downVoted)
       decreaseVote({ postId: postId, uid: user?.uid, postData: postData })
-    } else {
-      setVoteError('Please login to vote...')
-    }
+    } 
   }
 
   const onOptionsEdit = (id) => {
@@ -213,7 +208,6 @@ function CommentList({ postId, user, defaultPostData }) {
           </p>
         </div>
 
-        <p className="ml-4 text-red-500">{voteError}</p>
         {loadComment &&
           postData.comments.map((comment, i) => (
             <div
@@ -315,7 +309,11 @@ function CommentList({ postId, user, defaultPostData }) {
             </div>
           ))}
       </div>
-      <CommentBox postId={postId} postData={postData} user={user} />
+      { user !== null ?
+        <CommentBox postId={postId} postData={postData} user={user} />
+        :
+        <p className="ml-4 text-red-500">Please login to vote and comment</p>
+      }
     </>
   )
 }

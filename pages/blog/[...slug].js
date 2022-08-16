@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import PostLayout from '@/layouts/PostLayout'
 import Link from '@/components/Link'
-// import fs from 'fs'
 import PageTitle from '@/components/PageTitle'
 import { getAllPostsFrontMatterWithPostId, getPostFrontMatterByPostIdAndSlug, getUserInfo } from '@/lib/firestoreConnection'
 import { withPublic } from 'src/hook/route'
-// import generateRss from '@/lib/generate-rss'
 
 function Blog({ postData, prev, next, auth }) {
   const { user } = auth
-  const [userInfo, setUserInfo] = useState(user)
+  const [userInfo, setUserInfo] = useState(null)
   useEffect(()=>{
     async function getUserData(){
-      const userData = await getUserInfo(user?.uid)
-      setUserInfo(userData)
+      if(user !== null){
+        const userData = await getUserInfo(user?.uid)
+        setUserInfo(userData)
+      }
     }
     getUserData()
   },[])
