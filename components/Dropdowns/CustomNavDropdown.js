@@ -41,7 +41,7 @@ function CustomNavDropdown({ userInfo }) {
               </a>
             </Link>
             <hr />
-            <Link href="/profile">
+            <Link href={`/profile/${userInfo.uid}`}>
               <a href="#" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
                 Profile
               </a>
