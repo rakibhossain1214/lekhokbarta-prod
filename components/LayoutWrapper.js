@@ -14,17 +14,16 @@ import CustomNavDropdown from './Dropdowns/CustomNavDropdown'
 
 const LayoutWrapper = ({ children, auth }) => {
   const { user } = auth
-  const [userInfo, setUserInfo] = useState(user)
+  const [userInfo, setUserInfo] = useState(null)
 
   useEffect(() => {
     async function getUser() {
-      const userData = await getUserInfo(user.uid)
-      setUserInfo(userData)
+      if(user !== null){
+        const userData = await getUserInfo(user.uid)
+        setUserInfo(userData)
+      }
     }
-
-    return function cleanup() {
-      getUser()
-    }
+    getUser()
   }, [])
 
   const router = useRouter()

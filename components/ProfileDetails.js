@@ -27,7 +27,7 @@ const profileSchema = Yup.object().shape({
 
 function ProfileDetails({ userInfo, handleChange, userId, user }) {
     const db = getFirestore()
-    let userRef = doc(db, 'users', userInfo.uid)
+    const userRef = doc(db, 'users', userInfo.uid)
     const [editable, setEditable] = useState(false)
 
     return (
@@ -56,7 +56,8 @@ function ProfileDetails({ userInfo, handleChange, userId, user }) {
                     <div className='w-full'>
                         <div className='flex justify-between'>
                             <div className='order-last'>
-                                { userId === user.uid &&
+                                {user !== null ?
+                                    userId === user.uid &&
                                     <button className='mt-3 mr-3 p-1' onClick={(e) => {
                                         e.preventDefault()
                                         setEditable(!editable)
@@ -65,6 +66,8 @@ function ProfileDetails({ userInfo, handleChange, userId, user }) {
                                             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                         </svg>
                                     </button>
+                                    :
+                                    ''
                                 }
                             </div>
                             <div className="flex flex-col mt-4 ml-2">
@@ -109,7 +112,7 @@ function ProfileDetails({ userInfo, handleChange, userId, user }) {
                                                 <Field
                                                     className={`focus:outline-none} w-full 
                                                         appearance-none border-none bg-transparent py-2 leading-tight 
-                                                        text-gray-600 dark:text-gray-100 ${ editable ? 'bg-gray-400' : '' }
+                                                        text-gray-600 dark:text-gray-100 ${editable ? 'bg-gray-400' : ''}
                                                         ${touched.email && errors.email ? 'is-invalid' : ''}
                                                         `}
                                                     type="text"

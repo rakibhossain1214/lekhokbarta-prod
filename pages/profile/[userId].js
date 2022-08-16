@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { withProtected } from 'src/hook/route';
+import { withProtected, withPublic } from 'src/hook/route';
 import { getUserInfo } from '@/lib/firestoreConnection'
 import { Tab } from '@headlessui/react'
 import Image from '@/components/Image';
@@ -9,12 +9,28 @@ import Background from '../../public/static/images/profile_bg.jpg'
 import { useRouter } from 'next/router'
 import PageTitle from '@/components/PageTitle'
 import Link from '@/components/Link'
+import {
+    getStorage,
+    ref,
+    uploadBytesResumable,
+    getDownloadURL,
+} from 'firebase/storage'
+import Compressor from 'compressorjs'
+import { getFirestore, doc, updateDoc } from 'firebase/firestore'
+
+const storage = getStorage()
+const metadata = {
+    contentType: 'image/jpeg',
+}
+const db = getFirestore()
+
 
 function profile({ auth }) {
     const { user } = auth
     const router = useRouter()
     const { userId } = router.query
 
+    const [imageLoad, setImageLoad] = useState(false)
     const [userInfo, setUserInfo] = useState(null)
 
     useEffect(() => {
@@ -33,6 +49,61 @@ function profile({ auth }) {
     const handleChange = (values) => {
         setUserInfo({ ...userInfo, ...values })
     }
+
+
+    function handleImageUploadBefore(files) {
+        const storageRef = ref(storage, 'avatars/' + userId + '/' + userId)
+        const image = files[0]
+        new Compressor(image, {
+            quality: 0.2, // 0.6 can also be used, but its not recommended to go below.
+            success: (compressedResult) => {
+                // compressedResult has the compressed file.
+                const uploadTask = uploadBytesResumable(storageRef, compressedResult, metadata)
+                uploadTask.on(
+                    'state_changed',
+                    (snapshot) => {
+                        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                        console.log('Upload is ' + progress + '% done')
+                        switch (snapshot.state) {
+                            case 'paused':
+                                console.log('Upload is paused')
+                                break
+                            case 'running':
+                                console.log('Upload is running')
+                                break
+                        }
+                    },
+                    (error) => {
+                        switch (error.code) {
+                            case 'storage/unauthorized':
+                                // User doesn't have permission to access the object
+                                break
+                            case 'storage/canceled':
+                                // User canceled the upload
+                                break
+                            case 'storage/unknown':
+                                // Unknown error occurred, inspect error.serverResponse
+                                break
+                        }
+                    },
+                    () => {
+                        // Upload completed successfully, now we can get the download URL
+                        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                            const userRef = doc(db, 'users', userId)
+                            setImageLoad(true)
+                            updateDoc(userRef, { photoURL: downloadURL }).then(() => {
+                                setUserInfo({ ...userInfo, photoURL: downloadURL })
+                                setImageLoad(false)
+                            })
+                        })
+                    }
+                )
+            },
+        })
+    }
+
+
 
     if (userInfo === "NODATA") {
         return <>
@@ -60,20 +131,44 @@ function profile({ auth }) {
                     <div>
                         {userInfo !== null ? (
                             <div className='flex'>
-                                <Image
-                                    src={userInfo.photoURL}
-                                    width="60px"
-                                    height="60px"
-                                    alt="avatar"
-                                    className="rounded-full border-none align-middle shadow-lg"
-                                />
-                                {userId === user.uid &&
-                                    <button className='flex items-start -ml-2'>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 rounded-full text-teal-500 bg-gray-300" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                {imageLoad ?
+                                    // <p className='text-xs text-gray-100'>wait...</p>
+                                    <div style={{ height: '60px', width: '60px' }} className="align-middle">
+                                        <svg aria-hidden="true" class="mr-2 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
+                                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
                                         </svg>
-                                    </button>
+                                    </div>
+
+                                    :
+                                    <Image
+                                        src={userInfo.photoURL}
+                                        width="60px"
+                                        height="60px"
+                                        alt="avatar"
+                                        className="rounded-full border-none align-middle shadow-lg"
+                                    />
                                 }
+
+                                {
+                                    user !== null ?
+                                        userId === user.uid &&
+                                        <button className='flex items-start -ml-2 overflow-hidden relative w-5 h-5'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 rounded-full text-teal-500 bg-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                            </svg>
+                                            <input className="cursor-pointer absolute opacity-0 block pin-r pin-t" type="file"
+                                                accept="image/png, image/jpeg, image/jpg"
+                                                onChange={(event) => {
+                                                    handleImageUploadBefore(event.target.files)
+                                                }}
+                                            />
+                                        </button>
+                                        :
+                                        ''
+                                }
+
+
                             </div>
                         ) : (
                             'User Avatar'
@@ -83,41 +178,41 @@ function profile({ auth }) {
                         <p className='text-md text-gray-100'>{userInfo !== null ? userInfo.displayName : ''}</p>
                         <p className='text-sm text-gray-100'>{userInfo !== null ? userInfo.email : ''}</p>
                         <div className='flex mt-4'>
-                            {userId !== user.uid &&
-                                <button
-                                    className='text-xs text-gray-100 flex pl-2 pr-2 m-1 border border-gray-200 bg-teal-500 rounded items-center'
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                                    </svg>
-                                    Follow
-                                </button>
+                            {
+                                user !== null ?
+                                    userId !== user.uid &&
+                                    <button
+                                        className='text-xs text-gray-100 flex pl-2 pr-2 m-1 border border-gray-200 bg-teal-500 rounded items-center'
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                                        </svg>
+                                        Follow
+                                    </button>
+                                    :
+                                    ''
                             }
-                            {/* <Button
-                          variant="outlined"
-                          color="accent"
-                          style={{ fontSize: '10px', }}
-                          startIcon={<DoneAllIcon />}
-                        >
-                          Following
-                        </Button> */}
-                            {userId === user.uid &&
+
+                            {user !== null ?
+                                userId === user.uid &&
                                 <p className='text-xs md:text-xs text-gray-100 border-b border-teal-500 m-1 p-1 flex items-center'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                     </svg>
                                     (10000)
                                 </p>
+                                :
+                                ''
                             }
                             <p className='text-xs md:text-xs text-gray-100 border-b border-teal-500 m-1 p-1 flex items-center'>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                                 </svg>
                                 (10000)
                             </p>
                             <p className='text-xs md:text-xs text-gray-100 border-b border-teal-500 m-1 p-1 flex items-center'>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                                 </svg>
                                 (10000)
                             </p>
@@ -135,7 +230,8 @@ function profile({ auth }) {
                                 About
                             </Tab>
 
-                            {userId === user.uid &&
+                            {user !== null ?
+                                userId === user.uid &&
                                 <Tab
                                     className={({ selected }) =>
                                         selected ? 'bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
@@ -143,9 +239,12 @@ function profile({ auth }) {
                                 >
                                     Follower(1000)
                                 </Tab>
+                                :
+                                ''
                             }
 
-                            {userId === user.uid &&
+                            {user !== null ?
+                                userId === user.uid &&
                                 <Tab
                                     className={({ selected }) =>
                                         selected ? 'bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
@@ -153,11 +252,13 @@ function profile({ auth }) {
                                 >
                                     Following(500)
                                 </Tab>
+                                :
+                                ''
                             }
 
                         </Tab.List>
                         <Tab.Panels>
-                            <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} /> </Tab.Panel>
+                            <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} /></Tab.Panel>
                             <Tab.Panel><Followers userInfo={userInfo} /></Tab.Panel>
                             <Tab.Panel>Content 3</Tab.Panel>
                         </Tab.Panels>
@@ -169,4 +270,4 @@ function profile({ auth }) {
     );
 }
 
-export default withProtected(profile);
+export default withPublic(profile);

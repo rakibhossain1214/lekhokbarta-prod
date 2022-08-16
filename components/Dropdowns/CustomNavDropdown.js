@@ -41,11 +41,16 @@ function CustomNavDropdown({ userInfo }) {
               </a>
             </Link>
             <hr />
-            <Link href={`/profile/${userInfo.uid}`}>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
-                Profile
-              </a>
-            </Link>
+            { userInfo !== null ?
+              <Link href={`/profile/${userInfo.uid}`}>
+                <a href="#" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
+                  Profile
+                </a>
+              </Link>
+              :
+              ''
+            }
+
             <hr />
             <Link href="/dashboard">
               <a href="#" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
