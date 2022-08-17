@@ -7,7 +7,8 @@ import { withPublic } from 'src/hook/route'
 
 function Blog({ postData, prev, next, auth }) {
   const { user } = auth
-  const [userInfo, setUserInfo] = useState(null)
+  const [userInfo, setUserInfo] = useState(user)
+  
   useEffect(()=>{
     async function getUserData(){
       if(user !== null){

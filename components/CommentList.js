@@ -41,7 +41,6 @@ function CommentList({ postId, user, defaultPostData }) {
 
   const db = getFirestore()
   const postRef = doc(db, 'posts', postId)
-
   const [postData, setPostData] = useState(defaultPostData)
 
   useEffect(() => {
@@ -70,7 +69,6 @@ function CommentList({ postId, user, defaultPostData }) {
         }
       })
     })
-
     return function cleanup() {
       unsub()
     }
@@ -126,6 +124,10 @@ function CommentList({ postId, user, defaultPostData }) {
     document.getElementById('commentArea').value =
       document.getElementById('commentArea').defaultValue
     updateComment({ postId, user, commentText, postData, commentId: comEditId })
+  }
+
+  const handleCommentOpen = () =>{
+    setLoadComment(true)
   }
 
   return (
@@ -313,7 +315,7 @@ function CommentList({ postId, user, defaultPostData }) {
           ))}
       </div>
       {user !== null ? (
-        <CommentBox postId={postId} postData={postData} user={user} />
+        <CommentBox postId={postId} postData={postData} user={user} handleCommentOpen={handleCommentOpen}/>
       ) : (
         <p className="ml-4 text-red-500">Please login to vote and comment</p>
       )}
