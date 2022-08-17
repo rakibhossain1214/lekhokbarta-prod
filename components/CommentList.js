@@ -205,7 +205,7 @@ function CommentList({ postId, user, defaultPostData }) {
               className="border-b border-teal-500 p-1"
               onClick={() => setLoadComment(!loadComment)}
             >
-              {loadComment ? 'Hide Comments' : 'Load Comments'}
+              {loadComment ? 'Hide Comments' : 'Show Comments'}
               <span> ( {postData.comments.length} ) </span>
             </button>
           </p>
