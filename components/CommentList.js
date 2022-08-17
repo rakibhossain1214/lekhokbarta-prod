@@ -85,7 +85,7 @@ function CommentList({ postId, user, defaultPostData }) {
       setDownVoted(false)
       setUpVoted(!upVoted)
       increaseVote({ postId: postId, uid: user?.uid, postData: postData })
-    } 
+    }
   }
 
   const handleDownVote = () => {
@@ -93,7 +93,7 @@ function CommentList({ postId, user, defaultPostData }) {
       setUpVoted(false)
       setDownVoted(!downVoted)
       decreaseVote({ postId: postId, uid: user?.uid, postData: postData })
-    } 
+    }
   }
 
   const onOptionsEdit = (id) => {
@@ -108,7 +108,10 @@ function CommentList({ postId, user, defaultPostData }) {
   }
 
   const handleChangeComment = (e) => {
-    if (e.target.value !== document.getElementById('commentArea').defaultValue) {
+    if (
+      e.target.value !== document.getElementById('commentArea').defaultValue &&
+      e.target.value !== ''
+    ) {
       setButtonActive(true)
       setCommentText(e.target.value)
     } else {
@@ -309,11 +312,11 @@ function CommentList({ postId, user, defaultPostData }) {
             </div>
           ))}
       </div>
-      { user !== null ?
+      {user !== null ? (
         <CommentBox postId={postId} postData={postData} user={user} />
-        :
+      ) : (
         <p className="ml-4 text-red-500">Please login to vote and comment</p>
-      }
+      )}
     </>
   )
 }

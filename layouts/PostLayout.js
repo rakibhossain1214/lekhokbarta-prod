@@ -6,9 +6,6 @@ import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ShowPost from '../components/ShowPost'
-import DoneAllIcon from '@material-ui/icons/DoneAll'
-import CheckBoxIcon from '@material-ui/icons/CheckBox'
-import { Button } from '@material-ui/core'
 import CommentList from '@/components/CommentList'
 
 const postDateTemplate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
@@ -81,7 +78,7 @@ export default function PostLayout({
                           {authorDetails.name}
                         </Link>
                       </dd>
-                      <dt className="sr-only">Twitter</dt>
+                      <dt className="sr-only">follower</dt>
                       <dd>2.2k followers</dd>
                     </dl>
                   </li>
@@ -94,22 +91,30 @@ export default function PostLayout({
                     <dl className="text-sm font-medium leading-5">
                       <dt className="sr-only">Follow</dt>
                       <dd className="mt-4">
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          style={{ fontSize: '9px' }}
-                          startIcon={<CheckBoxIcon />}
-                        >
+                        <button className="m-1 flex items-center rounded border border-gray-200 bg-teal-500 pl-2 pr-2 pt-1 pb-1 text-xs text-gray-100">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
                           Follow
-                        </Button>
-                        {/* <Button
-                          variant="outlined"
-                          color="accent"
-                          style={{ fontSize: '10px', }}
-                          startIcon={<DoneAllIcon />}
+                        </button>
+
+                        {/* <button
+                          className='text-xs text-gray-600 flex pl-2 pr-2 pt-1 pb-1 m-1 border border-gray-200 bg-gray-300 rounded items-center'
                         >
-                          Following
-                        </Button> */}
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+                          </svg>
+                          Unfollow
+                        </button> */}
                       </dd>
                       <dd></dd>
                     </dl>
