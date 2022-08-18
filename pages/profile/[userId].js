@@ -57,6 +57,10 @@ function profile({ auth }) {
         setUserInfo({ ...userInfo, ...values })
     }
 
+    const handleFollowChange = ({ userData }) => {
+        setUserInfo(userData)
+    }
+
     const handleFollow = () => {
         setShowFollowButton(false)
         AddFollower({ userId, user })
@@ -68,7 +72,7 @@ function profile({ auth }) {
 
     const deleteFollow = () => {
         setShowFollowButton(true)
-        deleteFollower({ userId, user, userInfo })
+        deleteFollower({ userId, user })
         deleteFollowing({ userId, user }).then(async () => {
             const userData = await getUserInfo(userId)
             setUserInfo(userData)
@@ -272,7 +276,7 @@ function profile({ auth }) {
                                         selected ? 'bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
                                     }
                                 >
-                                    Follower(1000)
+                                    Followers({userInfo.followers.length})
                                 </Tab>
                                 :
                                 ''
@@ -285,7 +289,7 @@ function profile({ auth }) {
                                         selected ? 'bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
                                     }
                                 >
-                                    Following(500)
+                                    Following({userInfo.following.length})
                                 </Tab>
                                 :
                                 ''
@@ -294,7 +298,7 @@ function profile({ auth }) {
                         </Tab.List>
                         <Tab.Panels>
                             <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} /></Tab.Panel>
-                            <Tab.Panel><Followers userInfo={userInfo} /></Tab.Panel>
+                            <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
                             <Tab.Panel>Content 3</Tab.Panel>
                         </Tab.Panels>
                     </Tab.Group>
