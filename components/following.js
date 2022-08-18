@@ -2,12 +2,12 @@ import React from 'react';
 import Image from '@/components/Image';
 import { deleteFollower, deleteFollowing, getUserInfo } from '@/lib/firestoreConnection';
 
-function Followers({ userInfo, userId, handleFollowChange }) {
+function Following({ userInfo, userId, handleFollowChange }) {
 
-    const deleteFollow = ({ event, follower }) => {
+    const handleDeleteFollowing = ({ event, following }) => {
         event.preventDefault();
-        deleteFollower({ userId, user: follower })
-        deleteFollowing({ userId, user: follower }).then(async () => {
+        deleteFollower({ userId: following.uid, user: userInfo })
+        deleteFollowing({ userId: following.uid, user: userInfo }).then(async () => {
             const userData = await getUserInfo(userId)
             handleFollowChange({userData});
         })
@@ -25,11 +25,11 @@ function Followers({ userInfo, userId, handleFollowChange }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {userInfo?.followers?.map((follower) => (
-                        <tr key={follower?.uid}>
+                    {userInfo?.following?.map((following) => (
+                        <tr key={following?.uid}>
                             <td>
                                 <Image
-                                    src={follower?.photoURL}
+                                    src={following?.photoURL}
                                     width="32px"
                                     height="32px"
                                     alt="avatar"
@@ -37,11 +37,11 @@ function Followers({ userInfo, userId, handleFollowChange }) {
                                 />
                             </td>
                             <td className='pl-2 pb-1'>
-                                {follower?.displayName}
+                                {following?.displayName}
                             </td>
                             <td className='pl-2'>
                                 <button
-                                onClick={(event) => deleteFollow({event, follower })}
+                                onClick={(event) => handleDeleteFollowing({event, following })}
                                 className='border border-red-400 p-1 rounded text-xs text-red-400'>
                                     Remove
                                 </button>
@@ -55,4 +55,4 @@ function Followers({ userInfo, userId, handleFollowChange }) {
     );
 }
 
-export default Followers
+export default Following

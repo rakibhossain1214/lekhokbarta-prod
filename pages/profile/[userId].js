@@ -17,6 +17,7 @@ import {
 } from 'firebase/storage'
 import Compressor from 'compressorjs'
 import { getFirestore, doc, updateDoc } from 'firebase/firestore'
+import Following from '@/components/following';
 
 const storage = getStorage()
 const metadata = {
@@ -299,7 +300,7 @@ function profile({ auth }) {
                         <Tab.Panels>
                             <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} /></Tab.Panel>
                             <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
-                            <Tab.Panel>Content 3</Tab.Panel>
+                            <Tab.Panel><Following userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
                         </Tab.Panels>
                     </Tab.Group>
 
