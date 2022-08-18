@@ -2,7 +2,7 @@
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import Image from '../Image'
-import Link from 'next/link'
+// import Link from 'next/link'
 import { withProtected } from 'src/hook/route'
 
 function CustomNavDropdown({ userInfo }) {
@@ -35,28 +35,28 @@ function CustomNavDropdown({ userInfo }) {
       >
         <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md border-gray-500 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:bg-gray-800">
           <div className="py-1">
-            <Link href="/write">
-              <a href="#" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
+            {/* <Link href="/write"> */}
+              <a href="/write" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
                 Write
               </a>
-            </Link>
+            {/* </Link> */}
             <hr />
             { userInfo !== null ?
-              <Link href={`/profile/${userInfo.uid}`}>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
+              // <Link href={`/profile/${userInfo.uid}`}>
+                <a href={`/profile/${userInfo.uid}`} className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
                   Profile
                 </a>
-              </Link>
+              // </Link>
               :
               ''
             }
 
             <hr />
-            <Link href="/dashboard">
-              <a href="#" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
+            {/* <Link href="/dashboard"> */}
+              <a href="/dashboard" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
                 Dashboard
               </a>
-            </Link>
+            {/* </Link> */}
           </div>
         </Menu.Items>
       </Transition>
