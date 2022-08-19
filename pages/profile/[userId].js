@@ -34,9 +34,11 @@ function profile({ auth }) {
     const [imageLoad, setImageLoad] = useState(false)
     const [userInfo, setUserInfo] = useState(null)
     const [showFollowButton, setShowFollowButton] = useState(true)
+    const [processing, setProcessing] = useState(false)
 
     useEffect(() => {
         async function getUser() {
+            setProcessing(true)
             const userData = await getUserInfo(userId)
             setUserInfo(userData)
 
@@ -45,6 +47,7 @@ function profile({ auth }) {
                     setShowFollowButton(false)
                 }
             })
+            setProcessing(false)
         }
         getUser();
     }, [])
@@ -64,19 +67,23 @@ function profile({ auth }) {
 
     const handleFollow = () => {
         setShowFollowButton(false)
+        setProcessing(true)
         AddFollower({ userId, user })
         AddFollowing({ userId, user }).then(async () => {
             const userData = await getUserInfo(userId)
             setUserInfo(userData)
+            setProcessing(false)
         })
     }
 
     const deleteFollow = () => {
         setShowFollowButton(true)
+        setProcessing(true)
         deleteFollower({ userId, user })
         deleteFollowing({ userId, user }).then(async () => {
             const userData = await getUserInfo(userId)
             setUserInfo(userData)
+            setProcessing(false)
         })
     }
 
@@ -209,6 +216,7 @@ function profile({ auth }) {
                                     userId !== user.uid ? 
                                         showFollowButton ?
                                     <button
+                                        disabled={processing}
                                         onClick={handleFollow}
                                         className='text-xs text-gray-100 flex pl-2 pr-2 m-1 border border-gray-200 bg-teal-500 rounded items-center'
                                     >
@@ -219,6 +227,7 @@ function profile({ auth }) {
                                     </button>
                                     :
                                     <button
+                                        disabled={processing}
                                         onClick={deleteFollow}
                                         className='text-xs text-gray-600 flex pl-2 pr-2 pt-1 pb-1 m-1 border border-gray-200 bg-gray-300 rounded items-center'
                                     >
