@@ -42,11 +42,13 @@ function CommentList({ postId, user, defaultPostData }) {
   const db = getFirestore()
   const postRef = doc(db, 'posts', postId)
   const [postData, setPostData] = useState(defaultPostData)
+  const [processing, setProcessing] = useState(false)
 
   useEffect(() => {
     setLoadComment(false)
     setUpVoted(false)
     setDownVoted(false)
+    setProcessing(true)
 
     const unsub = onSnapshot(postRef, (doc) => {
       setPostData(doc.data())
@@ -68,6 +70,8 @@ function CommentList({ postId, user, defaultPostData }) {
           setDownVoted(false)
         }
       })
+
+      setProcessing(false)
     })
     return function cleanup() {
       unsub()
@@ -79,18 +83,24 @@ function CommentList({ postId, user, defaultPostData }) {
   }
 
   const handleUpvote = () => {
+    setProcessing(true)
     if (user !== null) {
       setDownVoted(false)
       setUpVoted(!upVoted)
-      increaseVote({ postId: postId, uid: user?.uid, postData: postData })
+      increaseVote({ postId: postId, uid: user?.uid, postData: postData }).then(() => {
+        setProcessing(false)
+      })
     }
   }
 
   const handleDownVote = () => {
+    setProcessing(true)
     if (user !== null) {
       setUpVoted(false)
       setDownVoted(!downVoted)
-      decreaseVote({ postId: postId, uid: user?.uid, postData: postData })
+      decreaseVote({ postId: postId, uid: user?.uid, postData: postData }).then(() => {
+        setProcessing(false)
+      })
     }
   }
 
@@ -126,7 +136,7 @@ function CommentList({ postId, user, defaultPostData }) {
     updateComment({ postId, user, commentText, postData, commentId: comEditId })
   }
 
-  const handleCommentOpen = () =>{
+  const handleCommentOpen = () => {
     setLoadComment(true)
   }
 
@@ -159,7 +169,11 @@ function CommentList({ postId, user, defaultPostData }) {
           </div>
 
           <p className="p-2">
-            <button className="rounded border-b border-teal-500 p-1" onClick={handleUpvote}>
+            <button
+              disabled={processing}
+              className="rounded border-b border-teal-500 p-1"
+              onClick={handleUpvote}
+            >
               {upVoted ? (
                 <Image
                   src={Accept}
@@ -181,6 +195,7 @@ function CommentList({ postId, user, defaultPostData }) {
             </button>
 
             <button
+              disabled={processing}
               className="ml-2 mr-2 rounded border-b border-teal-500 p-1"
               onClick={handleDownVote}
             >
@@ -315,7 +330,12 @@ function CommentList({ postId, user, defaultPostData }) {
           ))}
       </div>
       {user !== null ? (
-        <CommentBox postId={postId} postData={postData} user={user} handleCommentOpen={handleCommentOpen}/>
+        <CommentBox
+          postId={postId}
+          postData={postData}
+          user={user}
+          handleCommentOpen={handleCommentOpen}
+        />
       ) : (
         <p className="ml-4 text-red-500">Please login to vote and comment</p>
       )}
