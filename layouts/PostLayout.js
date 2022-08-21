@@ -7,7 +7,13 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ShowPost from '../components/ShowPost'
 import CommentList from '@/components/CommentList'
-import { AddFollower, getUserInfo, AddFollowing, deleteFollower, deleteFollowing } from '@/lib/firestoreConnection'
+import {
+  AddFollower,
+  getUserInfo,
+  AddFollowing,
+  deleteFollower,
+  deleteFollowing,
+} from '@/lib/firestoreConnection'
 import { useEffect, useState } from 'react'
 
 const postDateTemplate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
@@ -23,7 +29,7 @@ export default function PostLayout({
   lastmod,
   postData,
   user,
-  followers
+  followers,
 }) {
   const { slug, title, tags } = frontMatter
 
@@ -35,14 +41,14 @@ export default function PostLayout({
     async function getUser() {
       setProcessing(true)
       const userData = await getUserInfo(authorDetails.id)
-      userData?.followers?.map(follower => {
+      userData?.followers?.map((follower) => {
         if (follower.uid === user.uid) {
           setShowFollowButton(false)
         }
       })
       setProcessing(false)
     }
-    getUser();
+    getUser()
   }, [])
 
   const handleFollow = () => {
@@ -54,7 +60,6 @@ export default function PostLayout({
       setFollowerCount(userData.followers.length)
       setProcessing(false)
     })
-   
   }
 
   const deleteFollow = () => {
@@ -66,9 +71,7 @@ export default function PostLayout({
       setFollowerCount(userData.followers.length)
       setProcessing(false)
     })
-    
   }
-
 
   return (
     <SectionContainer>
@@ -125,7 +128,11 @@ export default function PostLayout({
                         </Link>
                       </dd>
                       <dt className="sr-only">follower</dt>
-                      <dd>{followerCount > 1 ? `${followerCount} followers` : `${followerCount} follower`} </dd>
+                      <dd>
+                        {followerCount > 1
+                          ? `${followerCount} followers`
+                          : `${followerCount} follower`}{' '}
+                      </dd>
                     </dl>
                   </li>
                 </ul>
@@ -137,37 +144,51 @@ export default function PostLayout({
                     <dl className="text-sm font-medium leading-5">
                       <dt className="sr-only">Follow</dt>
                       <dd className="mt-4">
-                        {showFollowButton ?
-                          <button
-                            disabled={processing}
-                            onClick={handleFollow}
-                            className="m-1 flex items-center rounded border border-gray-200 bg-teal-500 pl-2 pr-2 pt-1 pb-1 text-xs text-gray-100">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
+                        {authorDetails.id !== user.uid ? (
+                          showFollowButton ? (
+                            <button
+                              disabled={processing}
+                              onClick={handleFollow}
+                              className="m-1 flex items-center rounded border border-gray-200 bg-teal-500 pl-2 pr-2 pt-1 pb-1 text-xs text-gray-100"
                             >
-                              <path
-                                fillRule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            Follow
-                          </button>
-                          :
-                          <button
-                            disabled={processing}
-                            onClick={deleteFollow}
-                            className='text-xs text-gray-600 flex pl-2 pr-2 pt-1 pb-1 m-1 border border-gray-200 bg-gray-300 rounded items-center'
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
-                            </svg>
-                            Unfollow
-                          </button>
-                        }
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                              Follow
+                            </button>
+                          ) : (
+                            <button
+                              disabled={processing}
+                              onClick={deleteFollow}
+                              className="m-1 flex items-center rounded border border-gray-200 bg-gray-300 pl-2 pr-2 pt-1 pb-1 text-xs text-gray-600"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                              Unfollow
+                            </button>
+                          )
+                        ) : (
+                          ''
+                        )}
                       </dd>
                       <dd></dd>
                     </dl>
