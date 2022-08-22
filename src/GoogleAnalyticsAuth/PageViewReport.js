@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { addDays } from 'date-fns'
-// import CustomDatePicker from "./datepicker";
 import { queryReport } from './queryReport'
-// import {
-//   ChartTitle,
-//   ReportWrapper,
-//   Subtitle,
-//   DatepickerRow,
-//   StyledTable,
-// } from "./styles";
 
 const PageviewsReport = (props) => {
   const [reportData, setReportData] = useState([])
@@ -57,38 +49,36 @@ const PageviewsReport = (props) => {
   }, [startDate, endDate])
 
   return (
-    <div>
-      {/* <ChartTitle>Top 10 Pages by Views</ChartTitle> */}
-      <p>{`Total pages - ${totalPages}`}</p>
-      {/* <DatepickerRow>
-        <CustomDatePicker
-          placeholder={"Start date"}
-          date={startDate}
-          handleDateChange={(date) => setStartDate(date)}
-        />
-        <CustomDatePicker
-          placeholder={"End date"}
-          date={endDate}
-          handleDateChange={(date) => setEndDate(date)}
-        />
-      </DatepickerRow> */}
+    <div className="relative overflow-x-auto">
+      {/* <p>{`Total pages - ${totalPages}`}</p> */}
+
       {reportData.length && (
-        <table>
-          <thead>
+        <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+          <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th>Page</th>
-              <th>Views</th>
-              <th>%</th>
+              <th scope="col" className="py-3 px-6">
+                Page
+              </th>
+              <th scope="col" className="py-3 px-6">
+                Views
+              </th>
             </tr>
           </thead>
           <tbody>
-            {reportData.map((row, id) => (
-              <tr key={id}>
-                <td className="left-align">{row.path}</td>
-                <td>{row.views}</td>
-                <td>{row.perc}</td>
-              </tr>
-            ))}
+            {reportData.map((row, id) =>
+              props.authorPosts.map(
+                (post) =>
+                  row.path === `/blog/${post.postId}/${post.frontMatter.slug}` && (
+                    <tr
+                      key={id}
+                      className="border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                    >
+                      <td className="py-4 px-6">{row.path}</td>
+                      <td className="py-4 px-6">{row.views}</td>
+                    </tr>
+                  )
+              )
+            )}
           </tbody>
         </table>
       )}

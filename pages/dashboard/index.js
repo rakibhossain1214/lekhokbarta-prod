@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { withProtected } from 'src/hook/route'
-import { getUserInfo } from '@/lib/firestoreConnection'
+import { getUserInfo, getAllPostsByAuthorId } from '@/lib/firestoreConnection'
 // components
 
 import CardLineChart from 'components/Cards/CardLineChart.js'
@@ -20,13 +20,22 @@ import PageviewsReport from 'src/GoogleAnalyticsAuth/PageViewReport'
 function Dashboard({ auth }) {
   const { user } = auth
   const [userInfo, setUserInfo] = useState(user)
+  const [authorPosts, setAuthorPosts] = useState(user)
 
   useEffect(() => {
     async function getUser() {
       const userData = await getUserInfo(user.uid)
       setUserInfo(userData)
     }
-    return getUser()
+    getUser()
+  }, [])
+
+  useEffect(() => {
+    async function getAuthorPosts() {
+      const posts = await getAllPostsByAuthorId({ authorId: user.uid })
+      setAuthorPosts(posts)
+    }
+    getAuthorPosts()
   }, [])
 
   //ANALYTICS
@@ -55,43 +64,19 @@ function Dashboard({ auth }) {
   })
 
   return (
-    <div className="App">
+    <DashboardLayout userInfo={userInfo}>
       {!isSignedIn ? (
         <>
           <div id="signin-button"></div>
         </>
       ) : (
         <>
-          <p>Signed In</p>
-
-          <PageviewsReport viewID="273664975" />
-
+          <PageviewsReport viewID="273664975" authorPosts={authorPosts} />
           <button onClick={signOut}>SignOut</button>
         </>
       )}
-    </div>
+    </DashboardLayout>
   )
-
-  // return (
-  //   <DashboardLayout userInfo={userInfo}>
-  //     <div className="flex flex-wrap">
-  //       <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-  //         {/* <CardLineChart /> */}
-  //       </div>
-  //       <div className="w-full xl:w-4/12 px-4">
-  //         {/* <CardBarChart /> */}
-  //       </div>
-  //     </div>
-  //     <div className="flex flex-wrap mt-4">
-  //       <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-  //         <CardPageVisits />
-  //       </div>
-  //       <div className="w-full xl:w-4/12 px-4">
-  //         <CardSocialTraffic />
-  //       </div>
-  //     </div>
-  //   </DashboardLayout>
-  // );
 }
 
 export default withProtected(Dashboard)
