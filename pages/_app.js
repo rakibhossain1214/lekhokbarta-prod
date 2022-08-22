@@ -14,6 +14,7 @@ import LayoutWrapper from '@/components/LayoutWrapper'
 import { AuthProvider } from '../src/hook/auth'
 import AuthStateChanged from '../src/layout/AuthStateChanged'
 import NextNProgress from 'nextjs-progressbar'
+import Script from 'next/script'
 
 // const isDevelopment = process.env.NODE_ENV === 'production'
 // const isSocket = process.env.SOCKET
@@ -26,6 +27,7 @@ export default function App({ Component, pageProps }) {
       </Head>
       {/* {isDevelopment && isSocket && <ClientReload />} */}
       <Analytics />
+      <Script src="https://apis.google.com/js/client:platform.js" strategy="lazyOnload"></Script>
       <AuthProvider>
         <AuthStateChanged>
           <LayoutWrapper>
