@@ -2,8 +2,12 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import CustomNavDropdown from '@/components/Dropdowns/CustomNavDropdown'
+import { signOut } from '../../src/GoogleAnalyticsAuth/authUtils'
+import { withProtected } from 'src/hook/route'
 
-export default function Sidebar({ userInfo }) {
+
+function Sidebar({ userInfo, auth }) {
+  const { logout } = auth;
   const [collapseShow, setCollapseShow] = React.useState('hidden')
   const router = useRouter()
   return (
@@ -121,6 +125,30 @@ export default function Sidebar({ userInfo }) {
 
             <ul className="flex list-none flex-col md:min-w-full md:flex-col">
               <li className="items-center">
+                <Link href="/dashboard/earning-report">
+                  <a
+                    href="#pablo"
+                    className={
+                      'block py-3 text-xs font-bold uppercase ' +
+                      (router.pathname.indexOf('/dashboard/earning-report') !== -1
+                        ? 'text-lightBlue-500 hover:text-lightBlue-600'
+                        : 'text-blueGray-700 hover:text-blueGray-500')
+                    }
+                  >
+                    <i
+                      className={
+                        'fas fa-tv mr-2 text-sm ' +
+                        (router.pathname.indexOf('/dashboard/earning-report') !== -1
+                          ? 'opacity-75'
+                          : 'text-blueGray-300')
+                      }
+                    ></i>{' '}
+                    Earning Report
+                  </a>
+                </Link>
+              </li>
+{/* 
+              <li className="items-center">
                 <Link href="/dashboard">
                   <a
                     href="#pablo"
@@ -139,66 +167,18 @@ export default function Sidebar({ userInfo }) {
                           : 'text-blueGray-300')
                       }
                     ></i>{' '}
-                    Dashboard
+                    Promoted Blogs
                   </a>
                 </Link>
-              </li>
+              </li> */}
 
               <li className="items-center">
-                <Link href="/admin/settings">
+                <Link href="/dashboard/earning-trx-history">
                   <a
                     href="#pablo"
                     className={
                       'block py-3 text-xs font-bold uppercase ' +
-                      (router.pathname.indexOf('/admin/settings') !== -1
-                        ? 'text-lightBlue-500 hover:text-lightBlue-600'
-                        : 'text-blueGray-700 hover:text-blueGray-500')
-                    }
-                  >
-                    <i
-                      className={
-                        'fas fa-tools mr-2 text-sm ' +
-                        (router.pathname.indexOf('/admin/settings') !== -1
-                          ? 'opacity-75'
-                          : 'text-blueGray-300')
-                      }
-                    ></i>{' '}
-                    My Blogs
-                  </a>
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link href="/admin/maps">
-                  <a
-                    href="#pablo"
-                    className={
-                      'block py-3 text-xs font-bold uppercase ' +
-                      (router.pathname.indexOf('/admin/maps') !== -1
-                        ? 'text-lightBlue-500 hover:text-lightBlue-600'
-                        : 'text-blueGray-700 hover:text-blueGray-500')
-                    }
-                  >
-                    <i
-                      className={
-                        'fas fa-map-marked mr-2 text-sm ' +
-                        (router.pathname.indexOf('/admin/maps') !== -1
-                          ? 'opacity-75'
-                          : 'text-blueGray-300')
-                      }
-                    ></i>{' '}
-                    Followers
-                  </a>
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link href="/admin/tables">
-                  <a
-                    href="#pablo"
-                    className={
-                      'block py-3 text-xs font-bold uppercase ' +
-                      (router.pathname.indexOf('/admin/tables') !== -1
+                      (router.pathname.indexOf('/dashboard/earning-trx-history') !== -1
                         ? 'text-lightBlue-500 hover:text-lightBlue-600'
                         : 'text-blueGray-700 hover:text-blueGray-500')
                     }
@@ -206,31 +186,7 @@ export default function Sidebar({ userInfo }) {
                     <i
                       className={
                         'fas fa-table mr-2 text-sm ' +
-                        (router.pathname.indexOf('/admin/tables') !== -1
-                          ? 'opacity-75'
-                          : 'text-blueGray-300')
-                      }
-                    ></i>{' '}
-                    Earnings
-                  </a>
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link href="/admin/maps">
-                  <a
-                    href="#pablo"
-                    className={
-                      'block py-3 text-xs font-bold uppercase ' +
-                      (router.pathname.indexOf('/admin/maps') !== -1
-                        ? 'text-lightBlue-500 hover:text-lightBlue-600'
-                        : 'text-blueGray-700 hover:text-blueGray-500')
-                    }
-                  >
-                    <i
-                      className={
-                        'fas fa-map-marked mr-2 text-sm ' +
-                        (router.pathname.indexOf('/admin/maps') !== -1
+                        (router.pathname.indexOf('/dashboard/earning-trx-history') !== -1
                           ? 'opacity-75'
                           : 'text-blueGray-300')
                       }
@@ -239,40 +195,111 @@ export default function Sidebar({ userInfo }) {
                   </a>
                 </Link>
               </li>
+
+              <li className="items-center">
+                  <button
+                    onClick={signOut}
+                    className={
+                      'block py-3 text-xs font-bold uppercase ' +
+                      (router.pathname.indexOf('/admin/dashboard') !== -1
+                        ? 'text-lightBlue-500 hover:text-lightBlue-600'
+                        : 'text-blueGray-700 hover:text-blueGray-500')
+                    }
+                  >
+                    <i
+                      className={
+                        'fas fa-tv mr-2 text-sm ' +
+                        (router.pathname.indexOf('/admin/dashboard') !== -1
+                          ? 'opacity-75'
+                          : 'text-blueGray-300')
+                      }
+                    ></i>{' '}
+                    Logout from analytics
+                  </button>
+              </li>
+              <li className="items-center">
+                  <button
+                    onClick={logout}
+                    className={
+                      'block py-3 text-xs font-bold uppercase ' +
+                      (router.pathname.indexOf('/admin/dashboard') !== -1
+                        ? 'text-lightBlue-500 hover:text-lightBlue-600'
+                        : 'text-blueGray-700 hover:text-blueGray-500')
+                    }
+                  >
+                    <i
+                      className={
+                        'fas fa-tv mr-2 text-sm ' +
+                        (router.pathname.indexOf('/admin/dashboard') !== -1
+                          ? 'opacity-75'
+                          : 'text-blueGray-300')
+                      }
+                    ></i>{' '}
+                    Logout from Roarspot
+                  </button>
+              </li>
+
             </ul>
 
-            {/* Divider */}
-            <hr className="my-4 md:min-w-full" />
+            {/* <hr className="my-4 md:min-w-full hidden md:flex" /> */}
             {/* Heading */}
-            <h6 className="text-blueGray-500 block pt-1 pb-4 text-xs font-bold uppercase no-underline md:min-w-full">
-              Advertiser Secion
+            {/* <h6 className="text-blueGray-500 block pt-1 pb-4 text-xs font-bold uppercase no-underline md:min-w-full">
+              Advertiser Section
             </h6>
-            {/* Navigation */}
-            <ul className="flex list-none flex-col md:mb-4 md:min-w-full md:flex-col">
+            <ul className="flex list-none flex-col md:min-w-full md:flex-col">
               <li className="items-center">
-                <Link href="/auth/login">
+                <Link href="/dashboard">
                   <a
                     href="#pablo"
-                    className="text-blueGray-700 hover:text-blueGray-500 block py-3 text-xs font-bold uppercase"
+                    className={
+                      'block py-3 text-xs font-bold uppercase ' +
+                      (router.pathname.indexOf('/admin/dashboard') !== -1
+                        ? 'text-lightBlue-500 hover:text-lightBlue-600'
+                        : 'text-blueGray-700 hover:text-blueGray-500')
+                    }
                   >
-                    <i className="fas fa-fingerprint text-blueGray-400 mr-2 text-sm"></i> Overview
+                    <i
+                      className={
+                        'fas fa-tv mr-2 text-sm ' +
+                        (router.pathname.indexOf('/admin/dashboard') !== -1
+                          ? 'opacity-75'
+                          : 'text-blueGray-300')
+                      }
+                    ></i>{' '}
+                    Advertising Report
                   </a>
                 </Link>
               </li>
-
               <li className="items-center">
-                <a
-                  href="#pablo"
-                  className="text-blueGray-700 hover:text-blueGray-500 block py-3 text-xs font-bold uppercase"
-                >
-                  <i className="fas fa-clipboard-list text-blueGray-300 mr-2 text-sm"></i> Other
-                </a>
+                <Link href="/dashboard">
+                  <a
+                    href="#pablo"
+                    className={
+                      'block py-3 text-xs font-bold uppercase ' +
+                      (router.pathname.indexOf('/admin/dashboard') !== -1
+                        ? 'text-lightBlue-500 hover:text-lightBlue-600'
+                        : 'text-blueGray-700 hover:text-blueGray-500')
+                    }
+                  >
+                    <i
+                      className={
+                        'fas fa-tv mr-2 text-sm ' +
+                        (router.pathname.indexOf('/admin/dashboard') !== -1
+                          ? 'opacity-75'
+                          : 'text-blueGray-300')
+                      }
+                    ></i>{' '}
+                    Trx History
+                  </a>
+                </Link>
               </li>
-            </ul>
- 
+            </ul> */}
+
           </div>
         </div>
       </nav>
     </>
   )
 }
+
+export default withProtected(Sidebar)

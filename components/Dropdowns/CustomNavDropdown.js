@@ -7,7 +7,7 @@ import { withProtected } from 'src/hook/route'
 
 function CustomNavDropdown({ userInfo }) {
   return (
-    <Menu as="div" className="relative ml-3 mr-2 inline-block text-left">
+    <Menu as="div" className="relative ml-3 mr-2 inline-block text-left z-50">
       <div>
         <Menu.Button className="inline-flex w-full justify-center rounded-md">
           {userInfo !== null ? (
@@ -53,7 +53,7 @@ function CustomNavDropdown({ userInfo }) {
 
             <hr />
             {/* <Link href="/dashboard"> */}
-              <a href="/dashboard" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
+              <a href="/dashboard/earning-report" className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
                 Dashboard
               </a>
             {/* </Link> */}
