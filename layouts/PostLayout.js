@@ -121,7 +121,7 @@ export default function PostLayout({
                       <dt className="sr-only">Name</dt>
                       <dd className="text-gray-900 dark:text-gray-100">
                         <Link
-                          href={'/profilr'}
+                          href={`/profile/${authorDetails.id}`}
                           className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                         >
                           {authorDetails.name}
