@@ -71,8 +71,8 @@ export async function getServerSideProps({ params }) {
 
   const postData = await getPostFrontMatterByPostIdAndSlug(params.slug[0], params.slug[1]);
 
-  const author = await getUserInfo(postData.authorDetails.id)
-  const followers = author.followers.length
+  const author = await getUserInfo(postData?.authorDetails?.id)
+  const followers = author !== "NODATA" ?  author.followers.length : null
 
   return {
     props: { postData, prev, next, followers },
