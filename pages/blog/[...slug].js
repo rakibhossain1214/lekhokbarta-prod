@@ -92,11 +92,9 @@ export async function getStaticProps({ params }) {
 
   return {
     props: { postData, prev, next, followers },
-    revalidate: 1
+    revalidate: 60
   }
 }
-
-
 
 export async function getStaticPaths() {
   const pathsArray = []

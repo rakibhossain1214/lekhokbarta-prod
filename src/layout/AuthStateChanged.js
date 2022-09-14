@@ -1,3 +1,4 @@
+import { getUserInfo } from '@/lib/firestoreConnection'
 import React, { useEffect, useState } from 'react'
 import useAuth from '../hook/auth'
 import AuthService from '../service/AuthService'
@@ -8,7 +9,9 @@ export default function AuthStateChanged({ children }) {
 
   useEffect(() => {
     const AuthState = AuthService.waitForUser((userCred) => {
-      setUser(userCred)
+      getUserInfo(userCred.uid).then((data) => {
+        setUser(data)
+      })
       setLoading(false)
     })
     return AuthState

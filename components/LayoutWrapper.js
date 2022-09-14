@@ -14,17 +14,6 @@ import CustomNavDropdown from './Dropdowns/CustomNavDropdown'
 
 const LayoutWrapper = ({ children, auth }) => {
   const { user } = auth
-  const [userInfo, setUserInfo] = useState(user)
-
-  useEffect(() => {
-    async function getUser() {
-      if (user !== null) {
-        const userData = await getUserInfo(user.uid)
-        setUserInfo(userData)
-      }
-    }
-    getUser()
-  }, [])
 
   const router = useRouter()
   const showHeader =
@@ -67,7 +56,7 @@ const LayoutWrapper = ({ children, auth }) => {
                 ))}
               </div>
               {user !== null ? (
-                <CustomNavDropdown userInfo={userInfo} />
+                <CustomNavDropdown userInfo={user} />
               ) : (
                 <Link
                   key="login"
