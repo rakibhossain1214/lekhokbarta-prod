@@ -60,26 +60,6 @@ function Blog({ postData, prev, next, auth, followers }) {
 }
 export default withPublic(Blog)
 
-// export async function getServerSideProps({ params }) {
-//   //process -> Next & Prev
-//   const allPosts = await getAllPostsFrontMatterWithPostId();
-
-//   const postIndex = allPosts.findIndex((post) => post.postId === params.slug[0] && post.slug === params.slug[1])
-
-//   const prev = allPosts[postIndex + 1] || null
-//   const next = allPosts[postIndex - 1] || null
-
-//   const postData = await getPostFrontMatterByPostIdAndSlug(params.slug[0], params.slug[1]);
-
-//   const author = await getUserInfo(postData?.authorDetails?.id)
-//   const followers = author !== "NODATA" ?  author.followers.length : null
-
-//   return {
-//     props: { postData, prev, next, followers },
-//     // revalidate: 1
-//   }
-// }
-
 export async function getStaticProps({ params }) {
   //process -> Next & Prev
   const allPosts = await getAllPostsFrontMatterWithPostId();
