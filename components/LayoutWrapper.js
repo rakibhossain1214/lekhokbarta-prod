@@ -8,24 +8,10 @@ import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import { withPublic } from 'src/hook/route'
 import { useRouter } from 'next/dist/client/router'
-import { useEffect, useState } from 'react'
-import { getUserInfo } from '@/lib/firestoreConnection'
 import CustomNavDropdown from './Dropdowns/CustomNavDropdown'
 
 const LayoutWrapper = ({ children, auth }) => {
   const { user } = auth
-  const [userInfo, setUserInfo] = useState(user)
-
-  useEffect(() => {
-    async function getUser() {
-      if (user !== null) {
-        const userData = await getUserInfo(user.uid)
-        setUserInfo(userData)
-      }
-    }
-    getUser()
-  }, [])
-
   const router = useRouter()
   const showHeader =
     router.pathname === '/dashboard/earning-report' ||
@@ -67,7 +53,7 @@ const LayoutWrapper = ({ children, auth }) => {
                 ))}
               </div>
               {user !== null ? (
-                <CustomNavDropdown userInfo={userInfo} />
+                <CustomNavDropdown userInfo={user} />
               ) : (
                 <Link
                   key="login"
