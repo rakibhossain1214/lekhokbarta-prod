@@ -29,18 +29,18 @@ export default function PostLayout({
   lastmod,
   postData,
   user,
-  followers,
 }) {
   const { slug, title, tags } = frontMatter
 
   const [showFollowButton, setShowFollowButton] = useState(true)
-  const [followerCount, setFollowerCount] = useState(followers)
+  const [followerCount, setFollowerCount] = useState(0)
   const [processing, setProcessing] = useState(false)
 
   useEffect(() => {
     async function getUser() {
       setProcessing(true)
       const userData = await getUserInfo(authorDetails.id)
+      setFollowerCount(userData?.followers?.length);
       userData?.followers?.map((follower) => {
         if (follower.uid === user?.uid) {
           setShowFollowButton(false)
@@ -49,7 +49,7 @@ export default function PostLayout({
       setProcessing(false)
     }
     getUser()
-  }, [])
+  }, [postData])
 
   const handleFollow = () => {
     setProcessing(true)

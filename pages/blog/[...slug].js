@@ -5,7 +5,7 @@ import PageTitle from '@/components/PageTitle'
 import { getAllPostsFrontMatterWithPostId, getPostFrontMatterByPostIdAndSlug, getUserInfo } from '@/lib/firestoreConnection'
 import { withPublic } from 'src/hook/route'
 
-function Blog({ postData, prev, next, auth, followers }) {
+function Blog({ postData, prev, next, auth }) {
   const { user } = auth
   const [userInfo, setUserInfo] = useState(user)
   
@@ -36,7 +36,6 @@ function Blog({ postData, prev, next, auth, followers }) {
             postId={postData.postId}
             postData={postData}
             user={userInfo}
-            followers={followers}
           />
           :
           <>
@@ -71,11 +70,8 @@ export async function getServerSideProps({ params }) {
 
   const postData = await getPostFrontMatterByPostIdAndSlug(params.slug[0], params.slug[1]);
 
-  const author = await getUserInfo(postData?.authorDetails?.id)
-  const followers = author !== "NODATA" ?  author.followers.length : null
-
   return {
-    props: { postData, prev, next, followers },
+    props: { postData, prev, next },
     // revalidate: 1
   }
 }
