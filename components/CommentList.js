@@ -29,7 +29,7 @@ if (typeof window !== 'undefined') {
   title = String(window.title)
 }
 
-function CommentList({ postId, user, defaultPostData }) {
+function CommentList({ postId, user, defaultPostData, loginWithGoogleRefresh }) {
   const [upVoted, setUpVoted] = useState(false)
   const [downVoted, setDownVoted] = useState(false)
   const [comEditId, setComEditId] = useState(null)
@@ -337,7 +337,26 @@ function CommentList({ postId, user, defaultPostData }) {
           handleCommentOpen={handleCommentOpen}
         />
       ) : (
-        <p className="ml-4 text-red-500">Please login to vote and comment</p>
+        <button
+          onClick={loginWithGoogleRefresh}
+          className="m-1 flex items-center rounded border border-gray-200 bg-gray-500 pl-2 pr-2 text-xs text-gray-100"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="mt-1 mb-1 mr-1 h-4 w-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
+            />
+          </svg>
+          Please login to vote and comment
+        </button>
       )}
     </>
   )
