@@ -1,5 +1,4 @@
 import { getUserInfo } from '@/lib/firestoreConnection'
-import { ContactsOutlined } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react'
 import useAuth from '../hook/auth'
 import AuthService from '../service/AuthService'
