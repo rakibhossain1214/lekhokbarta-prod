@@ -11,7 +11,7 @@ import { useRouter } from 'next/dist/client/router'
 import CustomNavDropdown from './Dropdowns/CustomNavDropdown'
 
 const LayoutWrapper = ({ children, auth }) => {
-  const { user } = auth
+  const { user, logout } = auth
   const router = useRouter()
   const showHeader =
     router.pathname === '/dashboard/earning-report' ||
@@ -51,6 +51,14 @@ const LayoutWrapper = ({ children, auth }) => {
                     {link.title}
                   </Link>
                 ))}
+                <Link
+                  key={'logout'}
+                  href={'#'}
+                  onClick={logout}
+                  className="p-1 font-medium text-gray-900 dark:text-gray-100 sm:p-4"
+                >
+                  Logout
+                </Link>
               </div>
               {user !== null ? (
                 <CustomNavDropdown userInfo={user} />

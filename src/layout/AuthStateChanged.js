@@ -1,4 +1,5 @@
 import { getUserInfo } from '@/lib/firestoreConnection'
+import { ContactsOutlined } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react'
 import useAuth from '../hook/auth'
 import AuthService from '../service/AuthService'
@@ -9,10 +10,19 @@ export default function AuthStateChanged({ children }) {
 
   useEffect(() => {
     const AuthState = AuthService.waitForUser((userCred) => {
-      getUserInfo(userCred.uid).then((data) => {
-        setUser(data)
-      })
-      setLoading(false)
+      setUser(userCred)
+      if (userCred !== null) {
+        getUserInfo(userCred?.uid).then((data) => {
+          if (data !== 'NODATA') {
+            setUser(data)
+          } else {
+            setUser(userCred)
+          }
+        })
+        setLoading(false)
+      } else {
+        setLoading(false)
+      }
     })
     return AuthState
   }, [])

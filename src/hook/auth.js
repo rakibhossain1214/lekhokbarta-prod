@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react'
 import AuthService from '../service/AuthService'
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { addUserToDb, getUserInfo } from '@/lib/firestoreConnection'
 
 const authContext = createContext()
@@ -36,11 +36,11 @@ export function AuthProvider(props) {
       const userInfo = await getUserInfo(user.uid)
       setUser(userInfo ?? null)
       setError(error ?? '')
-      router.push('/', undefined, { shallow: false })
+      // router.push('/', undefined, { shallow: false })
     } else {
       setUser(userData ?? null)
       setError(error ?? '')
-      router.push('/', undefined, { shallow: false })
+      // router.push('/', undefined, { shallow: false })
     }
   }
 
