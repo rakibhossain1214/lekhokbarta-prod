@@ -6,7 +6,7 @@ import { getAllPostsFrontMatterWithPostId, getPostFrontMatterByPostIdAndSlug, ge
 import { withPublic } from 'src/hook/route'
 
 function Blog({ postData, prev, next, auth }) {
-  const { user } = auth
+  const { user, loginWithGoogleRefresh } = auth
   const [userInfo, setUserInfo] = useState(user)
   
   useEffect(()=>{
@@ -36,6 +36,7 @@ function Blog({ postData, prev, next, auth }) {
             postId={postData.postId}
             postData={postData}
             user={userInfo}
+            loginWithGoogleRefresh={loginWithGoogleRefresh}
           />
           :
           <>

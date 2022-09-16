@@ -43,7 +43,7 @@ function profile({ auth }) {
             setUserInfo(userData)
 
             userData?.followers?.map(follower => {
-                if (follower.uid === user.uid) {
+                if (follower.uid === user?.uid) {
                     setShowFollowButton(false)
                 }
             })
