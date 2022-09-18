@@ -8,6 +8,7 @@ import { addPost, getAllTagsArray, getUserInfo } from '@/lib/firestoreConnection
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import CreatableSelect from 'react-select/creatable'
+import WriteAgreement from '@/components/WriteAgreement'
 
 const LoginSchema = Yup.object().shape({
   title: Yup.string()
@@ -65,6 +66,7 @@ function Write({ auth }) {
           Tips: Following fields are important for your SEO ranking.
         </p>
       </div>
+      <WriteAgreement />
       <Grid
         className="py-2"
         container
