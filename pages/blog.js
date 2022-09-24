@@ -4,7 +4,7 @@ import ListLayout from '@/layouts/ListLayout'
 import { PageSEO } from '@/components/SEO'
 import { getAllPostsFrontMatterWithPostId } from '@/lib/firestoreConnection'
 
-export const POSTS_PER_PAGE = 5
+export const POSTS_PER_PAGE = 2
 
 export async function getServerSideProps() {
   const posts = await getAllPostsFrontMatterWithPostId()

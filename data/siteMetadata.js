@@ -1,7 +1,7 @@
 const siteMetadata = {
-  title: 'Lekhokbarta',
+  title: 'Roarspot',
   author: 'A. M. Rakibul Hossain',
-  headerTitle: 'Lekhokbarta',
+  headerTitle: 'Roarspot',
   description: 'World of writers!',
   language: 'en-us',
   theme: 'system', // system, dark or light
