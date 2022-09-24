@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import 'suneditor/dist/css/suneditor.min.css'
 import SunEditor from 'suneditor-react'
-const defaultTheme = require('tailwindcss/defaultTheme')
+
 import {
   getStorage,
   ref,
@@ -10,6 +10,7 @@ import {
   deleteObject,
 } from 'firebase/storage'
 import Compressor from 'compressorjs'
+import { updatePostContent } from '@/lib/firestoreConnection'
 
 const storage = getStorage()
 const metadata = {
@@ -17,6 +18,8 @@ const metadata = {
 }
 
 const CustomSunEditor = (props) => {
+  const [showToast, setShowToast] = useState(false)
+
   function handleImageUploadBefore(files, info, uploadHandler) {
     const storageRef = ref(storage, 'images/' + props.postId + '/' + files[0].name)
     const image = files[0]
@@ -102,36 +105,38 @@ const CustomSunEditor = (props) => {
           buttonList:
             screen.width >= 768
               ? [
-                  ['fullScreen'],
-                  ['font', 'fontSize', 'formatBlock'],
-                  ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor', 'textStyle'],
-                  ['align', 'list', 'outdent', 'indent'],
-                  ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
-                  ['link', 'table', 'image', 'video'],
-                  ['undo', 'redo'],
-                ]
+                ['fullScreen'],
+                ['font', 'fontSize', 'formatBlock'],
+                ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor', 'textStyle'],
+                ['align', 'list', 'outdent', 'indent'],
+                ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
+                ['link', 'table', 'image', 'video'],
+                ['undo', 'redo'],
+                ['save']
+              ]
               : [
-                  ['bold', 'underline', 'italic'],
-                  [':t-More Text-default.more_text', 'font', 'fontSize', 'formatBlock'],
-                  [
-                    ':p-More Paragraph-default.more_paragraph',
-                    'fontColor',
-                    'hiliteColor',
-                    'textStyle',
-                    'align',
-                    'list',
-                    'outdent',
-                    'indent',
-                    'strike',
-                    'subscript',
-                    'superscript',
-                    'horizontalRule',
-                    'removeFormat',
-                  ],
-                  [':r-More Rich-default.more_plus', 'link', 'table', 'image', 'video'],
-                  ['undo', 'redo'],
-                  ['fullScreen'],
+                ['bold', 'underline', 'italic'],
+                [':t-More Text-default.more_text', 'font', 'fontSize', 'formatBlock'],
+                [
+                  ':p-More Paragraph-default.more_paragraph',
+                  'fontColor',
+                  'hiliteColor',
+                  'textStyle',
+                  'align',
+                  'list',
+                  'outdent',
+                  'indent',
+                  'strike',
+                  'subscript',
+                  'superscript',
+                  'horizontalRule',
+                  'removeFormat',
                 ],
+                [':r-More Rich-default.more_plus', 'link', 'table', 'image', 'video'],
+                ['undo', 'redo'],
+                ['fullScreen'],
+                ['save']
+              ],
           minHeight: 300,
           defaultStyle: 'font-size:16px; font-family: Arial',
           font: [
@@ -148,12 +153,34 @@ const CustomSunEditor = (props) => {
           ],
           formats: ['p', 'h1', 'h2', 'h3', 'h4', 'blockquote'],
           mode: 'classic',
+          callBackSave: function (contents, isChanged) {
+            if (isChanged) {
+              updatePostContent({ postData: props.postData, content: contents })
+              setShowToast(true)
+              setTimeout(() => {
+                setShowToast(false)
+              }, 3000);
+            }
+          }
         }}
         setContents={props.editorContent}
-        onChange={props.handleChange}
         onImageUploadBefore={handleImageUploadBefore}
         onImageUpload={onImageUpload}
       />
+
+      {
+        showToast ?
+          <div id="myToast" class="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg">
+            <p class="text-sm">
+              <span class="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
+              Your blog content is updated!
+            </p>
+          </div>
+          :
+          ""
+      }
+
+
     </div>
   )
 }

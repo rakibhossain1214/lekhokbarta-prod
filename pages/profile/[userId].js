@@ -90,6 +90,9 @@ function profile({ auth }) {
     function handleImageUploadBefore(files) {
         const storageRef = ref(storage, 'avatars/' + userId + '/' + userId)
         const image = files[0]
+
+        setImageLoad(true)
+
         new Compressor(image, {
             quality: 0.2, // 0.6 can also be used, but its not recommended to go below.
             success: (compressedResult) => {
@@ -127,7 +130,6 @@ function profile({ auth }) {
                         // Upload completed successfully, now we can get the download URL
                         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                             const userRef = doc(db, 'users', userId)
-                            setImageLoad(true)
                             updateDoc(userRef, { photoURL: downloadURL }).then(() => {
                                 setUserInfo({ ...userInfo, photoURL: downloadURL })
                                 setImageLoad(false)
@@ -187,8 +189,9 @@ function profile({ auth }) {
                                     user !== null ?
                                         userId === user.uid &&
                                         <button className='flex items-start -ml-2 overflow-hidden relative w-5 h-5'>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 rounded-full text-teal-500 bg-gray-300" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="h-5 w-5 rounded-full text-teal-500 bg-gray-300">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
                                             </svg>
                                             <input className="cursor-pointer absolute opacity-0 block pin-r pin-t" type="file"
                                                 accept="image/png, image/jpeg, image/jpg"
@@ -200,8 +203,6 @@ function profile({ auth }) {
                                         :
                                         ''
                                 }
-
-
                             </div>
                         ) : (
                             'User Avatar'
@@ -213,31 +214,31 @@ function profile({ auth }) {
                         <div className='flex mt-4'>
                             {
                                 user !== null ?
-                                    userId !== user.uid ? 
+                                    userId !== user.uid ?
                                         showFollowButton ?
-                                    <button
-                                        disabled={processing}
-                                        onClick={handleFollow}
-                                        className='text-xs text-gray-100 flex pl-2 pr-2 m-1 border border-gray-200 bg-teal-500 rounded items-center'
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
-                                        </svg>
-                                        Follow
-                                    </button>
-                                    :
-                                    <button
-                                        disabled={processing}
-                                        onClick={deleteFollow}
-                                        className='text-xs text-gray-600 flex pl-2 pr-2 pt-1 pb-1 m-1 border border-gray-200 bg-gray-300 rounded items-center'
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
-                                        </svg>
-                                        Unfollow
-                                    </button>
-                                    :
-                                    ''
+                                            <button
+                                                disabled={processing}
+                                                onClick={handleFollow}
+                                                className='text-xs text-gray-100 flex pl-2 pr-2 m-1 border border-gray-200 bg-teal-500 rounded items-center'
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                                                </svg>
+                                                Follow
+                                            </button>
+                                            :
+                                            <button
+                                                disabled={processing}
+                                                onClick={deleteFollow}
+                                                className='text-xs text-gray-600 flex pl-2 pr-2 pt-1 pb-1 m-1 border border-gray-200 bg-gray-300 rounded items-center'
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                                                </svg>
+                                                Unfollow
+                                            </button>
+                                        :
+                                        ''
                                     :
                                     ''
                             }

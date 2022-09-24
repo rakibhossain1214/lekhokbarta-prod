@@ -10,7 +10,7 @@ import PageTitle from '@/components/PageTitle'
 import CreatableSelect from 'react-select/creatable'
 import WriteAgreement from '@/components/WriteAgreement'
 
-const LoginSchema = Yup.object().shape({
+const postValidationSchema = Yup.object().shape({
   title: Yup.string()
     .min(5, 'Title must be 5 characters at minimum')
     .max(50, 'Title must be 50 characters at maximum')
@@ -77,10 +77,10 @@ function Write({ auth }) {
       >
         <Formik
           initialValues={{ title: '', category: '', summary: '' }}
-          validationSchema={LoginSchema}
+          validationSchema={postValidationSchema}
           onSubmit={(values) => {
             if (author !== null) {
-              addPost({ values: { ...values, category: [values.category] }, author, selectedTags })
+              addPost({ values: { ...values, category: values.category }, author, selectedTags })
                 .then(function (docRef) {
                   router.push(`write/${user.uid}/${docRef.id}`)
                 })
