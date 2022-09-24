@@ -48,7 +48,7 @@ const metadata = {
 function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
   const { user } = auth
   const [imageLoad, setImageLoad] = useState(false)
-  const [postThumbnail, setPostThumbnail] = useState(postData.postThumbnail)
+  const [postThumbnail, setPostThumbnail] = useState(postData.frontMatter.postThumbnail)
   const [showToast, setShowToast] = useState(false)
   const [draftToast, setDraftToast] = useState(false)
   const [publishToast, setPublishToast] = useState(false)
@@ -138,8 +138,9 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
             // Upload completed successfully, now we can get the download URL
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
               const postRef = doc(db, 'posts', postData.postId)
-              updateDoc(postRef, {
-                postThumbnail: downloadURL
+              postData.frontMatter.postThumbnail = downloadURL
+              setDoc(postRef, {
+                ...postData
               }).then(() => {
                 setImageLoad(false)
                 setPostThumbnail(downloadURL)
@@ -156,8 +157,9 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
     var fileRef = ref(storage, postThumbnail)
     deleteObject(fileRef)
       .then(() => {
-        updateDoc(postRef, {
-          postThumbnail: ''
+        postData.frontMatter.postThumbnail = ''
+        setDoc(postRef, {
+          ...postData
         }).then(() => {
           setPostThumbnail('')
         })
@@ -375,9 +377,9 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
       </Accordion>
       {
         showToast ?
-          <div id="myToast" class="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20">
-            <p class="text-sm">
-              <span class="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
+          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20">
+            <p className="text-sm">
+              <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
               Your blog is updated!
             </p>
           </div>
@@ -387,9 +389,9 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
 
       {
         draftToast ?
-          <div id="myToast" class="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20">
-            <p class="text-sm">
-              <span class="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
+          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20">
+            <p className="text-sm">
+              <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
               Your blog is drafted!
             </p>
           </div>
@@ -399,9 +401,9 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
 
       {
         publishToast ?
-          <div id="myToast" class="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20">
-            <p class="text-sm">
-              <span class="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
+          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20">
+            <p className="text-sm">
+              <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
               Your blog is submitted for approval!
             </p>
           </div>

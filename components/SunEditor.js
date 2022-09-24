@@ -154,14 +154,18 @@ const CustomSunEditor = (props) => {
           formats: ['p', 'h1', 'h2', 'h3', 'h4', 'blockquote'],
           mode: 'classic',
           callBackSave: function (contents, isChanged) {
+            var regex = /(<([^>]+)>)/ig;
+            var result = contents.replace(regex, "");
             if (isChanged) {
-              updatePostContent({ postData: props.postData, content: contents })
+              updatePostContent({ postData: props.postData, content: contents, characterCount: result.length })
               setShowToast(true)
               setTimeout(() => {
                 setShowToast(false)
               }, 3000);
             }
-          }
+          },
+          "charCounter": true,
+	        "charCounterLabel": "count",
         }}
         setContents={props.editorContent}
         onImageUploadBefore={handleImageUploadBefore}
@@ -170,9 +174,9 @@ const CustomSunEditor = (props) => {
 
       {
         showToast ?
-          <div id="myToast" class="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg">
-            <p class="text-sm">
-              <span class="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
+          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20">
+            <p className="text-sm">
+              <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
               Your blog content is updated!
             </p>
           </div>
