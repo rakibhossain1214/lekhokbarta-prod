@@ -26,7 +26,7 @@ import {
   deleteObject
 } from 'firebase/storage'
 import Compressor from 'compressorjs'
-import Image from 'next/image'
+import Image from '@/components/Image'
 
 const postValidationSchema = Yup.object().shape({
   title: Yup.string()
