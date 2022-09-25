@@ -11,13 +11,19 @@ import { useRouter } from 'next/dist/client/router'
 import CustomNavDropdown from './Dropdowns/CustomNavDropdown'
 
 const LayoutWrapper = ({ children, auth }) => {
-  const { user, loginWithGoogleNoRedirect, error } = auth
+  const { user, loginWithGoogleNoRedirect, error, logout } = auth
   const router = useRouter()
   const showHeader =
     router.pathname === '/dashboard/earning-report' ||
     router.pathname === '/dashboard/earning-trx-history'
       ? false
       : true
+
+  if(user !== null){
+    if(user.accessToken !== undefined){
+      return <>Loading...</>
+    }
+  }
 
   return (
     <SectionContainer showHeader={showHeader}>
@@ -53,7 +59,7 @@ const LayoutWrapper = ({ children, auth }) => {
                 ))}
               </div>
               {user !== null ? (
-                <CustomNavDropdown userInfo={user} />
+                <CustomNavDropdown userInfo={user} logout={logout} />
               ) : (
                 <Link
                   key="login"

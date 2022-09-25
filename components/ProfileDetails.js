@@ -128,32 +128,37 @@ function ProfileDetails({ userInfo, handleChange, userId, user }) {
                                     }
                                 </div>
 
-                                <div className="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                                    </svg>
-                                    {!editable ?
-                                        <p className='pl-1'>{userInfo.phoneNumber !== '' ? userInfo.phoneNumber : 'no phone number added'}</p>
-                                        :
-                                        <div className="form-group">
-                                            <div className="border-b border-teal-500">
-                                                <Field
-                                                    className={`focus:outline-none} w-full 
+                                {
+                                    user !== null ?
+                                        user.uid === userId ?
+                                            <div className="flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                                                </svg>
+                                                {!editable ?
+                                                    <p className='pl-1'>{userInfo.phoneNumber !== '' ? userInfo.phoneNumber : 'no phone number added'}</p>
+                                                    :
+                                                    <div className="form-group">
+                                                        <div className="border-b border-teal-500">
+                                                            <Field
+                                                                className={`focus:outline-none} w-full 
                                                         appearance-none border-none bg-transparent py-2 leading-tight 
                                                         text-gray-600 dark:text-gray-100
                                                         ${touched.phoneNumber && errors.phoneNumber ? 'is-invalid' : ''}
                                                         `}
-                                                    type="text"
-                                                    placeholder="Phone Number"
-                                                    aria-label="Phone Number"
-                                                    name="phoneNumber"
-                                                    autoComplete="off"
-                                                />
-                                            </div>
-                                            <ErrorMessage className="text-red-400 " component="p" name="phoneNumber" />
-                                        </div>
-                                    }
-                                </div>
+                                                                type="text"
+                                                                placeholder="Phone Number"
+                                                                aria-label="Phone Number"
+                                                                name="phoneNumber"
+                                                                autoComplete="off"
+                                                            />
+                                                        </div>
+                                                        <ErrorMessage className="text-red-400 " component="p" name="phoneNumber" />
+                                                    </div>
+                                                }
+                                            </div> : ''
+                                        : ''
+                                }
 
                                 <div className="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -211,34 +216,39 @@ function ProfileDetails({ userInfo, handleChange, userId, user }) {
                                     }
                                 </div>
 
-                                <div className="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                                    </svg>
+                                {
+                                    user !== null ?
+                                        user.uid === userId ?
+                                            <div className="flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className='w-5 h-5' viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                                                </svg>
 
 
-                                    {!editable ?
-                                        <p className='pl-1'>{userInfo.address !== '' ? userInfo.address : 'no address added'}</p>
-                                        :
-                                        <div className="form-group">
-                                            <div className="border-b border-teal-500">
-                                                <Field
-                                                    className={`focus:outline-none} w-full 
+                                                {!editable ?
+                                                    <p className='pl-1'>{userInfo.address !== '' ? userInfo.address : 'no address added'}</p>
+                                                    :
+                                                    <div className="form-group">
+                                                        <div className="border-b border-teal-500">
+                                                            <Field
+                                                                className={`focus:outline-none} w-full 
                                                         appearance-none border-none bg-transparent py-2 leading-tight 
                                                         text-gray-600 dark:text-gray-100
                                                         ${touched.address && errors.address ? 'is-invalid' : ''}
                                                         `}
-                                                    type="text"
-                                                    placeholder="Address"
-                                                    aria-label="Address"
-                                                    name="address"
-                                                    autoComplete="off"
-                                                />
-                                            </div>
-                                            <ErrorMessage className="text-red-400 " component="p" name="address" />
-                                        </div>
-                                    }
-                                </div>
+                                                                type="text"
+                                                                placeholder="Address"
+                                                                aria-label="Address"
+                                                                name="address"
+                                                                autoComplete="off"
+                                                            />
+                                                        </div>
+                                                        <ErrorMessage className="text-red-400 " component="p" name="address" />
+                                                    </div>
+                                                }
+                                            </div> : ''
+                                        : ''
+                                }
 
                                 <div className="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
