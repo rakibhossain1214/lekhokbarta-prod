@@ -4,9 +4,10 @@ import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import { getAllPostsFrontMatterWithPostId, getPostFrontMatterByPostIdAndSlug, getUserInfo } from '@/lib/firestoreConnection'
 import { withPublic } from 'src/hook/route'
+import LoadingComponent from '@/components/LoadingComponent'
 
 function Blog({ postData, prev, next, auth }) {
-  const { user, loginWithGoogleRefresh } = auth
+  const { user, loginWithGoogleNoRedirect } = auth
   const [userInfo, setUserInfo] = useState(user)
   
   useEffect(()=>{
@@ -22,7 +23,7 @@ function Blog({ postData, prev, next, auth }) {
   return (
     <div>
       {postData === null ?
-        <>Loading...</>
+        <LoadingComponent />
         :
         postData !== "NODATA" ?
           <PostLayout
@@ -36,7 +37,7 @@ function Blog({ postData, prev, next, auth }) {
             postId={postData.postId}
             postData={postData}
             user={userInfo}
-            loginWithGoogleRefresh={loginWithGoogleRefresh}
+            loginWithGoogleNoRedirect={loginWithGoogleNoRedirect}
           />
           :
           <>

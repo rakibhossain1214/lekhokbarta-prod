@@ -1,3 +1,4 @@
+import LoadingComponent from '@/components/LoadingComponent'
 import { useRouter } from 'next/router'
 import React from 'react'
 import useAuth from './auth'
@@ -15,7 +16,7 @@ export function withProtected(Component) {
     const router = useRouter()
     if (!auth.user) {
       router.replace('/')
-      return <p>Loading...</p>
+      return <LoadingComponent />
     }
     return <Component auth={auth} {...props} />
   }

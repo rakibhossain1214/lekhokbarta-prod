@@ -53,7 +53,9 @@ function profile({ auth }) {
     }, [])
 
     if (userInfo === null) {
-        return <>loading...</>
+        return (
+            <p className='text-teal-500'>Loading...</p>
+        )
     }
 
 

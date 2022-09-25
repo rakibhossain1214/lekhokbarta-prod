@@ -19,6 +19,7 @@ import {
   LinkedinIcon,
   WhatsappIcon,
 } from 'react-share'
+import LoadingComponent from './LoadingComponent'
 
 let url = 'https://lekhokbarta.com'
 let title = 'Lekhokbarta'
@@ -79,7 +80,7 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
   }, [postId])
 
   if (postData === null) {
-    return <>Loading...</>
+    return <LoadingComponent />
   }
 
   const handleUpvote = () => {

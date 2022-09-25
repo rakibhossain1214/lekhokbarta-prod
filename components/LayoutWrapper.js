@@ -9,19 +9,22 @@ import ThemeSwitch from './ThemeSwitch'
 import { withPublic } from 'src/hook/route'
 import { useRouter } from 'next/dist/client/router'
 import CustomNavDropdown from './Dropdowns/CustomNavDropdown'
+import LoadingComponent from './LoadingComponent'
 
 const LayoutWrapper = ({ children, auth }) => {
   const { user, loginWithGoogleNoRedirect, error, logout } = auth
   const router = useRouter()
   const showHeader =
     router.pathname === '/dashboard/earning-report' ||
-    router.pathname === '/dashboard/earning-trx-history'
+      router.pathname === '/dashboard/earning-trx-history'
       ? false
       : true
 
-  if(user !== null){
-    if(user.accessToken !== undefined){
-      return <>Loading...</>
+  if (user !== null) {
+    if (user.accessToken !== undefined) {
+      return (
+       <LoadingComponent />
+      )
     }
   }
 

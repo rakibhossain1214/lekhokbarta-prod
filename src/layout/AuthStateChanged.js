@@ -1,3 +1,4 @@
+import LoadingComponent from '@/components/LoadingComponent'
 import { getUserInfo } from '@/lib/firestoreConnection'
 import React, { useEffect, useState } from 'react'
 import useAuth from '../hook/auth'
@@ -27,7 +28,7 @@ export default function AuthStateChanged({ children }) {
   }, [])
 
   if (loading) {
-    return <>Loading...</>
+    return <LoadingComponent />
   }
 
   return children

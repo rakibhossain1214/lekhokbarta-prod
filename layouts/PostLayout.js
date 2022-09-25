@@ -196,8 +196,8 @@ export default function PostLayout({
                             onClick={loginWithGoogleNoRedirect}
                             className='text-xs text-gray-100 flex pl-2 pr-2 m-1 border border-gray-200 bg-red-500 rounded items-center'
                           >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mt-1 mb-1 mr-1">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 mt-1 mb-1 mr-1">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
                             </svg>
                             Login to follow
                           </button>
