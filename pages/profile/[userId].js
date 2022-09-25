@@ -19,13 +19,11 @@ import {
 import Compressor from 'compressorjs'
 import { getFirestore, doc, updateDoc } from 'firebase/firestore'
 
-
 const storage = getStorage()
 const metadata = {
     contentType: 'image/jpeg',
 }
 const db = getFirestore()
-
 
 function profile({ auth }) {
     const { user } = auth
@@ -161,7 +159,6 @@ function profile({ auth }) {
             </div>
         </>
     }
-
 
     return (
         <>
