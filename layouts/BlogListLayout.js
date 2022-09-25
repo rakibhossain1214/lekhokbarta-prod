@@ -147,7 +147,7 @@ export default function ListLayout({ posts, initialDisplayPosts = [], pagination
                     <Link href={`/blog/${postId}/${slug}`}>
                       <dd className="p-2">
                         <Image
-                          className="h-52 w-full rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                          className="rounded-t-lg md:rounded-l-lg"
                           src={postThumbnail}
                           width={window.innerWidth < 768 ? 500 : 250}
                           height={window.innerWidth < 768 ? 350 : 208}
