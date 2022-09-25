@@ -5,7 +5,7 @@ import { Tab } from '@headlessui/react'
 import Image from '@/components/Image';
 import ProfileDetails from '@/components/ProfileDetails';
 import Followers from '@/components/Followers';
-import Following from '@/components/Following';
+import Following from '@/components/Followed';
 import Background from '../../public/static/images/profile_bg.jpg'
 import { useRouter } from 'next/router'
 import PageTitle from '@/components/PageTitle'
