@@ -248,7 +248,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
         </div>
       </div>
 
-      <SunEditor postData={postData} editorContent={postData.frontMatter.content} />
+      <SunEditor postData={postData} editorContent={postData.content} />
 
       <Accordion className='mt-3'>
         <AccordionSummary

@@ -28,7 +28,7 @@ function Blog({ postData, prev, next, auth }) {
           <PostLayout
             frontMatter={postData.frontMatter}
             authorDetails={postData.authorDetails}
-            children={postData.frontMatter.content}
+            children={postData.content}
             prev={prev}
             next={next}
             date={postData.date}
