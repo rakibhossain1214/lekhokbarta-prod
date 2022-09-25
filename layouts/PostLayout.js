@@ -29,7 +29,7 @@ export default function PostLayout({
   lastmod,
   postData,
   user,
-  loginWithGoogleRefresh
+  loginWithGoogleNoRedirect
 }) {
   const { slug, title, tags } = frontMatter
 
@@ -193,8 +193,8 @@ export default function PostLayout({
                           )
                         ) : (
                           <button
-                            onClick={loginWithGoogleRefresh}
-                            className='text-xs text-gray-100 flex pl-2 pr-2 m-1 border border-gray-200 bg-gray-500 rounded items-center'
+                            onClick={loginWithGoogleNoRedirect}
+                            className='text-xs text-gray-100 flex pl-2 pr-2 m-1 border border-gray-200 bg-red-500 rounded items-center'
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mt-1 mb-1 mr-1">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
@@ -213,7 +213,7 @@ export default function PostLayout({
               <div className="prose max-w-none pt-0 pb-8 dark:prose-dark">
                 <ShowPost content={children} />
               </div>
-              <CommentList postId={postId} defaultPostData={postData} user={user} loginWithGoogleRefresh={loginWithGoogleRefresh} />
+              <CommentList postId={postId} defaultPostData={postData} user={user} loginWithGoogleNoRedirect={loginWithGoogleNoRedirect} />
             </div>
             <footer>
               <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">

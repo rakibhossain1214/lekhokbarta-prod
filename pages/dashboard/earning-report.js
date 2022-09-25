@@ -22,7 +22,11 @@ function Dashboard({ auth }) {
       const userData = await getUserInfo(user.uid)
       setUserInfo(userData)
     }
-    getUser()
+
+    return function cleanup() {
+      getUser()
+    };
+   
   }, [])
 
   useEffect(() => {

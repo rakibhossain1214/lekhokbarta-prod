@@ -44,31 +44,12 @@ export function AuthProvider(props) {
     }
   }
 
-
-  const loginWithGoogleRefresh = async () => {
-    const { error, user } = await AuthService.loginWithGoogle()
-    const userData = await getUserInfo(user.uid)
-
-    if (userData === 'NODATA') {
-      await addUserToDb(user)
-      const userInfo = await getUserInfo(user.uid)
-      setUser(userInfo ?? null)
-      setError(error ?? '')
-      router.reload(window.location.pathname)
-    } else {
-      setUser(userData ?? null)
-      setError(error ?? '')
-      router.reload(window.location.pathname)
-    }
-  }
-
-
   const logout = async () => {
     await AuthService.logout()
     setUser(null)
     router.push('/', undefined, { shallow: false })
   }
-  const value = { user, error, loginWithGoogleNoRedirect, loginWithGoogleRedirect, loginWithGoogleRefresh, logout, setUser }
+  const value = { user, error, loginWithGoogleNoRedirect, loginWithGoogleRedirect, logout, setUser }
 
   return <authContext.Provider value={value} {...props} />
 }

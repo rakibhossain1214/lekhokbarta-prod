@@ -11,7 +11,7 @@ import { useRouter } from 'next/dist/client/router'
 import CustomNavDropdown from './Dropdowns/CustomNavDropdown'
 
 const LayoutWrapper = ({ children, auth }) => {
-  const { user, loginWithGoogleRefresh, error } = auth
+  const { user, loginWithGoogleNoRedirect, error } = auth
   const router = useRouter()
   const showHeader =
     router.pathname === '/dashboard/earning-report' ||
@@ -59,7 +59,7 @@ const LayoutWrapper = ({ children, auth }) => {
                   key="login"
                   className="p-1 font-medium text-blue-500 dark:text-blue-500 sm:p-4"
                 >
-                  <button onClick={loginWithGoogleRefresh}>Login</button>
+                  <button onClick={loginWithGoogleNoRedirect}>Login</button>
                 </Link>
               )}
 

@@ -29,7 +29,7 @@ if (typeof window !== 'undefined') {
   title = String(window.title)
 }
 
-function CommentList({ postId, user, defaultPostData, loginWithGoogleRefresh }) {
+function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect }) {
   const [upVoted, setUpVoted] = useState(false)
   const [downVoted, setDownVoted] = useState(false)
   const [comEditId, setComEditId] = useState(null)
@@ -338,8 +338,8 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleRefresh }) 
         />
       ) : (
         <button
-          onClick={loginWithGoogleRefresh}
-          className="m-1 flex items-center rounded border border-gray-200 bg-gray-500 pl-2 pr-2 text-xs text-gray-100"
+          onClick={loginWithGoogleNoRedirect}
+          className="m-1 flex items-center rounded border border-gray-200 bg-red-500 pl-2 pr-2 text-xs text-gray-100"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
