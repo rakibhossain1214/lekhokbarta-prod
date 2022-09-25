@@ -5,6 +5,7 @@ import { Tab } from '@headlessui/react'
 import Image from '@/components/Image';
 import ProfileDetails from '@/components/ProfileDetails';
 import Followers from '@/components/Followers';
+import Following from '@/components/Following';
 import Background from '../../public/static/images/profile_bg.jpg'
 import { useRouter } from 'next/router'
 import PageTitle from '@/components/PageTitle'
@@ -17,7 +18,7 @@ import {
 } from 'firebase/storage'
 import Compressor from 'compressorjs'
 import { getFirestore, doc, updateDoc } from 'firebase/firestore'
-import Following from '@/components/following';
+
 
 const storage = getStorage()
 const metadata = {

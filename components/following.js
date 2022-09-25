@@ -3,7 +3,6 @@ import Image from '@/components/Image';
 import { deleteFollower, deleteFollowing, getUserInfo } from '@/lib/firestoreConnection';
 
 function Following({ userInfo, userId, handleFollowChange }) {
-
     const handleDeleteFollowing = ({ event, following }) => {
         event.preventDefault();
         deleteFollower({ userId: following.uid, user: userInfo })
@@ -11,19 +10,11 @@ function Following({ userInfo, userId, handleFollowChange }) {
             const userData = await getUserInfo(userId)
             handleFollowChange({userData});
         })
-       
     }
 
     return (
         <div className='w-full'>
             <table className="table-auto p-4 m-4">
-                <thead>
-                    <tr>
-                        {/* <th>Image</th>
-                        <th>Name & Profile Link</th>
-                        <th>Action</th> */}
-                    </tr>
-                </thead>
                 <tbody>
                     {userInfo?.following?.map((following) => (
                         <tr key={following?.uid}>
@@ -43,7 +34,7 @@ function Following({ userInfo, userId, handleFollowChange }) {
                                 <button
                                 onClick={(event) => handleDeleteFollowing({event, following })}
                                 className='border border-red-400 p-1 rounded text-xs text-red-400'>
-                                    Remove
+                                    Unfollow
                                 </button>
                             </td>
                         </tr>
