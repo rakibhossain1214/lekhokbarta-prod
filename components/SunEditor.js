@@ -105,38 +105,38 @@ const CustomSunEditor = (props) => {
           buttonList:
             screen.width >= 768
               ? [
-                ['fullScreen'],
-                ['font', 'fontSize', 'formatBlock'],
-                ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor', 'textStyle'],
-                ['align', 'list', 'outdent', 'indent'],
-                ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
-                ['link', 'table', 'image', 'video'],
-                ['undo', 'redo'],
-                ['save']
-              ]
+                  ['fullScreen'],
+                  ['font', 'fontSize', 'formatBlock'],
+                  ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor', 'textStyle'],
+                  ['align', 'list', 'outdent', 'indent'],
+                  ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
+                  ['link', 'table', 'image', 'video'],
+                  ['undo', 'redo'],
+                  ['save'],
+                ]
               : [
-                ['bold', 'underline', 'italic'],
-                [':t-More Text-default.more_text', 'font', 'fontSize', 'formatBlock'],
-                [
-                  ':p-More Paragraph-default.more_paragraph',
-                  'fontColor',
-                  'hiliteColor',
-                  'textStyle',
-                  'align',
-                  'list',
-                  'outdent',
-                  'indent',
-                  'strike',
-                  'subscript',
-                  'superscript',
-                  'horizontalRule',
-                  'removeFormat',
+                  ['bold', 'underline', 'italic'],
+                  [':t-More Text-default.more_text', 'font', 'fontSize', 'formatBlock'],
+                  [
+                    ':p-More Paragraph-default.more_paragraph',
+                    'fontColor',
+                    'hiliteColor',
+                    'textStyle',
+                    'align',
+                    'list',
+                    'outdent',
+                    'indent',
+                    'strike',
+                    'subscript',
+                    'superscript',
+                    'horizontalRule',
+                    'removeFormat',
+                  ],
+                  [':r-More Rich-default.more_plus', 'link', 'table', 'image', 'video'],
+                  ['undo', 'redo'],
+                  ['fullScreen'],
+                  ['save'],
                 ],
-                [':r-More Rich-default.more_plus', 'link', 'table', 'image', 'video'],
-                ['undo', 'redo'],
-                ['fullScreen'],
-                ['save']
-              ],
           minHeight: 300,
           defaultStyle: 'font-size:16px; font-family: Arial',
           font: [
@@ -154,37 +154,43 @@ const CustomSunEditor = (props) => {
           formats: ['p', 'h1', 'h2', 'h3', 'h4', 'blockquote'],
           mode: 'classic',
           callBackSave: function (contents, isChanged) {
-            var regex = /(<([^>]+)>)/ig;
-            var result = contents.replace(regex, "");
+            var regex = /(<([^>]+)>)/gi
+            var result = contents.replace(regex, '')
             if (isChanged) {
-              updatePostContent({ postData: props.postData, content: contents, characterCount: result.length })
+              updatePostContent({
+                postData: props.postData,
+                content: contents,
+                characterCount: result.length,
+              })
               setShowToast(true)
               setTimeout(() => {
                 setShowToast(false)
-              }, 3000);
+              }, 3000)
             }
           },
-          "charCounter": true,
-	        "charCounterLabel": "count",
+          charCounter: true,
+          charCounterLabel: 'count',
         }}
         setContents={props.editorContent}
         onImageUploadBefore={handleImageUploadBefore}
         onImageUpload={onImageUpload}
       />
 
-      {
-        showToast ?
-          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20">
-            <p className="text-sm">
-              <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
-              Your blog content is updated!
-            </p>
-          </div>
-          :
-          ""
-      }
-
-
+      {showToast ? (
+        <div
+          id="myToast"
+          className="fixed right-10 bottom-10 z-20 border-r-8 border-blue-500 bg-white px-5 py-4 drop-shadow-lg"
+        >
+          <p className="text-sm">
+            <span className="mr-2 inline-block rounded-full bg-blue-500 px-3 py-1 font-extrabold text-white">
+              i
+            </span>
+            Your blog content is updated!
+          </p>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   )
 }

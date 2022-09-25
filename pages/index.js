@@ -2,7 +2,7 @@ import React from 'react'
 import BlogListLayout from '@/layouts/BlogListLayout'
 import { getAllPostsFrontMatterWithPostId } from '@/lib/firestoreConnection'
 
-export const POSTS_PER_PAGE = 2
+export const POSTS_PER_PAGE = 5
 
 export async function getServerSideProps() {
   const posts = await getAllPostsFrontMatterWithPostId()
