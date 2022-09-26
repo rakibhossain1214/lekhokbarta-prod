@@ -3,7 +3,7 @@ import React from 'react';
 
 function LoadingComponent() {
     return (
-        <div class="grid place-content-center h-screen w-full dark:bg-gray-900">
+        <div className="grid place-content-center h-screen w-full dark:bg-gray-900">
           <div className='flex items-center'>
             <Image
               src='/static/images/gif/rhombus.gif'

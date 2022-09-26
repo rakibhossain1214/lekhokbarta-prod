@@ -13,13 +13,13 @@ import WriteAgreement from '@/components/WriteAgreement'
 const postValidationSchema = Yup.object().shape({
   title: Yup.string()
     .min(5, 'Title must be 5 characters at minimum')
-    .max(50, 'Title must be 50 characters at maximum')
-    .required('Blog title is required'),
+    .max(60, 'Title must be 60 characters at maximum')
+    .required('Title is required'),
   category: Yup.string().required('Category is required'),
   summary: Yup.string()
     .required('Summary is required')
-    .min(10, 'Summary must be 10 characters at minimum')
-    .max(100, 'Summary must be 100 characters at maximum'),
+    .min(20, 'Summary must be 20 characters at minimum')
+    .max(160, 'Summary must be 160 characters at maximum'),
   tags: Yup.array(),
 })
 
