@@ -142,7 +142,7 @@ export default function ListLayout({ posts, initialDisplayPosts = [], pagination
             } = frontMatter
             return (
               <li key={postId} className="py-4">
-                <div className="flex flex-col items-center rounded-lg border bg-white shadow-md hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:w-full md:flex-row">
+                {/* <div className="flex flex-col items-center rounded-lg border bg-white shadow-md hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:w-full md:flex-row">
                   {postThumbnail !== undefined && postThumbnail !== '' ? (
                     <Link href={`/blog/${postId}/${slug}`}>
                       <dd className="p-2">
@@ -202,6 +202,80 @@ export default function ListLayout({ posts, initialDisplayPosts = [], pagination
                             <time dateTime={date}>{formatDate(date)}</time>
                           </dd>
                         </dl>
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
+
+                <div className="flex flex-col items-center rounded-lg border bg-white shadow-md hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-800 md:w-full md:flex-row">
+                  {postThumbnail !== undefined && postThumbnail !== '' ? (
+                    <div className="md:w-64">
+                      <Link href={`/blog/${postId}/${slug}`}>
+                        <dd className="p-2">
+                          <Image
+                            className="rounded-t-lg md:rounded-l-lg"
+                            src={postThumbnail}
+                            width={window.innerWidth < 768 ? 500 : 250}
+                            height={window.innerWidth < 768 ? 350 : 208}
+                          />
+                        </dd>
+                      </Link>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                  <div className="flex-1">
+                    <div className="flex flex-col justify-between p-3 leading-normal">
+                      <dl>
+                        <dt className="sr-only">Published on</dt>
+                        <dd className="leading-1 text-sm font-medium text-gray-500 dark:text-gray-400">
+                          <Moment fromNow>{date}</Moment>
+                        </dd>
+                      </dl>
+
+                      <Link href={`/blog/${postId}/${slug}`}>
+                        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                          {title}
+                        </h5>
+                      </Link>
+
+                      <div className="flex flex-wrap">
+                        <span className="mb-2 pr-2 text-sm uppercase text-blue-400">
+                          {category}
+                        </span>
+                        {tags.map((tag) => (
+                          <Tag key={tag.value} text={tag.value} />
+                        ))}
+                      </div>
+
+                      <Link href={`/blog/${postId}/${slug}`}>
+                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                          {summary}
+                        </p>
+                      </Link>
+
+                      <div className="flex items-center">
+                        <Link href={`/profile/${authorDetails.id}`}>
+                          <Image
+                            className="rounded-full"
+                            src={authorDetails.avatar}
+                            width={40}
+                            height={40}
+                          />
+                        </Link>
+
+                        <div className="ml-2 mt-2 text-sm">
+                          <Link href={`/profile/${authorDetails.id}`}>
+                            <p className="leading-none text-gray-900 dark:text-gray-200">
+                              {authorDetails.name}
+                            </p>
+                          </Link>
+                          <dl>
+                            <dd className="text-xs font-medium leading-6 text-gray-500 dark:text-gray-400">
+                              <time dateTime={date}>{formatDate(date)}</time>
+                            </dd>
+                          </dl>
+                        </div>
                       </div>
                     </div>
                   </div>
