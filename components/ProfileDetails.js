@@ -25,7 +25,7 @@ const profileSchema = Yup.object().shape({
 })
 
 
-function ProfileDetails({ userInfo, handleChange, userId, user }) {
+function ProfileDetails({ userInfo, handleChange, userId, user, setUser }) {
     const db = getFirestore()
     const userRef = doc(db, 'users', userInfo.uid)
     const [editable, setEditable] = useState(false)
@@ -48,6 +48,7 @@ function ProfileDetails({ userInfo, handleChange, userId, user }) {
                 values.occupation = values.occupation !== undefined ? values.occupation : ''
                 updateDoc(userRef, { ...values, lastmod: new Date().toString() }).then(() => {
                     handleChange(values)
+                    setUser({...userInfo, ...values})
                 })
             }}
         >

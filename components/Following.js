@@ -1,15 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from '@/components/Image'
 import { deleteFollower, deleteFollowing, getUserInfo } from '@/lib/firestoreConnection'
 
-function Following({ userInfo, userId, handleFollowChange }) {
+function Following({ userInfo, userId, handleFollowChange, setUser }) {
+  const [loading, setLoading] = useState(false)
+
   const handleDeleteFollowing = ({ event, following }) => {
     event.preventDefault()
+    setLoading(true)
     deleteFollower({ userId: following.uid, user: userInfo })
     deleteFollowing({ userId: following.uid, user: userInfo }).then(async () => {
       const userData = await getUserInfo(userId)
       handleFollowChange({ userData })
+      setUser(userData)
+      setLoading(false)
     })
+  }
+
+  if(userInfo?.following.length === 0){
+    return <p>You are not following anyone!</p>
   }
 
   return (
@@ -30,10 +39,11 @@ function Following({ userInfo, userId, handleFollowChange }) {
               <td className="pl-2 pb-1">{following?.displayName}</td>
               <td className="pl-2">
                 <button
+                  disabled={loading}
                   onClick={(event) => handleDeleteFollowing({ event, following })}
                   className="rounded border border-red-400 p-1 text-xs text-red-400"
                 >
-                  Unfollow
+                  { loading ? "Please waite..." : "Unfollow" }
                 </button>
               </td>
             </tr>

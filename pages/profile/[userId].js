@@ -27,7 +27,7 @@ const metadata = {
 const db = getFirestore()
 
 function profile({ auth }) {
-    const { user } = auth
+    const { user, setUser } = auth
     const router = useRouter()
     const { userId } = router.query
 
@@ -333,10 +333,10 @@ function profile({ auth }) {
 
                         </Tab.List>
                         <Tab.Panels>
-                            <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} /></Tab.Panel>
-                            <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
-                            <Tab.Panel><Following userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
-                            <Tab.Panel><FavBlogs userInfo={userInfo} userId={userId} handleFollowChange={handleFollowChange} /></Tab.Panel>
+                            <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} setUser={setUser} /></Tab.Panel>
+                            <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} setUser={setUser} /></Tab.Panel>
+                            <Tab.Panel><Following userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} setUser={setUser} /></Tab.Panel>
+                            <Tab.Panel><FavBlogs userInfo={userInfo} userId={userId} handleFollowChange={handleFollowChange} setUser={setUser} /></Tab.Panel>
                         </Tab.Panels>
                     </Tab.Group>
 

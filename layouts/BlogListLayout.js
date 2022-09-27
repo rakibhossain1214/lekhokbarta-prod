@@ -13,7 +13,7 @@ export default function BlogListLayout({
   initialDisplayPosts = [],
   pagination,
   user,
-  setUser,
+  setUser
 }) {
   const [searchValue, setSearchValue] = useState('')
   const [effectCaller, setEffectCaller] = useState(false)
