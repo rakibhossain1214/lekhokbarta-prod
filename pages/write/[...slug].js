@@ -30,13 +30,13 @@ import Image from '@/components/Image'
 
 const postValidationSchema = Yup.object().shape({
   title: Yup.string()
-    .min(5, 'Title must be 5 characters at minimum')
+    .min(10, 'Title must be 10 characters at minimum')
     .max(60, 'Title must be 60 characters at maximum')
     .required('Title is required'),
   category: Yup.string().required('Category is required'),
   summary: Yup.string()
     .required('Summary is required')
-    .min(20, 'Summary must be 20 characters at minimum')
+    .min(50, 'Summary must be 50 characters at minimum')
     .max(160, 'Summary must be 160 characters at maximum'),
   tags: Yup.array(),
 })
