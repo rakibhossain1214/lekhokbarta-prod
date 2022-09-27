@@ -18,6 +18,7 @@ import {
 } from 'firebase/storage'
 import Compressor from 'compressorjs'
 import { getFirestore, doc, updateDoc } from 'firebase/firestore'
+import FavBlogs from '@/components/FavBlogs';
 
 const storage = getStorage()
 const metadata = {
@@ -324,7 +325,7 @@ function profile({ auth }) {
                                      height={22}
                                     />    
 
-                                    ({userInfo.following.length})
+                                    ({userInfo.favoriteBlogs.length})
                                 </Tab>
                                 :
                                 ''
@@ -335,6 +336,7 @@ function profile({ auth }) {
                             <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} /></Tab.Panel>
                             <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
                             <Tab.Panel><Following userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
+                            <Tab.Panel><FavBlogs userInfo={userInfo} userId={userId} handleFollowChange={handleFollowChange} /></Tab.Panel>
                         </Tab.Panels>
                     </Tab.Group>
 

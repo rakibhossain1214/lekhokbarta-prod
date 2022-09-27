@@ -47,7 +47,7 @@ export default function BlogListLayout({
     slider.scrollLeft = slider.scrollLeft + 500
   }
 
-  const handleAddToFavoriteBlogs = (e, postId) => {
+  const handleAddToFavoriteBlogs = (e, postId, title, slug, postThumbnail, authorDetails) => {
     e.preventDefault()
     setProcessing(true)
 
@@ -56,29 +56,56 @@ export default function BlogListLayout({
       favList.push(item)
     })
 
-    favList.push(postId)
+    favList.push({
+      postId,
+      title,
+      slug,
+      postThumbnail,
+      authorName: authorDetails.name,
+      authorId: authorDetails.id,
+      authorAvatar: authorDetails.avatar
+    })
+
     user.favoriteBlogs = favList
 
-    AddToFavoriteBlogs({ postId, user }).then(() => {
+    AddToFavoriteBlogs({
+      postId,
+      title,
+      slug,
+      postThumbnail,
+      authorName: authorDetails.name,
+      authorId: authorDetails.id,
+      authorAvatar: authorDetails.avatar,
+      user
+    }).then(() => {
       setEffectCaller(!effectCaller)
       setProcessing(false)
     })
   }
 
-  const handleRemoveFavoriteBlogs = (e, postId) => {
+  const handleRemoveFavoriteBlogs = (e, postId, title, slug, postThumbnail, authorDetails) => {
     e.preventDefault()
     setProcessing(true)
 
     let favList = []
     user.favoriteBlogs.map((item) => {
-      if (item !== postId) {
+      if (item.postId !== postId) {
         favList.push(item)
       }
     })
 
     user.favoriteBlogs = favList
 
-    RemoveFavoriteBlogs({ postId, user }).then(() => {
+    RemoveFavoriteBlogs({ 
+      postId,
+      title,
+      slug,
+      postThumbnail,
+      authorName: authorDetails.name,
+      authorId: authorDetails.id,
+      authorAvatar: authorDetails.avatar,
+      user
+     }).then(() => {
       setEffectCaller(!effectCaller)
       setProcessing(false)
     })
@@ -265,23 +292,25 @@ export default function BlogListLayout({
                         </div>
 
                         <div className="order-last pt-1">
-                          {user.favoriteBlogs.includes(postId) ? (
-                            <button
-                              type="button"
-                              disabled={processing}
-                              onClick={(e) => handleRemoveFavoriteBlogs(e, postId)}
-                            >
-                              <Image src="/static/images/heart-red.png" width={24} height={24} />
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              disabled={processing}
-                              onClick={(e) => handleAddToFavoriteBlogs(e, postId)}
-                            >
-                              <Image src="/static/images/heart-dark.png" width={24} height={24} />
-                            </button>
-                          )}
+                          {
+                            user.favoriteBlogs.find(x => x.postId === postId) ? (
+                              <button
+                                type="button"
+                                disabled={processing}
+                                onClick={(e) => handleRemoveFavoriteBlogs(e, postId, title, slug, postThumbnail, authorDetails)}
+                              >
+                                <Image src="/static/images/heart-red.png" width={24} height={24} />
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                disabled={processing}
+                                onClick={(e) => handleAddToFavoriteBlogs(e, postId, title, slug, postThumbnail, authorDetails)}
+                              >
+                                <Image src="/static/images/heart-dark.png" width={24} height={24} />
+                              </button>
+                            )
+                          }
                         </div>
                       </div>
                     </div>
