@@ -1,6 +1,7 @@
 import React from 'react'
 import BlogListLayout from '@/layouts/BlogListLayout'
 import { getAllPostsFrontMatterWithPostId } from '@/lib/firestoreConnection'
+import { withPublic } from 'src/hook/route'
 
 export const POSTS_PER_PAGE = 5
 
@@ -15,16 +16,19 @@ export async function getServerSideProps() {
   return { props: { initialDisplayPosts, posts, pagination } }
 }
 
-function Home({ posts, initialDisplayPosts, pagination }) {
+function Home({ posts, initialDisplayPosts, pagination, auth }) {
+  const { user, setUser } = auth
   return (
     <>
       <BlogListLayout
         posts={posts}
         initialDisplayPosts={initialDisplayPosts}
         pagination={pagination}
+        user={user}
+        setUser={setUser}
       />
     </>
   )
 }
 
-export default Home
+export default withPublic(Home)

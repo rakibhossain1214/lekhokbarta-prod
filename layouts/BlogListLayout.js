@@ -1,14 +1,24 @@
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Pagination from '@/components/Pagination'
 import formatDate from '@/lib/utils/formatDate'
 import Moment from 'react-moment'
 import 'moment-timezone'
 import Image from '@/components/Image'
+import { AddToFavoriteBlogs, RemoveFavoriteBlogs } from '@/lib/firestoreConnection'
 
-export default function ListLayout({ posts, initialDisplayPosts = [], pagination }) {
+export default function BlogListLayout({
+  posts,
+  initialDisplayPosts = [],
+  pagination,
+  user,
+  setUser,
+}) {
   const [searchValue, setSearchValue] = useState('')
+  const [effectCaller, setEffectCaller] = useState(false)
+  const [processing, setProcessing] = useState(false)
+
   const filteredBlogPosts = posts.filter((frontMatter) => {
     const searchContent =
       frontMatter.title +
@@ -36,6 +46,47 @@ export default function ListLayout({ posts, initialDisplayPosts = [], pagination
     var slider = document.getElementById('slider')
     slider.scrollLeft = slider.scrollLeft + 500
   }
+
+  const handleAddToFavoriteBlogs = (e, postId) => {
+    e.preventDefault()
+    setProcessing(true)
+
+    let favList = []
+    user.favoriteBlogs.map((item) => {
+      favList.push(item)
+    })
+
+    favList.push(postId)
+    user.favoriteBlogs = favList
+
+    AddToFavoriteBlogs({ postId, user }).then(() => {
+      setEffectCaller(!effectCaller)
+      setProcessing(false)
+    })
+  }
+
+  const handleRemoveFavoriteBlogs = (e, postId) => {
+    e.preventDefault()
+    setProcessing(true)
+
+    let favList = []
+    user.favoriteBlogs.map((item) => {
+      if (item !== postId) {
+        favList.push(item)
+      }
+    })
+
+    user.favoriteBlogs = favList
+
+    RemoveFavoriteBlogs({ postId, user }).then(() => {
+      setEffectCaller(!effectCaller)
+      setProcessing(false)
+    })
+  }
+
+  useEffect(() => {
+    setUser(user)
+  }, [effectCaller])
 
   return (
     <>
@@ -142,7 +193,6 @@ export default function ListLayout({ posts, initialDisplayPosts = [], pagination
             } = frontMatter
             return (
               <li key={postId} className="py-4">
-
                 <div className="flex flex-col items-center rounded-lg border bg-white shadow-md hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-800 md:w-full md:flex-row">
                   {postThumbnail !== undefined && postThumbnail !== '' ? (
                     <div className="md:w-64">
@@ -160,7 +210,7 @@ export default function ListLayout({ posts, initialDisplayPosts = [], pagination
                   ) : (
                     ''
                   )}
-                  <div className="flex-1 w-full">
+                  <div className="w-full flex-1">
                     <div className="flex flex-col justify-between p-3 leading-normal">
                       <dl>
                         <dt className="sr-only">Published on</dt>
@@ -171,16 +221,12 @@ export default function ListLayout({ posts, initialDisplayPosts = [], pagination
 
                       <Link href={`/blog/${postId}/${slug}`}>
                         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                          <div className="flex items-center">
-                            {title}
-                          </div>
+                          <div className="flex items-center">{title}</div>
                         </h5>
                       </Link>
 
-                      <div className="flex flex-wrap mb-2">
-                        <span className="pr-2 text-sm uppercase text-blue-600">
-                          {category}
-                        </span>
+                      <div className="mb-2 flex flex-wrap">
+                        <span className="pr-2 text-sm uppercase text-blue-600">{category}</span>
                         {tags.map((tag) => (
                           <Tag key={tag.value} text={tag.value} />
                         ))}
@@ -192,9 +238,9 @@ export default function ListLayout({ posts, initialDisplayPosts = [], pagination
                         </p>
                       </Link>
 
-                      <hr className='p-1 border-1 dark:border-gray-700'></hr>
+                      <hr className="border-1 p-1 dark:border-gray-700"></hr>
                       <div className="flex justify-between pt-1">
-                        <div className='flex'>
+                        <div className="flex">
                           <Link href={`/profile/${authorDetails.id}`}>
                             <Image
                               className="rounded-full"
@@ -219,19 +265,28 @@ export default function ListLayout({ posts, initialDisplayPosts = [], pagination
                         </div>
 
                         <div className="order-last pt-1">
-                          <Image
-                            src='/static/images/heart-dark.png'
-                            width={24}
-                            height={24}
-                          />
+                          {user.favoriteBlogs.includes(postId) ? (
+                            <button
+                              type="button"
+                              disabled={processing}
+                              onClick={(e) => handleRemoveFavoriteBlogs(e, postId)}
+                            >
+                              <Image src="/static/images/heart-red.png" width={24} height={24} />
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              disabled={processing}
+                              onClick={(e) => handleAddToFavoriteBlogs(e, postId)}
+                            >
+                              <Image src="/static/images/heart-dark.png" width={24} height={24} />
+                            </button>
+                          )}
                         </div>
-
                       </div>
-
                     </div>
                   </div>
                 </div>
-
               </li>
             )
           })}
@@ -243,5 +298,3 @@ export default function ListLayout({ posts, initialDisplayPosts = [], pagination
     </>
   )
 }
-
-
