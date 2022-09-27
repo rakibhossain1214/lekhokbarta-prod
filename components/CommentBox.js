@@ -19,8 +19,7 @@ function CommentBox({ user, postId, postData, handleCommentOpen }) {
     document.getElementById('commentArea').value = ''
     setButtonActive(false)
     AddComment({ postId, user, commentText, postData })
-    handleCommentOpen();
-    // console.log(commentText)
+    handleCommentOpen()
   }
 
   if (user === null) {
@@ -37,7 +36,6 @@ function CommentBox({ user, postId, postData, handleCommentOpen }) {
             alt="avatar"
             className="h-10 w-10 rounded-full"
           />
-          {/* <img src={user?.photoURL} alt="" className="rounded-full" style={{ width: '40px' }} /> */}
         </div>
         <div>
           <h4 className="font-semibold">{user?.displayName}</h4>
