@@ -13,7 +13,7 @@ export default function BlogListLayout({
   initialDisplayPosts = [],
   pagination,
   user,
-  setUser
+  setUser,
 }) {
   const [searchValue, setSearchValue] = useState('')
   const [effectCaller, setEffectCaller] = useState(false)
@@ -63,7 +63,7 @@ export default function BlogListLayout({
       postThumbnail,
       authorName: authorDetails.name,
       authorId: authorDetails.id,
-      authorAvatar: authorDetails.avatar
+      authorAvatar: authorDetails.avatar,
     })
 
     user.favoriteBlogs = favList
@@ -76,7 +76,7 @@ export default function BlogListLayout({
       authorName: authorDetails.name,
       authorId: authorDetails.id,
       authorAvatar: authorDetails.avatar,
-      user
+      user,
     }).then(() => {
       setEffectCaller(!effectCaller)
       setProcessing(false)
@@ -96,7 +96,7 @@ export default function BlogListLayout({
 
     user.favoriteBlogs = favList
 
-    RemoveFavoriteBlogs({ 
+    RemoveFavoriteBlogs({
       postId,
       title,
       slug,
@@ -104,8 +104,8 @@ export default function BlogListLayout({
       authorName: authorDetails.name,
       authorId: authorDetails.id,
       authorAvatar: authorDetails.avatar,
-      user
-     }).then(() => {
+      user,
+    }).then(() => {
       setEffectCaller(!effectCaller)
       setProcessing(false)
     })
@@ -253,7 +253,7 @@ export default function BlogListLayout({
                       </Link>
 
                       <div className="mb-2 flex flex-wrap">
-                        <span className="pr-2 text-sm uppercase text-blue-600">{category}</span>
+                        {/* <span className="pr-2 text-sm uppercase text-blue-600">{category}</span> */}
                         {tags.map((tag) => (
                           <Tag key={tag.value} text={tag.value} />
                         ))}
@@ -292,25 +292,57 @@ export default function BlogListLayout({
                         </div>
 
                         <div className="order-last pt-1">
-                          {
-                            user.favoriteBlogs.find(x => x.postId === postId) ? (
-                              <button
-                                type="button"
-                                disabled={processing}
-                                onClick={(e) => handleRemoveFavoriteBlogs(e, postId, title, slug, postThumbnail, authorDetails)}
-                              >
-                                <Image src="/static/images/heart-red.png" width={24} height={24} />
-                              </button>
+                          <>
+                            <span className="pr-2 text-sm uppercase text-blue-600">{category}</span>
+                            {user !== null ? (
+                              user.favoriteBlogs.find((x) => x.postId === postId) ? (
+                                <button
+                                  className=""
+                                  type="button"
+                                  disabled={processing}
+                                  onClick={(e) =>
+                                    handleRemoveFavoriteBlogs(
+                                      e,
+                                      postId,
+                                      title,
+                                      slug,
+                                      postThumbnail,
+                                      authorDetails
+                                    )
+                                  }
+                                >
+                                  <Image
+                                    src="/static/images/heart-red.png"
+                                    width={24}
+                                    height={24}
+                                  />
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  disabled={processing}
+                                  onClick={(e) =>
+                                    handleAddToFavoriteBlogs(
+                                      e,
+                                      postId,
+                                      title,
+                                      slug,
+                                      postThumbnail,
+                                      authorDetails
+                                    )
+                                  }
+                                >
+                                  <Image
+                                    src="/static/images/heart-dark.png"
+                                    width={24}
+                                    height={24}
+                                  />
+                                </button>
+                              )
                             ) : (
-                              <button
-                                type="button"
-                                disabled={processing}
-                                onClick={(e) => handleAddToFavoriteBlogs(e, postId, title, slug, postThumbnail, authorDetails)}
-                              >
-                                <Image src="/static/images/heart-dark.png" width={24} height={24} />
-                              </button>
-                            )
-                          }
+                              ''
+                            )}
+                          </>
                         </div>
                       </div>
                     </div>
