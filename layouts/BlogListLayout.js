@@ -292,12 +292,13 @@ export default function BlogListLayout({
                         </div>
 
                         <div className="order-last pt-1">
-                          <>
-                            <span className="pr-2 text-sm uppercase text-blue-600">{category}</span>
+                          <div className="flex content-center">
+                            <div className="pr-2 pt-1 pb-1 text-sm uppercase text-blue-600">
+                              {category}
+                            </div>
                             {user !== null ? (
                               user.favoriteBlogs.find((x) => x.postId === postId) ? (
                                 <button
-                                  className=""
                                   type="button"
                                   disabled={processing}
                                   onClick={(e) =>
@@ -342,7 +343,7 @@ export default function BlogListLayout({
                             ) : (
                               ''
                             )}
-                          </>
+                          </div>
                         </div>
                       </div>
                     </div>
