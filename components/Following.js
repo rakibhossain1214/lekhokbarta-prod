@@ -1,21 +1,9 @@
 import React, { useState } from 'react'
 import Image from '@/components/Image'
-import { deleteFollower, deleteFollowing, getUserInfo } from '@/lib/firestoreConnection'
+import { deleteFollower, getUserInfo } from '@/lib/firestoreConnection'
 
-function Following({ userInfo, userId, handleFollowChange, setUser }) {
+function Following({ userInfo, handleFollowChange }) {
   const [loading, setLoading] = useState(false)
-
-  // const handleDeleteFollowing = ({ event, following }) => {
-  //   event.preventDefault()
-  //   setLoading(true)
-  //   deleteFollower({ userId: following.uid, user: userInfo })
-  //   deleteFollowing({ userId: following.uid, user: userInfo }).then(async () => {
-  //     const userData = await getUserInfo(userId)
-  //     handleFollowChange({ userData })
-  //     setUser(userData)
-  //     setLoading(false)
-  //   })
-  // }
 
   const handleDeleteFollowing = ({ event, following }) => {
     event.preventDefault()
@@ -35,7 +23,8 @@ function Following({ userInfo, userId, handleFollowChange, setUser }) {
 
   return (
     <div className="w-full">
-      <table className="m-4 table-auto p-4">
+      <div className='pl-2 pr-2 pt-3 pb-2 text-teal-500'>Following: {userInfo?.following.length}</div>
+      <table className="m-1 table-auto p-2">
         <tbody>
           {userInfo?.following
             ?.slice(0)
@@ -43,15 +32,21 @@ function Following({ userInfo, userId, handleFollowChange, setUser }) {
             .map((following) => (
               <tr key={following?.uid}>
                 <td>
-                  <Image
-                    src={following?.photoURL}
-                    width="32px"
-                    height="32px"
-                    alt="avatar"
-                    className="rounded-full border-none align-middle shadow-lg"
-                  />
+                  <a target="_blank" href={`/profile/${following?.uid}`}>
+                    <Image
+                      src={following?.photoURL}
+                      width="32px"
+                      height="32px"
+                      alt="avatar"
+                      className="rounded-full border-none align-middle shadow-lg"
+                    />
+                  </a>
                 </td>
-                <td className="pl-2 pb-1">{following?.displayName}</td>
+                <td className="pl-2 pb-1">
+                  <a target="_blank" href={`/profile/${following?.uid}`}>
+                    {following?.displayName}
+                  </a>
+                </td>
                 <td className="pl-2">
                   <button
                     disabled={loading}

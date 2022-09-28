@@ -51,7 +51,8 @@ function FavBlogs({ userInfo, handleFollowChange, userId, setUser }) {
 
   return (
     <div className="w-full">
-      <table className="m-4 table-auto p-4">
+      <div className='pl-2 pr-2 pt-3 pb-2 text-teal-500'>Favorite Blogs: {userInfo?.favoriteBlogs.length}</div>
+      <table className="m-1 table-auto p-2">
         <tbody>
           {userInfo.favoriteBlogs
             .slice(0)
@@ -59,30 +60,32 @@ function FavBlogs({ userInfo, handleFollowChange, userId, setUser }) {
             .map((post) => (
               <tr key={post.postId} className="border-b border-gray-400">
                 <td className="w-9">
-                  {post.postThumbnail !== undefined && post.postThumbnail !== '' ? (
-                    <Image
-                      src={post?.postThumbnail}
-                      width="32px"
-                      height="32px"
-                      alt="postThumbnail"
-                      className="rounded-full border-none align-middle shadow-lg"
-                    />
-                  ) : (
-                    <Image
-                      src={'/static/images/blogging.png'}
-                      width="32px"
-                      height="32px"
-                      alt="postThumbnail"
-                      className="rounded-full border-none align-middle shadow-lg"
-                    />
-                  )}
+                  <Link href={`/blog/${post.postId}/${post.slug}`}>
+                    {post.postThumbnail !== undefined && post.postThumbnail !== '' ? (
+                      <Image
+                        src={post?.postThumbnail}
+                        width="32px"
+                        height="32px"
+                        alt="postThumbnail"
+                        className="rounded-full border-none align-middle shadow-lg"
+                      />
+                    ) : (
+                      <Image
+                        src={'/static/images/blogging.png'}
+                        width="32px"
+                        height="32px"
+                        alt="postThumbnail"
+                        className="rounded-full border-none align-middle shadow-lg"
+                      />
+                    )}
+                  </Link>
                 </td>
                 <td className="pl-2 pt-4 pb-4">
                   <Link href={`/blog/${post.postId}/${post.slug}`}>{post.title}</Link>{' '}
                   <span className="text-xs">by</span>
-                  <Link href={`/blog/${post.postId}/${post.slug}`}>
+                  <a target="_blank" href={`/profile/${post.authorId}`}>
                     <span className="text-xs text-blue-500">{' ' + post.authorName}</span>
-                  </Link>
+                  </a>
                 </td>
                 <td className="pl-2">
                   <button

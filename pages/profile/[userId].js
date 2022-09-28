@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { withPublic } from 'src/hook/route';
-import { AddFollower, AddFollowing, deleteFollower, deleteFollowing, getUserInfo } from '@/lib/firestoreConnection'
+import { AddFollower, deleteFollower, getUserInfo } from '@/lib/firestoreConnection'
 import { Tab } from '@headlessui/react'
 import Image from '@/components/Image';
 import ProfileDetails from '@/components/ProfileDetails';
@@ -19,6 +19,7 @@ import {
 import Compressor from 'compressorjs'
 import { getFirestore, doc, updateDoc } from 'firebase/firestore'
 import FavBlogs from '@/components/FavBlogs';
+import MyBlogs from '@/components/MyBlogs';
 
 const storage = getStorage()
 const metadata = {
@@ -35,7 +36,7 @@ function profile({ auth }) {
     const [userInfo, setUserInfo] = useState(null)
     const [showFollowButton, setShowFollowButton] = useState(true)
     const [processing, setProcessing] = useState(false)
-    const [followersCount, setFollowersCount] = useState(0) 
+    const [followersCount, setFollowersCount] = useState(0)
 
     useEffect(() => {
         async function getUser() {
@@ -73,9 +74,9 @@ function profile({ auth }) {
     const handleFollow = () => {
         setShowFollowButton(false)
         setProcessing(true)
-        setFollowersCount(followersCount+1)
-        if(userInfo !== null){
-            AddFollower({ userInfo, user }).then(async ()=>{
+        setFollowersCount(followersCount + 1)
+        if (userInfo !== null) {
+            AddFollower({ userInfo, user }).then(async () => {
                 setProcessing(false)
             })
         }
@@ -84,9 +85,9 @@ function profile({ auth }) {
     const deleteFollow = () => {
         setShowFollowButton(true)
         setProcessing(true)
-        setFollowersCount(followersCount-1)
-        if(userInfo !== null){
-            deleteFollower({ userInfo, user }).then(async ()=>{
+        setFollowersCount(followersCount - 1)
+        if (userInfo !== null) {
+            deleteFollower({ userInfo, user }).then(async () => {
                 setProcessing(false)
             })
         }
@@ -281,7 +282,22 @@ function profile({ auth }) {
                                     selected ? 'bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
                                 }
                             >
-                                About
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                </svg>
+
+                            </Tab>
+
+                            <Tab
+                                className={({ selected }) =>
+                                    selected ? 'flex bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'flex inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
+                                }
+                            >
+                                <Image
+                                    src='/static/images/blogging.png'
+                                    width={22}
+                                    height={22}
+                                />
                             </Tab>
 
                             {user !== null ?
@@ -294,7 +310,7 @@ function profile({ auth }) {
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                                     </svg>
-                                    ({userInfo.followers.length})
+                                    {/* ({userInfo.followers.length}) */}
                                 </Tab>
                                 :
                                 ''
@@ -310,11 +326,12 @@ function profile({ auth }) {
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                                     </svg>
-                                    ({userInfo.following.length})
+                                    {/* ({userInfo.following.length}) */}
                                 </Tab>
                                 :
                                 ''
                             }
+
                             {user !== null ?
                                 userId === user.uid &&
                                 <Tab
@@ -322,13 +339,12 @@ function profile({ auth }) {
                                         selected ? 'flex bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'flex inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
                                     }
                                 >
-                                    <Image 
-                                     src='/static/images/heart-red.png'
-                                     width={22}
-                                     height={22}
-                                    />    
-
-                                    ({userInfo.favoriteBlogs.length})
+                                    <Image
+                                        src='/static/images/heart-red.png'
+                                        width={22}
+                                        height={22}
+                                    />
+                                    {/* ({userInfo.favoriteBlogs.length}) */}
                                 </Tab>
                                 :
                                 ''
@@ -337,6 +353,7 @@ function profile({ auth }) {
                         </Tab.List>
                         <Tab.Panels>
                             <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} setUser={setUser} /></Tab.Panel>
+                            <Tab.Panel><MyBlogs userInfo={userInfo} /></Tab.Panel>
                             <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} setUser={setUser} /></Tab.Panel>
                             <Tab.Panel><Following userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} setUser={setUser} /></Tab.Panel>
                             <Tab.Panel><FavBlogs userInfo={userInfo} userId={userId} handleFollowChange={handleFollowChange} setUser={setUser} /></Tab.Panel>
