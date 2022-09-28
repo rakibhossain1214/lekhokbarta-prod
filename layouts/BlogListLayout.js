@@ -133,21 +133,21 @@ export default function BlogListLayout({
 
 
   const handleCategorySearch = (category) => {
-    document.getElementById('search-text-input').value=""
+    document.getElementById('search-text-input').value = ""
     setSearchContentType('category')
     setSearchValue(category)
     window.scrollTo(0, 0);
   }
 
   const handleTagSearch = (tag) => {
-    document.getElementById('search-text-input').value=""
+    document.getElementById('search-text-input').value = ""
     setSearchContentType('tag')
     setSearchValue(tag)
     window.scrollTo(0, 0);
   }
 
   const handleClearSearch = () => {
-    document.getElementById('search-text-input').value=""
+    document.getElementById('search-text-input').value = ""
     setSearchValue('')
   }
 
@@ -182,9 +182,9 @@ export default function BlogListLayout({
               />
             </svg>
           </div>
-          <button className='text-teal-500 text-md' style={{ marginTop: '8px', marginLeft: '5px' }} onClick={ handleClearSearch }>Clear Search</button>
+          <button className='text-teal-500 text-md' style={{ marginTop: '8px', marginLeft: '5px' }} onClick={handleClearSearch}>Clear Search</button>
         </div>
-       
+
         <>
           <div className="relative -mt-3 flex items-center p-2">
             <button className="cursor-pointer opacity-50 hover:opacity-100" onClick={slideLeft}>
@@ -326,11 +326,9 @@ export default function BlogListLayout({
 
                         <div className="order-last pt-1">
                           <div className="flex content-center">
-                            <div className="pr-2 pt-1 pb-1 text-sm uppercase text-blue-600">
-                              <button onClick={() => handleCategorySearch(category)}>
-                                {category}
-                              </button>
-                            </div>
+                            <button className='uppercase text-sm pr-2 pb-2 pt-1 text-blue-600' onClick={() => handleCategorySearch(category)}>
+                              {category}
+                            </button>
                             {user !== null ? (
                               user.favoriteBlogs.find((x) => x.postId === postId) ? (
                                 <button
