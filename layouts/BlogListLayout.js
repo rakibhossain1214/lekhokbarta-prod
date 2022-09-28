@@ -1,5 +1,4 @@
 import Link from '@/components/Link'
-import Tag from '@/components/Tag'
 import { useEffect, useState } from 'react'
 import Pagination from '@/components/Pagination'
 import formatDate from '@/lib/utils/formatDate'
@@ -7,6 +6,14 @@ import Moment from 'react-moment'
 import 'moment-timezone'
 import Image from '@/components/Image'
 import { AddToFavoriteBlogs, RemoveFavoriteBlogs } from '@/lib/firestoreConnection'
+
+const allBlogCategories = [
+  'Trending',
+  'Review',
+  'Sports',
+  'Entertainment',
+  'Other'
+]
 
 export default function BlogListLayout({
   posts,
@@ -18,18 +25,28 @@ export default function BlogListLayout({
   const [searchValue, setSearchValue] = useState('')
   const [effectCaller, setEffectCaller] = useState(false)
   const [processing, setProcessing] = useState(false)
+  const [searchContentType, setSearchContentType] = useState('text')
 
   const filteredBlogPosts = posts.filter((frontMatter) => {
-    const searchContent =
-      frontMatter.title +
-      frontMatter.summary +
-      frontMatter.category +
-      frontMatter.authorDetails.name +
-      frontMatter?.tags
-        ?.map((tag) => {
-          return tag?.value
-        })
-        .join(' ')
+    const searchContent = ''
+    if (searchContentType === 'text') {
+      searchContent =
+        frontMatter.title +
+        frontMatter.category +
+        frontMatter.authorDetails.name +
+        frontMatter?.tags
+          ?.map((tag) => {
+            return tag?.value
+          })
+          .join(' ')
+    } else if (searchContentType === 'category') {
+      searchContent = frontMatter.category
+    } else if (searchContentType === 'tag') {
+      searchContent = frontMatter?.tags?.map((tag) => {
+        return tag?.value
+      }).join(' ')
+    }
+
     return searchContent.toLowerCase().includes(searchValue.toLowerCase())
   })
 
@@ -115,15 +132,35 @@ export default function BlogListLayout({
     setUser(user)
   }, [effectCaller])
 
+
+  const handleCategorySearch = (category) => {
+    setSearchContentType('category')
+    setSearchValue(category)
+  }
+
+  const handleTagSearch = (tag) => {
+    setSearchContentType('tag')
+    setSearchValue(tag)
+  }
+
+  const handleClearSearch = () => {
+    document.getElementById('search-text-input').value=""
+    setSearchValue('')
+  }
+
   return (
     <>
       <div className="-mt-7 divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pt-6 pb-8 md:space-y-5">
           <div className="relative max-w-lg">
             <input
+              id="search-text-input"
               aria-label="Search articles"
               type="text"
-              onChange={(e) => setSearchValue(e.target.value)}
+              onChange={(e) => {
+                setSearchValue(e.target.value)
+                setSearchContentType('text')
+              }}
               placeholder="Search blogs"
               className="block w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
             />
@@ -142,8 +179,9 @@ export default function BlogListLayout({
               />
             </svg>
           </div>
+          <button className='text-teal-500 text-md' style={{ marginTop: '8px', marginLeft: '5px' }} onClick={ handleClearSearch }>Clear Search</button>
         </div>
-
+       
         <>
           <div className="relative -mt-3 flex items-center p-2">
             <button className="cursor-pointer opacity-50 hover:opacity-100" onClick={slideLeft}>
@@ -165,23 +203,16 @@ export default function BlogListLayout({
 
             <div
               id="slider"
-              className="scroll h-full w-full overflow-x-scroll scroll-smooth whitespace-nowrap scrollbar-hide"
+              className="scroll h-full w-full overflow-x-scroll scroll-smooth whitespace-nowrap scrollbar-hide uppercase text-sm"
             >
-              <ul className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105">
-                Trending
-              </ul>
-              <ul className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105">
-                Review
-              </ul>
-              <ul className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105">
-                Sports
-              </ul>
-              <ul className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105">
-                Entertainment
-              </ul>
-              <ul className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105">
-                Others
-              </ul>
+              {allBlogCategories.map((item) => (
+                <ul className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105">
+                  <button onClick={() => handleCategorySearch(item)}>
+                    {item}
+                  </button>
+                </ul>
+              )
+              )}
             </div>
 
             <button className="cursor-pointer opacity-50 hover:opacity-100" onClick={slideRight}>
@@ -253,9 +284,8 @@ export default function BlogListLayout({
                       </Link>
 
                       <div className="mb-2 flex flex-wrap">
-                        {/* <span className="pr-2 text-sm uppercase text-blue-600">{category}</span> */}
                         {tags.map((tag) => (
-                          <Tag key={tag.value} text={tag.value} />
+                          <button className='pr-2 text-teal-500 uppercase text-sm' onClick={() => handleTagSearch(tag.value.toLowerCase())}> {tag.label} </button>
                         ))}
                       </div>
 
@@ -294,7 +324,9 @@ export default function BlogListLayout({
                         <div className="order-last pt-1">
                           <div className="flex content-center">
                             <div className="pr-2 pt-1 pb-1 text-sm uppercase text-blue-600">
-                              {category}
+                              <button onClick={() => handleCategorySearch(category)}>
+                                {category}
+                              </button>
                             </div>
                             {user !== null ? (
                               user.favoriteBlogs.find((x) => x.postId === postId) ? (
