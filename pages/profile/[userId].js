@@ -35,12 +35,15 @@ function profile({ auth }) {
     const [userInfo, setUserInfo] = useState(null)
     const [showFollowButton, setShowFollowButton] = useState(true)
     const [processing, setProcessing] = useState(false)
+    const [followersCount, setFollowersCount] = useState(0) 
 
     useEffect(() => {
         async function getUser() {
             setProcessing(true)
             const userData = await getUserInfo(userId)
             setUserInfo(userData)
+
+            setFollowersCount(userData?.followers?.length)
 
             userData?.followers?.map(follower => {
                 if (follower.uid === user?.uid) {
@@ -70,23 +73,23 @@ function profile({ auth }) {
     const handleFollow = () => {
         setShowFollowButton(false)
         setProcessing(true)
-        AddFollower({ userId, user })
-        AddFollowing({ userId, user }).then(async () => {
-            const userData = await getUserInfo(userId)
-            setUserInfo(userData)
-            setProcessing(false)
-        })
+        setFollowersCount(followersCount+1)
+        if(userInfo !== null){
+            AddFollower({ userInfo, user }).then(async ()=>{
+                setProcessing(false)
+            })
+        }
     }
 
     const deleteFollow = () => {
         setShowFollowButton(true)
         setProcessing(true)
-        deleteFollower({ userId, user })
-        deleteFollowing({ userId, user }).then(async () => {
-            const userData = await getUserInfo(userId)
-            setUserInfo(userData)
-            setProcessing(false)
-        })
+        setFollowersCount(followersCount-1)
+        if(userInfo !== null){
+            deleteFollower({ userInfo, user }).then(async ()=>{
+                setProcessing(false)
+            })
+        }
     }
 
     function handleImageUploadBefore(files) {
@@ -259,7 +262,7 @@ function profile({ auth }) {
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                                 </svg>
-                                {userInfo.followers.length}
+                                {followersCount}
                             </p>
                             <p className='text-xs md:text-xs text-gray-100 border-b border-teal-500 m-1 p-1 flex items-center'>
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
