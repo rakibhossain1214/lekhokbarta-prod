@@ -134,13 +134,17 @@ export default function BlogListLayout({
 
 
   const handleCategorySearch = (category) => {
+    document.getElementById('search-text-input').value=""
     setSearchContentType('category')
     setSearchValue(category)
+    window.scrollTo(0, 0);
   }
 
   const handleTagSearch = (tag) => {
+    document.getElementById('search-text-input').value=""
     setSearchContentType('tag')
     setSearchValue(tag)
+    window.scrollTo(0, 0);
   }
 
   const handleClearSearch = () => {
