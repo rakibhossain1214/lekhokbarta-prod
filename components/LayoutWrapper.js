@@ -10,8 +10,11 @@ import { withPublic } from 'src/hook/route'
 import { useRouter } from 'next/dist/client/router'
 import CustomNavDropdown from './Dropdowns/CustomNavDropdown'
 import LoadingComponent from './LoadingComponent'
+import LoginModal from './LoginModal'
+import { useState } from 'react'
 
 const LayoutWrapper = ({ children, auth }) => {
+  const [showLoginModal, setShowLoginModal] = useState(false)
   const { user, loginWithGoogleNoRedirect, error, logout } = auth
   const router = useRouter()
   const showHeader =
@@ -26,6 +29,10 @@ const LayoutWrapper = ({ children, auth }) => {
        <LoadingComponent />
       )
     }
+  }
+
+  const handleLoginModal = () => {
+    setShowLoginModal(false)
   }
 
   return (
@@ -68,10 +75,10 @@ const LayoutWrapper = ({ children, auth }) => {
                   key="login"
                   className="p-1 font-medium text-blue-500 dark:text-blue-500 sm:p-4"
                 >
-                  <button onClick={loginWithGoogleNoRedirect}>Login</button>
+                  <button onClick={() => setShowLoginModal(true)}>Login</button>
                 </Link>
               )}
-
+              { showLoginModal ? <LoginModal handleLoginModal={handleLoginModal} loginWithGoogleNoRedirect={loginWithGoogleNoRedirect} /> : ''}
               <ThemeSwitch />
 
               {/* <MobileNav user={user} /> */}

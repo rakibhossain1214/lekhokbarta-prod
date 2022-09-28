@@ -20,6 +20,7 @@ import {
   WhatsappIcon,
 } from 'react-share'
 import LoadingComponent from './LoadingComponent'
+import LoginModal from './LoginModal'
 
 let url = 'https://lekhokbarta.com'
 let title = 'Lekhokbarta'
@@ -39,6 +40,7 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
   const [buttonActive, setButtonActive] = useState(false)
   const [commentText, setCommentText] = useState('')
   const [loadComment, setLoadComment] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   const db = getFirestore()
   const postRef = doc(db, 'posts', postId)
@@ -139,6 +141,11 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
 
   const handleCommentOpen = () => {
     setLoadComment(true)
+  }
+
+  
+  const handleLoginModal = () => {
+    setShowLoginModal(false)
   }
 
   return (
@@ -339,7 +346,7 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
         />
       ) : (
         <button
-          onClick={loginWithGoogleNoRedirect}
+          onClick={() => setShowLoginModal(true)}
           className="m-1 flex items-center rounded border border-gray-200 bg-red-500 pl-2 pr-2 text-xs text-gray-100"
         >
           <svg
@@ -359,6 +366,7 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
           Please login to vote and comment
         </button>
       )}
+      { showLoginModal ? <LoginModal handleLoginModal={handleLoginModal} loginWithGoogleNoRedirect={loginWithGoogleNoRedirect} /> : ''}
     </>
   )
 }

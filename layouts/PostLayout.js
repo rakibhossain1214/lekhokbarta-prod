@@ -15,6 +15,7 @@ import {
   deleteFollowing,
 } from '@/lib/firestoreConnection'
 import { useEffect, useState } from 'react'
+import LoginModal from '@/components/LoginModal'
 
 const postDateTemplate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 
@@ -37,6 +38,7 @@ export default function PostLayout({
   const [followersCount, setFollowersCount] = useState(0)
   const [processing, setProcessing] = useState(false)
   const [authorInfo, setAuthorInfo] = useState(null)
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   useEffect(() => {
     async function getUser() {
@@ -80,6 +82,10 @@ export default function PostLayout({
         setProcessing(false)
       })
     }
+  }
+
+  const handleLoginModal = () => {
+    setShowLoginModal(false)
   }
 
   return (
@@ -201,7 +207,7 @@ export default function PostLayout({
                           )
                         ) : (
                           <button
-                            onClick={loginWithGoogleNoRedirect}
+                            onClick={()=> setShowLoginModal(true)}
                             className="m-1 flex items-center rounded border border-gray-200 bg-red-500 pl-2 pr-2 text-xs text-gray-100"
                           >
                             <svg
@@ -228,6 +234,7 @@ export default function PostLayout({
                 </ul>
               </dd>
             </dl>
+            { showLoginModal ? <LoginModal handleLoginModal={handleLoginModal} loginWithGoogleNoRedirect={loginWithGoogleNoRedirect} /> : ''}
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className="prose max-w-none pt-0 pb-8 dark:prose-dark">
                 <ShowPost content={children} />

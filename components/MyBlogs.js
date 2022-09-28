@@ -23,7 +23,7 @@ function MyBlogs({ userInfo }) {
 
     return (
         <div className="w-full">
-            <div className='pl-2 pr-2 pt-3 pb-2 text-teal-500'>Contents: {myPosts.length}</div>
+            <div className='pl-2 pr-2 pt-3 pb-2 text-teal-500'>Contents found: {myPosts.length}</div>
             <table className="m-1 table-auto p-2">
                 <tbody>
                     {myPosts
