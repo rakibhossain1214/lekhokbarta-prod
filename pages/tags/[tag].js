@@ -1,8 +1,9 @@
 import { TagSEO } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
-import ListLayout from '@/layouts/ListLayout'
 import kebabCase from '@/lib/utils/kebabCase'
 import { getAllPostsFrontMatterWithPostId } from '@/lib/firestoreConnection'
+import BlogListLayout from '@/layouts/BlogListLayout'
+import { withPublic } from 'src/hook/route'
 
 export async function getServerSideProps({ params }) {
   const posts = await getAllPostsFrontMatterWithPostId()
@@ -13,7 +14,8 @@ export async function getServerSideProps({ params }) {
   return { props: { posts: filteredPosts, tag: params.tag } }
 }
 
-export default function Tag({ posts, tag }) {
+function Tag({ posts, tag, auth }) {
+  const { user, setUser } = auth
   // Capitalize first letter and convert space to dash
   const title = tag[0].toUpperCase() + tag.split(' ').join('-').slice(1)
   return (
@@ -22,7 +24,9 @@ export default function Tag({ posts, tag }) {
         title={`${tag} - ${siteMetadata.author}`}
         description={`${tag} tags - ${siteMetadata.author}`}
       />
-      <ListLayout posts={posts} title={title} />
+      <BlogListLayout posts={posts} title={title} user={user} setUser={setUser} />
     </>
   )
 }
+
+export default withPublic(Tag)
