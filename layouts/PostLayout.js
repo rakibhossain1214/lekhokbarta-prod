@@ -29,19 +29,23 @@ export default function PostLayout({
   lastmod,
   postData,
   user,
-  loginWithGoogleNoRedirect
+  loginWithGoogleNoRedirect,
 }) {
   const { slug, title, tags } = frontMatter
 
   const [showFollowButton, setShowFollowButton] = useState(true)
-  const [followerCount, setFollowerCount] = useState(0)
+  const [followersCount, setFollowersCount] = useState(0)
   const [processing, setProcessing] = useState(false)
+  const [authorInfo, setAuthorInfo] = useState(null)
 
   useEffect(() => {
     async function getUser() {
       setProcessing(true)
       const userData = await getUserInfo(authorDetails.id)
-      setFollowerCount(userData?.followers?.length);
+      setAuthorInfo(userData)
+
+      setFollowersCount(userData?.followers?.length)
+
       userData?.followers?.map((follower) => {
         if (follower.uid === user?.uid) {
           setShowFollowButton(false)
@@ -55,23 +59,27 @@ export default function PostLayout({
   const handleFollow = () => {
     setProcessing(true)
     setShowFollowButton(false)
-    AddFollower({ userId: authorDetails.id, user })
-    AddFollowing({ userId: authorDetails.id, user }).then(async () => {
-      const userData = await getUserInfo(authorDetails.id)
-      setFollowerCount(userData.followers.length)
-      setProcessing(false)
-    })
+
+    setFollowersCount(followersCount + 1)
+
+    if (authorInfo !== null) {
+      AddFollower({ userInfo: authorInfo, user }).then(async () => {
+        setProcessing(false)
+      })
+    }
   }
 
   const deleteFollow = () => {
-    setProcessing(true)
     setShowFollowButton(true)
-    deleteFollower({ userId: authorDetails.id, user })
-    deleteFollowing({ userId: authorDetails.id, user }).then(async () => {
-      const userData = await getUserInfo(authorDetails.id)
-      setFollowerCount(userData.followers.length)
-      setProcessing(false)
-    })
+    setProcessing(true)
+
+    setFollowersCount(followersCount - 1)
+
+    if (authorInfo !== null) {
+      deleteFollower({ userInfo: authorInfo, user }).then(async () => {
+        setProcessing(false)
+      })
+    }
   }
 
   return (
@@ -130,9 +138,9 @@ export default function PostLayout({
                       </dd>
                       <dt className="sr-only">follower</dt>
                       <dd>
-                        {followerCount > 1
-                          ? `${followerCount} followers`
-                          : `${followerCount} follower`}{' '}
+                        {followersCount > 1
+                          ? `${followersCount} followers`
+                          : `${followersCount} follower`}{' '}
                       </dd>
                     </dl>
                   </li>
@@ -194,10 +202,21 @@ export default function PostLayout({
                         ) : (
                           <button
                             onClick={loginWithGoogleNoRedirect}
-                            className='text-xs text-gray-100 flex pl-2 pr-2 m-1 border border-gray-200 bg-red-500 rounded items-center'
+                            className="m-1 flex items-center rounded border border-gray-200 bg-red-500 pl-2 pr-2 text-xs text-gray-100"
                           >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 mt-1 mb-1 mr-1">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="mt-1 mb-1 mr-1 h-4 w-4"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
+                              />
                             </svg>
                             Login to follow
                           </button>
@@ -213,7 +232,12 @@ export default function PostLayout({
               <div className="prose max-w-none pt-0 pb-8 dark:prose-dark">
                 <ShowPost content={children} />
               </div>
-              <CommentList postId={postId} defaultPostData={postData} user={user} loginWithGoogleNoRedirect={loginWithGoogleNoRedirect} />
+              <CommentList
+                postId={postId}
+                defaultPostData={postData}
+                user={user}
+                loginWithGoogleNoRedirect={loginWithGoogleNoRedirect}
+              />
             </div>
             <footer>
               <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
