@@ -19,14 +19,14 @@ function FavBlogs({ userInfo, handleFollowChange, userId, setUser }) {
     e.preventDefault()
     // setProcessing(true)
     setLoading(true)
-    let favList = []
-    userInfo.favoriteBlogs.map((item) => {
-      if (item.postId !== postId) {
-        favList.push(item)
-      }
-    })
+    // let favList = []
+    // userInfo.favoriteBlogs.map((item) => {
+    //   if (item.postId !== postId) {
+    //     favList.push(item)
+    //   }
+    // })
 
-    userInfo.favoriteBlogs = favList
+    // userInfo.favoriteBlogs = favList
 
     RemoveFavoriteBlogs({
       postId,
@@ -101,7 +101,7 @@ function FavBlogs({ userInfo, handleFollowChange, userId, setUser }) {
                     }
                     className="rounded border border-red-400 p-1 text-xs text-red-400"
                   >
-                    {loading ? 'Please waite...' : 'Remove'}
+                    {loading ? 'Waite...' : 'Remove'}
                   </button>
                 </td>
               </tr>
