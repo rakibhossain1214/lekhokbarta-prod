@@ -86,7 +86,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
   const handleChange = (newValue) => {
     let tagArray = []
     newValue.map((node) => {
-      tagArray.push({ label: node.label, value: node.value })
+      tagArray.push({ label: node.label, value: node.value.toLowerCase() })
     })
     setSelectedTags(tagArray)
 

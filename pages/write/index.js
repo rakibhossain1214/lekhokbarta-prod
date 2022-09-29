@@ -51,7 +51,7 @@ function Write({ auth }) {
   const handleChange = (newValue) => {
     let tagArray = []
     newValue.map((node) => {
-      tagArray.push({ label: node.label, value: node.value })
+      tagArray.push({ label: node.label, value: node.value.toLowerCase() })
     })
     setSelectedTags(tagArray)
   }
@@ -80,7 +80,7 @@ function Write({ auth }) {
           validationSchema={postValidationSchema}
           onSubmit={(values) => {
             if (author !== null) {
-              addPost({ values: { ...values, category: values.category }, author, selectedTags })
+              addPost({ values: { ...values, category: values.category.toLowerCase() }, author, selectedTags })
                 .then(function (docRef) {
                   router.push(`write/${user.uid}/${docRef.id}`)
                 })
