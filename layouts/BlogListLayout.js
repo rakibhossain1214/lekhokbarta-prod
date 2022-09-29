@@ -18,6 +18,8 @@ export default function BlogListLayout({ posts, user, setUser }) {
   const [filteredPosts, setFilteredPosts] = useState(posts)
   const [pageTitle, setPageTitle] = useState('All Posts')
   const [postCount, setPostCount] = useState(POSTS_PER_PAGE)
+  const [showToast, setShowToast] = useState(false)
+  const [toastText, setToastText] = useState("");
 
   const filteredBlogPosts = filteredPosts.filter((frontMatter) => {
     const searchContent =
@@ -47,6 +49,12 @@ export default function BlogListLayout({ posts, user, setUser }) {
   const handleAddToFavoriteBlogs = (e, postId, title, slug, postThumbnail, authorDetails) => {
     e.preventDefault()
     setProcessing(true)
+
+    setToastText("Added to favorite blogs.")
+    setShowToast(true)
+    setTimeout(() => {
+      setShowToast(false)
+    }, 3000)
 
     let favList = []
     user.favoriteBlogs.map((item) => {
@@ -83,6 +91,12 @@ export default function BlogListLayout({ posts, user, setUser }) {
   const handleRemoveFavoriteBlogs = (e, postId, title, slug, postThumbnail, authorDetails) => {
     e.preventDefault()
     setProcessing(true)
+
+    setToastText("Removed from favorite blogs.")
+    setShowToast(true)
+    setTimeout(() => {
+      setShowToast(false)
+    }, 3000)
 
     let favList = []
     user.favoriteBlogs.map((item) => {
@@ -408,6 +422,21 @@ export default function BlogListLayout({ posts, user, setUser }) {
           >
             Load More...
           </button>
+        </div>
+      ) : (
+        ''
+      )}
+      {showToast ? (
+        <div
+          id="myToast"
+          className="fixed right-10 bottom-10 z-20 border-r-8 border-blue-500 bg-white px-5 py-4 drop-shadow-lg dark:bg-gray-700"
+        >
+          <p className="text-sm">
+            <span className="mr-2 inline-block rounded-full bg-blue-500 px-3 py-1 font-extrabold text-white">
+              i
+            </span>
+            {toastText}
+          </p>
         </div>
       ) : (
         ''

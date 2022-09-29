@@ -179,7 +179,7 @@ const CustomSunEditor = (props) => {
       {showToast ? (
         <div
           id="myToast"
-          className="fixed right-10 bottom-10 z-20 border-r-8 border-blue-500 bg-white px-5 py-4 drop-shadow-lg"
+          className="fixed right-10 bottom-10 z-20 border-r-8 border-blue-500 bg-white px-5 py-4 drop-shadow-lg dark:bg-gray-700"
         >
           <p className="text-sm">
             <span className="mr-2 inline-block rounded-full bg-blue-500 px-3 py-1 font-extrabold text-white">

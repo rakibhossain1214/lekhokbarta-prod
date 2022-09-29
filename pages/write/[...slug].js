@@ -378,7 +378,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
       </Accordion>
       {
         showToast ?
-          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20">
+          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20 dark:bg-gray-700">
             <p className="text-sm">
               <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
               Your blog is updated!
@@ -390,7 +390,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
 
       {
         draftToast ?
-          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20">
+          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20 dark:bg-gray-700">
             <p className="text-sm">
               <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
               Your blog is drafted!
@@ -402,7 +402,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
 
       {
         publishToast ?
-          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20">
+          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20 dark:bg-gray-700">
             <p className="text-sm">
               <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
               Your blog is submitted for approval!
