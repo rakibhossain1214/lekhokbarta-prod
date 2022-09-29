@@ -209,7 +209,7 @@ export default function BlogListLayout({
               className="scroll h-full w-full overflow-x-scroll scroll-smooth whitespace-nowrap scrollbar-hide uppercase text-sm"
             >
               {allBlogCategories.map((item) => (
-                <ul className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105">
+                <ul key={item} className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105">
                   <button onClick={() => handleCategorySearch(item)}>
                     {item}
                   </button>
@@ -288,7 +288,7 @@ export default function BlogListLayout({
 
                       <div className="mb-2 flex flex-wrap">
                         {tags.map((tag) => (
-                          <button className='pr-2 text-teal-500 uppercase text-sm' onClick={() => handleTagSearch(tag.value.toLowerCase())}> {tag.label} </button>
+                          <button key={tag.value} className='pr-2 text-teal-500 uppercase text-sm' onClick={() => handleTagSearch(tag.value.toLowerCase())}> {tag.label} </button>
                         ))}
                       </div>
 

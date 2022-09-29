@@ -55,7 +55,7 @@ function LoginModal({ handleLoginModal, loginWithGoogleNoRedirect }) {
                                     type="button"
                                     onClick={handleLoginModal}
                                 >
-                                    No, cancel
+                                    Cancel
                                 </button>
 
                             </div>

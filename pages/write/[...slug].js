@@ -48,7 +48,7 @@ const metadata = {
 function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
   const { user } = auth
   const [imageLoad, setImageLoad] = useState(false)
-  const [postThumbnail, setPostThumbnail] = useState(postData.frontMatter.postThumbnail)
+  const [postThumbnail, setPostThumbnail] = useState(postData?.frontMatter?.postThumbnail || '')
   const [showToast, setShowToast] = useState(false)
   const [draftToast, setDraftToast] = useState(false)
   const [publishToast, setPublishToast] = useState(false)
