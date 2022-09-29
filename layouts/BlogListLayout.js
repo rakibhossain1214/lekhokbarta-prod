@@ -6,14 +6,9 @@ import Moment from 'react-moment'
 import 'moment-timezone'
 import Image from '@/components/Image'
 import { AddToFavoriteBlogs, RemoveFavoriteBlogs } from '@/lib/firestoreConnection'
+import kebabCase from '@/lib/utils/kebabCase'
 
-const allBlogCategories = [
-  'Trending',
-  'Review',
-  'Sports',
-  'Entertainment',
-  'Other'
-]
+const allBlogCategories = ['Trending', 'Review', 'Sports', 'Entertainment', 'Other']
 
 export default function BlogListLayout({
   posts,
@@ -26,32 +21,24 @@ export default function BlogListLayout({
   const [effectCaller, setEffectCaller] = useState(false)
   const [processing, setProcessing] = useState(false)
   const [searchContentType, setSearchContentType] = useState('text')
+  const [filteredPosts, setFilteredPosts] = useState(posts)
+  const [pageTitle, setPageTitle] = useState('All Posts')
 
-  const filteredBlogPosts = posts.filter((frontMatter) => {
-    const searchContent = ''
-    if (searchContentType === 'text') {
-      searchContent =
-        frontMatter.title +
-        frontMatter.category +
-        frontMatter.authorDetails.name +
-        frontMatter?.tags
-          ?.map((tag) => {
-            return tag?.value
-          })
-          .join(' ')
-    } else if (searchContentType === 'category') {
-      searchContent = frontMatter.category
-    } else if (searchContentType === 'tag') {
-      searchContent = frontMatter?.tags?.map((tag) => {
-        return tag?.value
-      }).join(' ')
-    }
-
+  const filteredBlogPosts = filteredPosts.filter((frontMatter) => {
+    const searchContent =
+      frontMatter.title +
+      frontMatter.category +
+      frontMatter.authorDetails.name +
+      frontMatter?.tags
+        ?.map((tag) => {
+          return tag?.value
+        })
+        .join(' ')
     return searchContent.toLowerCase().includes(searchValue.toLowerCase())
   })
 
   const displayPosts =
-    initialDisplayPosts.length > 0 && !searchValue ? initialDisplayPosts : filteredBlogPosts
+    initialDisplayPosts.length > 0 && !searchValue ? filteredPosts : filteredBlogPosts
 
   const slideLeft = () => {
     var slider = document.getElementById('slider')
@@ -131,30 +118,44 @@ export default function BlogListLayout({
     setUser(user)
   }, [effectCaller])
 
-
   const handleCategorySearch = (category) => {
-    document.getElementById('search-text-input').value = ""
-    setSearchContentType('category')
+    console.log('cat: ', category)
+    const filteredPostsByTags = posts.filter(
+      // (post) => post.draft !== true && post.tags.map((t) => kebabCase(t.value)).includes(tag)
+      (post) => post.draft !== true && post.category.includes(category)
+    )
+    setFilteredPosts(filteredPostsByTags)
+    document.getElementById('search-text-input').value = ''
     setSearchValue(category)
-    window.scrollTo(0, 0);
+    setPageTitle(category.charAt(0).toUpperCase() + category.slice(1))
+    window.scrollTo(0, 0)
   }
 
   const handleTagSearch = (tag) => {
-    document.getElementById('search-text-input').value = ""
-    setSearchContentType('tag')
+    const filteredPostsByTags = posts.filter(
+      (post) => post.draft !== true && post.tags.map((t) => kebabCase(t.value)).includes(tag)
+    )
+    setFilteredPosts(filteredPostsByTags)
+    document.getElementById('search-text-input').value = ''
+    setPageTitle(tag.charAt(0).toUpperCase() + tag.slice(1))
     setSearchValue(tag)
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
   }
 
   const handleClearSearch = () => {
-    document.getElementById('search-text-input').value = ""
+    document.getElementById('search-text-input').value = ''
     setSearchValue('')
+    setPageTitle('All Posts')
+    setFilteredPosts(posts)
   }
 
   return (
     <>
       <div className="-mt-7 divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pt-6 pb-8 md:space-y-5">
+          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+            {pageTitle}
+          </h1>
           <div className="relative max-w-lg">
             <input
               id="search-text-input"
@@ -182,7 +183,13 @@ export default function BlogListLayout({
               />
             </svg>
           </div>
-          <button className='text-teal-500 text-md' style={{ marginTop: '8px', marginLeft: '5px' }} onClick={handleClearSearch}>Clear Search</button>
+          <button
+            className="text-md text-teal-500"
+            style={{ marginTop: '8px', marginLeft: '5px' }}
+            onClick={handleClearSearch}
+          >
+            Clear Search
+          </button>
         </div>
 
         <>
@@ -206,16 +213,16 @@ export default function BlogListLayout({
 
             <div
               id="slider"
-              className="scroll h-full w-full overflow-x-scroll scroll-smooth whitespace-nowrap scrollbar-hide uppercase text-sm"
+              className="scroll h-full w-full overflow-x-scroll scroll-smooth whitespace-nowrap text-sm uppercase scrollbar-hide"
             >
               {allBlogCategories.map((item) => (
-                <ul key={item} className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105">
-                  <button onClick={() => handleCategorySearch(item)}>
-                    {item}
-                  </button>
+                <ul
+                  key={item}
+                  className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105"
+                >
+                  <button onClick={() => handleCategorySearch(item.toLowerCase())}>{item}</button>
                 </ul>
-              )
-              )}
+              ))}
             </div>
 
             <button className="cursor-pointer opacity-50 hover:opacity-100" onClick={slideRight}>
@@ -288,7 +295,14 @@ export default function BlogListLayout({
 
                       <div className="mb-2 flex flex-wrap">
                         {tags.map((tag) => (
-                          <button key={tag.value} className='pr-2 text-teal-500 uppercase text-sm' onClick={() => handleTagSearch(tag.value.toLowerCase())}> {tag.label} </button>
+                          <button
+                            key={tag.value}
+                            className="pr-2 text-sm uppercase text-teal-500"
+                            onClick={() => handleTagSearch(tag.value.toLowerCase())}
+                          >
+                            {' '}
+                            {tag.label}{' '}
+                          </button>
                         ))}
                       </div>
 
@@ -326,7 +340,10 @@ export default function BlogListLayout({
 
                         <div className="order-last pt-1">
                           <div className="flex content-center">
-                            <button className='uppercase text-sm pr-2 pb-2 pt-1 text-blue-600' onClick={() => handleCategorySearch(category)}>
+                            <button
+                              className="pr-3 pb-2 pt-1 text-sm uppercase text-blue-600"
+                              onClick={() => handleCategorySearch(category)}
+                            >
                               {category}
                             </button>
                             {user !== null ? (
