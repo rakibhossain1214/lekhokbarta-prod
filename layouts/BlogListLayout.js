@@ -1,28 +1,23 @@
 import Link from '@/components/Link'
 import { useEffect, useState } from 'react'
-import Pagination from '@/components/Pagination'
 import formatDate from '@/lib/utils/formatDate'
 import Moment from 'react-moment'
 import 'moment-timezone'
 import Image from '@/components/Image'
 import { AddToFavoriteBlogs, RemoveFavoriteBlogs } from '@/lib/firestoreConnection'
 import kebabCase from '@/lib/utils/kebabCase'
+import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
 const allBlogCategories = ['Trending', 'Review', 'Sports', 'Entertainment', 'Other']
+const POSTS_PER_PAGE = 6
 
-export default function BlogListLayout({
-  posts,
-  initialDisplayPosts = [],
-  pagination,
-  user,
-  setUser,
-}) {
+export default function BlogListLayout({ posts, user, setUser }) {
   const [searchValue, setSearchValue] = useState('')
   const [effectCaller, setEffectCaller] = useState(false)
   const [processing, setProcessing] = useState(false)
-  const [searchContentType, setSearchContentType] = useState('text')
   const [filteredPosts, setFilteredPosts] = useState(posts)
   const [pageTitle, setPageTitle] = useState('All Posts')
+  const [postCount, setPostCount] = useState(POSTS_PER_PAGE)
 
   const filteredBlogPosts = filteredPosts.filter((frontMatter) => {
     const searchContent =
@@ -37,8 +32,7 @@ export default function BlogListLayout({
     return searchContent.toLowerCase().includes(searchValue.toLowerCase())
   })
 
-  const displayPosts =
-    initialDisplayPosts.length > 0 && !searchValue ? filteredPosts : filteredBlogPosts
+  const displayPosts = filteredPosts.length > 0 && !searchValue ? filteredPosts : filteredBlogPosts
 
   const slideLeft = () => {
     var slider = document.getElementById('slider')
@@ -119,7 +113,7 @@ export default function BlogListLayout({
   }, [effectCaller])
 
   const handleCategorySearch = (category) => {
-    console.log('cat: ', category)
+    setPostCount(POSTS_PER_PAGE)
     const filteredPostsByTags = posts.filter(
       // (post) => post.draft !== true && post.tags.map((t) => kebabCase(t.value)).includes(tag)
       (post) => post.draft !== true && post.category.includes(category)
@@ -132,6 +126,7 @@ export default function BlogListLayout({
   }
 
   const handleTagSearch = (tag) => {
+    setPostCount(POSTS_PER_PAGE)
     const filteredPostsByTags = posts.filter(
       (post) => post.draft !== true && post.tags.map((t) => kebabCase(t.value)).includes(tag)
     )
@@ -143,6 +138,7 @@ export default function BlogListLayout({
   }
 
   const handleClearSearch = () => {
+    setPostCount(POSTS_PER_PAGE)
     document.getElementById('search-text-input').value = ''
     setSearchValue('')
     setPageTitle('All Posts')
@@ -163,7 +159,6 @@ export default function BlogListLayout({
               type="text"
               onChange={(e) => {
                 setSearchValue(e.target.value)
-                setSearchContentType('text')
               }}
               placeholder="Search blogs"
               className="block w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
@@ -246,7 +241,7 @@ export default function BlogListLayout({
 
         <ul className="pt-5">
           {!filteredBlogPosts.length && 'No posts found.'}
-          {displayPosts.map((frontMatter) => {
+          {displayPosts.slice(0, postCount).map((frontMatter) => {
             const {
               slug,
               date,
@@ -404,9 +399,20 @@ export default function BlogListLayout({
           })}
         </ul>
       </div>
-      {pagination && pagination.totalPages > 1 && !searchValue && (
-        <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
+
+      {displayPosts.length > postCount ? (
+        <div className="w-full pt-2 text-center text-teal-600">
+          <button
+            className="text-md font-semibold"
+            onClick={() => setPostCount(postCount + POSTS_PER_PAGE)}
+          >
+            Load More...
+          </button>
+        </div>
+      ) : (
+        ''
       )}
+      <ScrollTopAndComment />
     </>
   )
 }

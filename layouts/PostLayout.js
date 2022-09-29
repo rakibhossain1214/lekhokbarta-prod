@@ -16,6 +16,7 @@ import {
 } from '@/lib/firestoreConnection'
 import { useEffect, useState } from 'react'
 import LoginModal from '@/components/LoginModal'
+import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
 const postDateTemplate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 
@@ -207,7 +208,7 @@ export default function PostLayout({
                           )
                         ) : (
                           <button
-                            onClick={()=> setShowLoginModal(true)}
+                            onClick={() => setShowLoginModal(true)}
                             className="m-1 flex items-center rounded border border-gray-200 bg-red-500 pl-2 pr-2 text-xs text-gray-100"
                           >
                             <svg
@@ -234,7 +235,14 @@ export default function PostLayout({
                 </ul>
               </dd>
             </dl>
-            { showLoginModal ? <LoginModal handleLoginModal={handleLoginModal} loginWithGoogleNoRedirect={loginWithGoogleNoRedirect} /> : ''}
+            {showLoginModal ? (
+              <LoginModal
+                handleLoginModal={handleLoginModal}
+                loginWithGoogleNoRedirect={loginWithGoogleNoRedirect}
+              />
+            ) : (
+              ''
+            )}
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className="prose max-w-none pt-0 pb-8 dark:prose-dark">
                 <ShowPost content={children} />
@@ -296,6 +304,7 @@ export default function PostLayout({
             </footer>
           </div>
         </div>
+        <ScrollTopAndComment />
       </article>
     </SectionContainer>
   )
