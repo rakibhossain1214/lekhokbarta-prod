@@ -9,6 +9,7 @@ import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import CreatableSelect from 'react-select/creatable'
 import WriteAgreement from '@/components/WriteAgreement'
+import kebabCase from '@/lib/utils/kebabCase'
 
 const postValidationSchema = Yup.object().shape({
   title: Yup.string()
@@ -51,7 +52,7 @@ function Write({ auth }) {
   const handleChange = (newValue) => {
     let tagArray = []
     newValue.map((node) => {
-      tagArray.push({ label: node.label, value: node.value.toLowerCase() })
+      tagArray.push({ label: kebabCase(node.label.toLowerCase()), value: kebabCase(node.value.toLowerCase()) })
     })
     setSelectedTags(tagArray)
   }

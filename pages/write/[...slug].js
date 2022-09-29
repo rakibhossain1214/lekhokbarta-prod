@@ -27,6 +27,7 @@ import {
 } from 'firebase/storage'
 import Compressor from 'compressorjs'
 import Image from '@/components/Image'
+import kebabCase from '@/lib/utils/kebabCase'
 
 const postValidationSchema = Yup.object().shape({
   title: Yup.string()
@@ -86,7 +87,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
   const handleChange = (newValue) => {
     let tagArray = []
     newValue.map((node) => {
-      tagArray.push({ label: node.label, value: node.value.toLowerCase() })
+      tagArray.push({ label: kebabCase(node.label.toLowerCase()), value: kebabCase(node.value.toLowerCase()) })
     })
     setSelectedTags(tagArray)
 
