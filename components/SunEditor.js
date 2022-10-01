@@ -24,7 +24,7 @@ const CustomSunEditor = (props) => {
     const storageRef = ref(storage, 'images/' + props.postId + '/' + files[0].name)
     const image = files[0]
     new Compressor(image, {
-      quality: 0.2, // 0.6 can also be used, but its not recommended to go below.
+      quality: 0.4, // 0.6 can also be used, but its not recommended to go below.
       success: (compressedResult) => {
         // compressedResult has the compressed file.
         const uploadTask = uploadBytesResumable(storageRef, compressedResult, metadata)
@@ -154,13 +154,19 @@ const CustomSunEditor = (props) => {
           formats: ['p', 'h1', 'h2', 'h3', 'h4', 'blockquote'],
           mode: 'classic',
           callBackSave: function (contents, isChanged) {
-            var regex = /(<([^>]+)>)/gi
-            var result = contents.replace(regex, '')
+
+            // var cont = $("#content").html();
+            var cont = contents;
+            cont = cont.replace(/<[^>]*>/g," ");
+            cont = cont.replace(/\s+/g, ' ');
+            cont = cont.trim();
+            var n = cont.split(" ").length
+
             if (isChanged) {
               updatePostContent({
                 postData: props.postData,
                 content: contents,
-                characterCount: result.length,
+                wordCount: n,
               })
               setShowToast(true)
               setTimeout(() => {
