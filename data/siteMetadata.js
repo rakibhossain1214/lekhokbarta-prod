@@ -5,7 +5,7 @@ const siteMetadata = {
   description: 'World of writers!',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://lekhokbarta.vercel.app/',
+  siteUrl: 'https://roarspot.vercel.app/',
   siteRepo: 'https://github.com/rakibhossain1214/lekhokbarta-prod',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
