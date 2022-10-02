@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Image from '@/components/Image'
 import { getUserInfo, RemoveFavoriteBlogs } from '@/lib/firestoreConnection'
 import Link from 'next/link'
@@ -14,19 +14,12 @@ function FavBlogs({ userInfo, handleFollowChange, userId, setUser }) {
     postThumbnail,
     authorName,
     authorId,
-    authorAvatar
+    authorAvatar,
+    category,
+    tags
   ) => {
     e.preventDefault()
-    // setProcessing(true)
     setLoading(true)
-    // let favList = []
-    // userInfo.favoriteBlogs.map((item) => {
-    //   if (item.postId !== postId) {
-    //     favList.push(item)
-    //   }
-    // })
-
-    // userInfo.favoriteBlogs = favList
 
     RemoveFavoriteBlogs({
       postId,
@@ -37,6 +30,8 @@ function FavBlogs({ userInfo, handleFollowChange, userId, setUser }) {
       authorId,
       authorAvatar,
       user: userInfo,
+      category,
+      tags,
     }).then(async () => {
       const userData = await getUserInfo(userId)
       handleFollowChange({ userData })
@@ -51,7 +46,9 @@ function FavBlogs({ userInfo, handleFollowChange, userId, setUser }) {
 
   return (
     <div className="w-full">
-      <div className='pl-2 pr-2 pt-3 pb-2 text-teal-500'>Favorite Blogs: {userInfo?.favoriteBlogs.length}</div>
+      <div className="pl-2 pr-2 pt-3 pb-2 text-teal-500">
+        Favorite Blogs: {userInfo?.favoriteBlogs.length}
+      </div>
       <table className="m-1 table-auto p-2">
         <tbody>
           {userInfo.favoriteBlogs
@@ -83,7 +80,7 @@ function FavBlogs({ userInfo, handleFollowChange, userId, setUser }) {
                 <td className="pl-2 pt-4 pb-4">
                   <Link href={`/blog/${post.postId}/${post.slug}`}>{post.title}</Link>{' '}
                   <span className="text-xs">by</span>
-                  <a target="_blank" href={`/profile/${post.authorId}`}>
+                  <a target="_blank" href={`/profile/${post.authorId}`} rel="noreferrer">
                     <span className="text-xs text-blue-500">{' ' + post.authorName}</span>
                   </a>
                 </td>
@@ -99,7 +96,9 @@ function FavBlogs({ userInfo, handleFollowChange, userId, setUser }) {
                         post.postThumbnail,
                         post.authorName,
                         post.authorId,
-                        post.authorAvatar
+                        post.authorAvatar,
+                        post.category,
+                        post.tags
                       )
                     }
                     className="rounded border border-red-400 p-1 text-xs text-red-400"

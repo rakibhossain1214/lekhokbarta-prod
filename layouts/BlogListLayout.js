@@ -1,8 +1,6 @@
 import Link from '@/components/Link'
 import { useEffect, useState } from 'react'
 import formatDate from '@/lib/utils/formatDate'
-import Moment from 'react-moment'
-import 'moment-timezone'
 import Image from '@/components/Image'
 import { AddToFavoriteBlogs, RemoveFavoriteBlogs } from '@/lib/firestoreConnection'
 import kebabCase from '@/lib/utils/kebabCase'
@@ -19,7 +17,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
   const [pageTitle, setPageTitle] = useState('All Posts')
   const [postCount, setPostCount] = useState(POSTS_PER_PAGE)
   const [showToast, setShowToast] = useState(false)
-  const [toastText, setToastText] = useState("");
+  const [toastText, setToastText] = useState('')
 
   const filteredBlogPosts = filteredPosts.filter((frontMatter) => {
     const searchContent =
@@ -46,11 +44,20 @@ export default function BlogListLayout({ posts, user, setUser }) {
     slider.scrollLeft = slider.scrollLeft + 500
   }
 
-  const handleAddToFavoriteBlogs = (e, postId, title, slug, postThumbnail, authorDetails) => {
+  const handleAddToFavoriteBlogs = (
+    e,
+    postId,
+    title,
+    slug,
+    postThumbnail,
+    authorDetails,
+    category,
+    tags
+  ) => {
     e.preventDefault()
     setProcessing(true)
 
-    setToastText("Added to favorite blogs.")
+    setToastText('Added to favorite blogs.')
     setShowToast(true)
     setTimeout(() => {
       setShowToast(false)
@@ -69,6 +76,8 @@ export default function BlogListLayout({ posts, user, setUser }) {
       authorName: authorDetails.name,
       authorId: authorDetails.id,
       authorAvatar: authorDetails.avatar,
+      category,
+      tags,
     })
 
     user.favoriteBlogs = favList
@@ -82,17 +91,28 @@ export default function BlogListLayout({ posts, user, setUser }) {
       authorId: authorDetails.id,
       authorAvatar: authorDetails.avatar,
       user,
+      category,
+      tags,
     }).then(() => {
       setEffectCaller(!effectCaller)
       setProcessing(false)
     })
   }
 
-  const handleRemoveFavoriteBlogs = (e, postId, title, slug, postThumbnail, authorDetails) => {
+  const handleRemoveFavoriteBlogs = (
+    e,
+    postId,
+    title,
+    slug,
+    postThumbnail,
+    authorDetails,
+    category,
+    tags
+  ) => {
     e.preventDefault()
     setProcessing(true)
 
-    setToastText("Removed from favorite blogs.")
+    setToastText('Removed from favorite blogs.')
     setShowToast(true)
     setTimeout(() => {
       setShowToast(false)
@@ -116,6 +136,8 @@ export default function BlogListLayout({ posts, user, setUser }) {
       authorId: authorDetails.id,
       authorAvatar: authorDetails.avatar,
       user,
+      category,
+      tags,
     }).then(() => {
       setEffectCaller(!effectCaller)
       setProcessing(false)
@@ -162,8 +184,8 @@ export default function BlogListLayout({ posts, user, setUser }) {
   return (
     <>
       <div className="-mt-7 divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+        <div className="space-y-2 pt-6 pb-8 md:space-y-2">
+          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-12">
             {pageTitle}
           </h1>
           <div className="relative max-w-lg">
@@ -265,7 +287,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
               postId,
               category,
               postThumbnail,
-              characterCount,
+              wordCount,
               authorDetails,
             } = frontMatter
             return (
@@ -289,18 +311,20 @@ export default function BlogListLayout({ posts, user, setUser }) {
                   )}
                   <div className="w-full flex-1">
                     <div className="flex flex-col justify-between p-3 leading-normal">
-                      <dl>
-                        <dt className="sr-only">Published on</dt>
-                        <dd className="leading-1 text-sm font-medium text-gray-500 dark:text-gray-400">
-                          <Moment fromNow>{date}</Moment>
-                        </dd>
-                      </dl>
-
                       <Link href={`/blog/${postId}/${slug}`}>
                         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                           <div className="flex items-center">{title}</div>
                         </h5>
                       </Link>
+
+                      <dl>
+                        <dt className="sr-only">Published on</dt>
+                        <dd className="leading-1 text-sm font-medium text-gray-500 dark:text-gray-400">
+                          {Math.ceil(wordCount / 225) > 1
+                            ? `${Math.ceil(wordCount / 225)} minutes read`
+                            : `${Math.ceil(wordCount / 225)} minute read`}
+                        </dd>
+                      </dl>
 
                       <div className="mb-2 flex flex-wrap">
                         {tags.map((tag) => (
@@ -367,7 +391,9 @@ export default function BlogListLayout({ posts, user, setUser }) {
                                       title,
                                       slug,
                                       postThumbnail,
-                                      authorDetails
+                                      authorDetails,
+                                      category,
+                                      tags
                                     )
                                   }
                                 >
@@ -388,7 +414,9 @@ export default function BlogListLayout({ posts, user, setUser }) {
                                       title,
                                       slug,
                                       postThumbnail,
-                                      authorDetails
+                                      authorDetails,
+                                      category,
+                                      tags
                                     )
                                   }
                                 >
