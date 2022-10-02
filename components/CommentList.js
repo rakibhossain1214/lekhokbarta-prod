@@ -90,7 +90,7 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
     if (user !== null) {
       setDownVoted(false)
       setUpVoted(!upVoted)
-      increaseVote({ postId: postId, uid: user?.uid, postData: postData }).then(() => {
+      increaseVote({ postId: postId, user, postData: postData }).then(() => {
         setProcessing(false)
       })
     }
@@ -143,7 +143,6 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
     setLoadComment(true)
   }
 
-  
   const handleLoginModal = () => {
     setShowLoginModal(false)
   }
@@ -366,7 +365,14 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
           Please login to vote and comment
         </button>
       )}
-      { showLoginModal ? <LoginModal handleLoginModal={handleLoginModal} loginWithGoogleNoRedirect={loginWithGoogleNoRedirect} /> : ''}
+      {showLoginModal ? (
+        <LoginModal
+          handleLoginModal={handleLoginModal}
+          loginWithGoogleNoRedirect={loginWithGoogleNoRedirect}
+        />
+      ) : (
+        ''
+      )}
     </>
   )
 }
