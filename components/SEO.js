@@ -15,6 +15,11 @@ const CommonSEO = ({
   const thumbnailUrl = siteMetadata.siteUrl + siteMetadata.thumbnail
   return (
     <Head>
+      {thumbnail != '' ? (
+        <meta property="og:image" content={thumbnail} />
+      ) : (
+        <meta property="og:image" content={ogImage} key={ogImage} />
+      )}
       <title>{title}</title>
       <meta name="robots" content="follow, index" />
       <meta name="description" content={description} />
@@ -23,11 +28,7 @@ const CommonSEO = ({
       <meta property="og:site_name" content={siteMetadata.title} />
       <meta property="og:description" content={description} />
       <meta property="og:title" content={title} />
-      {thumbnail != '' ? (
-        <meta property="og:image" content={thumbnail} />
-      ) : (
-        <meta property="og:image" content={ogImage} key={ogImage} />
-      )}
+
       {/* {ogImage.constructor.name === 'Array' ? (
         ogImage.map(({ url }) => <meta property="og:image" content={url} key={url} />)
       ) : (
