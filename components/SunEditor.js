@@ -10,7 +10,7 @@ import {
   deleteObject,
 } from 'firebase/storage'
 import Compressor from 'compressorjs'
-import { updatePostContent } from '@/lib/firestoreConnection'
+import { addEditorPhotosToDb, updatePostContent } from '@/lib/firestoreConnection'
 
 const storage = getStorage()
 const metadata = {
@@ -83,16 +83,27 @@ const CustomSunEditor = (props) => {
       // Create a reference to the file to delete
       var fileRef = ref(storage, imageArray[index])
       // Delete the file
-      deleteObject(fileRef)
-        .then(() => {
-          // File deleted successfully
-        })
-        .catch((error) => {
-          // Uh-oh, an error occurred!
-        })
+      try {
+        deleteObject(fileRef)
+          .then(() => {
+            // File deleted successfully
+            if (index > -1) {
+              // only splice array when item is found
+              imageArray.splice(index, 1) // 2nd parameter means remove one item only
+            }
+            addEditorPhotosToDb({ postData: props.postData, imageArray })
+          })
+          .catch((error) => {
+            // Uh-oh, an error occurred!
+            console.log(error)
+          })
+      } catch (e) {
+        alert('something went wrong. Please try again.')
+      }
     } else {
       if (state === 'create') {
         imageArray.push(imageInfo.src)
+        addEditorPhotosToDb({ postData: props.postData, imageArray })
       }
     }
   }
@@ -154,13 +165,12 @@ const CustomSunEditor = (props) => {
           formats: ['p', 'h1', 'h2', 'h3', 'h4', 'blockquote'],
           mode: 'classic',
           callBackSave: function (contents, isChanged) {
-
             // var cont = $("#content").html();
-            var cont = contents;
-            cont = cont.replace(/<[^>]*>/g," ");
-            cont = cont.replace(/\s+/g, ' ');
-            cont = cont.trim();
-            var n = cont.split(" ").length
+            var cont = contents
+            cont = cont.replace(/<[^>]*>/g, ' ')
+            cont = cont.replace(/\s+/g, ' ')
+            cont = cont.trim()
+            var n = cont.split(' ').length
 
             if (isChanged) {
               updatePostContent({
