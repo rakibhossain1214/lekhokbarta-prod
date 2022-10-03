@@ -14,7 +14,6 @@ const CommonSEO = ({ title, description, ogType, ogImage, twImage, canonicalUrl 
       <meta property="og:site_name" content={siteMetadata.title} />
       <meta property="og:description" content={description} />
       <meta property="og:title" content={title} />
-      {/* <meta property="og:image" content={twImage} /> */}
       {ogImage.constructor.name === 'Array' ? (
         ogImage.map(({ url }) => <meta property="og:image" content={url} key={url} />)
       ) : (
@@ -83,8 +82,8 @@ export const BlogSEO = ({
   canonicalUrl,
 }) => {
   const router = useRouter()
-  const publishedAt = date
-  const modifiedAt = lastmod
+  const publishedAt = new Date(date).toISOString()
+  const modifiedAt = new Date(lastmod || date).toISOString()
   let imagesArr =
     images.length === 0
       ? [siteMetadata.socialBanner]
@@ -95,7 +94,7 @@ export const BlogSEO = ({
   const featuredImages = imagesArr.map((img) => {
     return {
       '@type': 'ImageObject',
-      url: img,
+      url: img.includes('http') ? img : siteMetadata.siteUrl + img,
     }
   })
 

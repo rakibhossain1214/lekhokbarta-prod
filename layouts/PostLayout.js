@@ -33,7 +33,7 @@ export default function PostLayout({
   user,
   loginWithGoogleNoRedirect,
 }) {
-  const { slug, title, tags, postThumbnail } = frontMatter
+  const { slug, title, tags, postThumbnail, summary } = frontMatter
 
   const [showFollowButton, setShowFollowButton] = useState(true)
   const [followersCount, setFollowersCount] = useState(0)
@@ -95,9 +95,13 @@ export default function PostLayout({
     <SectionContainer>
       <BlogSEO
         url={`${siteMetadata.siteUrl}/blog/${postId}/${slug}`}
-        images={images}
+        images={postData.images}
         authorDetails={authorDetails}
-        {...frontMatter}
+        title={title}
+        summary={summary}
+        date={date}
+        lastmod={lastmod}
+        canonicalUrl={`${siteMetadata.siteUrl}/blog/${postId}/${slug}`}
       />
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
