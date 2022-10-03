@@ -2,9 +2,17 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import siteMetadata from '@/data/siteMetadata'
 
-const CommonSEO = ({ title, description, ogType, ogImage, twImage, canonicalUrl, thumbnail = '' }) => {
+const CommonSEO = ({
+  title,
+  description,
+  ogType,
+  ogImage,
+  twImage,
+  canonicalUrl,
+  thumbnail = '',
+}) => {
   const router = useRouter()
-  const thumbnailUrl = siteMetadata.siteUrl + siteMetadata.thumbnail;
+  const thumbnailUrl = siteMetadata.siteUrl + siteMetadata.thumbnail
   return (
     <Head>
       <title>{title}</title>
@@ -15,15 +23,16 @@ const CommonSEO = ({ title, description, ogType, ogImage, twImage, canonicalUrl,
       <meta property="og:site_name" content={siteMetadata.title} />
       <meta property="og:description" content={description} />
       <meta property="og:title" content={title} />
-      {
-        thumbnail != '' ?
-        (<meta property='og:image' content={thumbnail} />) : <meta property='og:image' content={thumbnailUrl} />
-      }
-      {ogImage.constructor.name === 'Array' ? (
-        ogImage.map(({ url }) => <meta property="og:image" content={url} key={url} />)
+      {thumbnail != '' ? (
+        <meta property="og:image" content={thumbnail} />
       ) : (
         <meta property="og:image" content={ogImage} key={ogImage} />
       )}
+      {/* {ogImage.constructor.name === 'Array' ? (
+        ogImage.map(({ url }) => <meta property="og:image" content={url} key={url} />)
+      ) : (
+        <meta property="og:image" content={ogImage} key={ogImage} />
+      )} */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content={siteMetadata.twitter} />
       <meta name="twitter:title" content={title} />
@@ -85,7 +94,7 @@ export const BlogSEO = ({
   url,
   images = [],
   canonicalUrl,
-  thumbnail
+  thumbnail,
 }) => {
   const router = useRouter()
   const publishedAt = new Date(date).toISOString()
@@ -138,7 +147,7 @@ export const BlogSEO = ({
       },
     },
     description: summary,
-    thumbnail: thumbnail
+    thumbnail: thumbnail,
   }
 
   const twImageUrl = featuredImages[0].url
