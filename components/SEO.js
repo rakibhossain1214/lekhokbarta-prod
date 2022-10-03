@@ -2,8 +2,9 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import siteMetadata from '@/data/siteMetadata'
 
-const CommonSEO = ({ title, description, ogType, ogImage, twImage, canonicalUrl }) => {
+const CommonSEO = ({ title, description, ogType, ogImage, twImage, canonicalUrl, thumbnail = '' }) => {
   const router = useRouter()
+  const thumbnailUrl = siteMetadata.siteUrl + siteMetadata.thumbnail;
   return (
     <Head>
       <title>{title}</title>
@@ -14,6 +15,10 @@ const CommonSEO = ({ title, description, ogType, ogImage, twImage, canonicalUrl 
       <meta property="og:site_name" content={siteMetadata.title} />
       <meta property="og:description" content={description} />
       <meta property="og:title" content={title} />
+      {
+        thumbnail != '' ?
+        (<meta property='og:image' content={thumbnail} />) : <meta property='og:image' content={thumbnailUrl} />
+      }
       {ogImage.constructor.name === 'Array' ? (
         ogImage.map(({ url }) => <meta property="og:image" content={url} key={url} />)
       ) : (
@@ -80,6 +85,7 @@ export const BlogSEO = ({
   url,
   images = [],
   canonicalUrl,
+  thumbnail
 }) => {
   const router = useRouter()
   const publishedAt = new Date(date).toISOString()
@@ -100,12 +106,6 @@ export const BlogSEO = ({
 
   let authorList
   if (authorDetails) {
-    // authorList = authorDetails.map((author) => {
-    //   return {
-    //     '@type': 'Person',
-    //     name: author.name,
-    //   }
-    // })
     authorList = {
       '@type': 'Person',
       name: authorDetails.name,
@@ -138,6 +138,7 @@ export const BlogSEO = ({
       },
     },
     description: summary,
+    thumbnail: thumbnail
   }
 
   const twImageUrl = featuredImages[0].url
@@ -151,6 +152,7 @@ export const BlogSEO = ({
         ogImage={featuredImages}
         twImage={twImageUrl}
         canonicalUrl={canonicalUrl}
+        thumbnail={thumbnail}
       />
       <Head>
         {date && <meta property="article:published_time" content={publishedAt} />}

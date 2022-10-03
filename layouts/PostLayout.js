@@ -102,6 +102,7 @@ export default function PostLayout({
         date={date}
         lastmod={lastmod}
         canonicalUrl={`${siteMetadata.siteUrl}/blog/${postId}/${slug}`}
+        thumbnail={postThumbnail}
       />
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">

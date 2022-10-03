@@ -21,10 +21,10 @@ const CustomSunEditor = (props) => {
   const [showToast, setShowToast] = useState(false)
 
   function handleImageUploadBefore(files, info, uploadHandler) {
-    const storageRef = ref(storage, 'images/' + props.postId + '/' + files[0].name)
+    const storageRef = ref(storage, 'images/' + props.postData.postId + '/' + files[0].name)
     const image = files[0]
     new Compressor(image, {
-      quality: 0.4, // 0.6 can also be used, but its not recommended to go below.
+      quality: 0.6, // 0.6 can also be used, but its not recommended to go below.
       success: (compressedResult) => {
         // compressedResult has the compressed file.
         const uploadTask = uploadBytesResumable(storageRef, compressedResult, metadata)

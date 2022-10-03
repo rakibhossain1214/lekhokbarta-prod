@@ -103,7 +103,10 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
     const image = files[0]
     setImageLoad(true)
     new Compressor(image, {
-      quality: 0.4, // 0.6 can also be used, but its not recommended to go below.
+      quality: 0.6, // 0.6 can also be used, but its not recommended to go below.
+      width: 500,
+      height: 350,
+      resize: "cover",
       success: (compressedResult) => {
         // compressedResult has the compressed file.
         const uploadTask = uploadBytesResumable(storageRef, compressedResult, metadata)
