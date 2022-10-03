@@ -28,11 +28,11 @@ const CommonSEO = ({
       ) : (
         <meta property="og:image" content={thumbnailUrl} />
       )}
-      {/* {ogImage.constructor.name === 'Array' ? (
+      {ogImage.constructor.name === 'Array' ? (
         ogImage.map(({ url }) => <meta property="og:image" content={url} key={url} />)
       ) : (
         <meta property="og:image" content={ogImage} key={ogImage} />
-      )} */}
+      )}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content={siteMetadata.twitter} />
       <meta name="twitter:title" content={title} />
