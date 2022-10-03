@@ -2,14 +2,15 @@ const siteMetadata = {
   title: 'Roarspot',
   author: 'A. M. Rakibul Hossain',
   headerTitle: 'Roarspot',
-  description: 'Roarspot is the largest blog publishing website in Bangladesh. It is a world of bloggers, content creators and publishers.',
+  description:
+    'Roarspot is the largest blog publishing website in Bangladesh. It is a world of bloggers, content creators and publishers.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://roarspot.vercel.app',
   siteRepo: 'https://github.com/rakibhossain1214/lekhokbarta-prod',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
-  thumbnail: '/static/images/blogging.png',
+  thumbnail: '/static/images/mahamudullah.jpg',
   socialBanner: '/static/images/twitter-card.png',
   email: 'amrakibulhossain@gmail.com',
   github: 'https://github.com',
