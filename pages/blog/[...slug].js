@@ -5,6 +5,8 @@ import PageTitle from '@/components/PageTitle'
 import { getAllPostsFrontMatterWithPostId, getPostFrontMatterByPostIdAndSlug, getUserInfo } from '@/lib/firestoreConnection'
 import { withPublic } from 'src/hook/route'
 import LoadingComponent from '@/components/LoadingComponent'
+import { BlogSEO } from '@/components/SEO'
+import siteMetadata from '@/data/siteMetadata'
 
 function Blog({ postData, prev, next, auth }) {
   const { user, loginWithGoogleNoRedirect } = auth
@@ -22,10 +24,23 @@ function Blog({ postData, prev, next, auth }) {
 
   return (
     <div>
-      {/* {postData === null ?
+
+      <BlogSEO
+        url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.slug}`}
+        images={postData.images}
+        authorDetails={postData.authorDetails}
+        title={postData.frontMatter.title}
+        summary={postData.frontMatter.summary}
+        date={postData.date}
+        lastmod={postData.lastmod}
+        canonicalUrl={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.slug}`}
+        thumbnail={postData.frontMatter.postThumbnail}
+      />
+
+      {postData === null ?
         <LoadingComponent />
-        : */}
-        {/* postData !== "NODATA" ? */}
+        :
+        postData !== "NODATA" ?
           <PostLayout
             frontMatter={postData.frontMatter}
             authorDetails={postData.authorDetails}
@@ -39,7 +54,7 @@ function Blog({ postData, prev, next, auth }) {
             user={userInfo}
             loginWithGoogleNoRedirect={loginWithGoogleNoRedirect}
           />
-          {/* :
+          :
           <>
             <div className="mt-24 text-center">
               <PageTitle>
@@ -55,7 +70,7 @@ function Blog({ postData, prev, next, auth }) {
               </Link>
             </div>
           </>
-      } */}
+      }
     </div>
   )
 }
