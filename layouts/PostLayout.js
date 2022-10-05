@@ -89,8 +89,6 @@ export default function PostLayout({
     setShowLoginModal(false)
   }
 
-  const images = [`${postThumbnail}`]
-
   return (
     <SectionContainer>
       <BlogSEO
