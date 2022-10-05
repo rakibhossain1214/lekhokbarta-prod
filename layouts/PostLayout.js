@@ -93,7 +93,17 @@ export default function PostLayout({
 
   return (
     <SectionContainer>
-      
+      <BlogSEO
+        url={`${siteMetadata.siteUrl}/blog/${postId}/${slug}`}
+        images={postData.images}
+        authorDetails={authorDetails}
+        title={title}
+        summary={summary}
+        date={date}
+        lastmod={lastmod}
+        canonicalUrl={`${siteMetadata.siteUrl}/blog/${postId}/${slug}`}
+        thumbnail={postThumbnail}
+      />
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="pt-6 xl:pb-6">
