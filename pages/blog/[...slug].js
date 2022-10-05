@@ -22,10 +22,10 @@ function Blog({ postData, prev, next, auth }) {
 
   return (
     <div>
-      {postData === null ?
+      {/* {postData === null ?
         <LoadingComponent />
-        :
-        postData !== "NODATA" ?
+        : */}
+        {/* postData !== "NODATA" ? */}
           <PostLayout
             frontMatter={postData.frontMatter}
             authorDetails={postData.authorDetails}
@@ -39,7 +39,7 @@ function Blog({ postData, prev, next, auth }) {
             user={userInfo}
             loginWithGoogleNoRedirect={loginWithGoogleNoRedirect}
           />
-          :
+          {/* :
           <>
             <div className="mt-24 text-center">
               <PageTitle>
@@ -55,7 +55,7 @@ function Blog({ postData, prev, next, auth }) {
               </Link>
             </div>
           </>
-      }
+      } */}
     </div>
   )
 }
