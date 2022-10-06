@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { withPublic } from 'src/hook/route';
-import { AddFollower, deleteFollower, getUserInfo } from '@/lib/firestoreConnection'
+import { AddFollower, deleteFollower, getAllPostsByAuthorId, getUserInfo } from '@/lib/firestoreConnection'
 import { Tab } from '@headlessui/react'
 import Image from '@/components/Image';
 import ProfileDetails from '@/components/ProfileDetails';
@@ -27,13 +27,13 @@ const metadata = {
 }
 const db = getFirestore()
 
-function profile({ auth }) {
+function profile({ auth, userData, userPosts }) {
     const { user, setUser } = auth
     const router = useRouter()
     const { userId } = router.query
 
     const [imageLoad, setImageLoad] = useState(false)
-    const [userInfo, setUserInfo] = useState(null)
+    const [userInfo, setUserInfo] = useState(userData)
     const [showFollowButton, setShowFollowButton] = useState(true)
     const [processing, setProcessing] = useState(false)
     const [followersCount, setFollowersCount] = useState(0)
@@ -41,9 +41,6 @@ function profile({ auth }) {
     useEffect(() => {
         async function getUser() {
             setProcessing(true)
-            const userData = await getUserInfo(userId)
-            setUserInfo(userData)
-
             setFollowersCount(userData?.followers?.length)
 
             userData?.followers?.map(follower => {
@@ -345,15 +342,15 @@ function profile({ auth }) {
                                     selected ? 'bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
                                 }
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                                 </svg>
 
                             </Tab>
 
                         </Tab.List>
                         <Tab.Panels>
-                            <Tab.Panel><MyBlogs userInfo={userInfo} /></Tab.Panel>
+                            <Tab.Panel><MyBlogs userInfo={userInfo} userPosts={userPosts} /></Tab.Panel>
                             {user !== null ?
                                 userId === user.uid &&
                                 <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} setUser={setUser} /></Tab.Panel>
@@ -382,3 +379,12 @@ function profile({ auth }) {
 }
 
 export default withPublic(profile);
+
+
+export async function getServerSideProps({ params }) {
+    const userData = await getUserInfo(params.userId)
+    const userPosts = await getAllPostsByAuthorId({ authorId: params.userId })
+    return {
+      props: { userData, userPosts },
+    }
+  }

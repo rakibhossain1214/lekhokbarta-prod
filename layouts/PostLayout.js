@@ -10,9 +10,7 @@ import CommentList from '@/components/CommentList'
 import {
   AddFollower,
   getUserInfo,
-  AddFollowing,
   deleteFollower,
-  deleteFollowing,
 } from '@/lib/firestoreConnection'
 import { useEffect, useState } from 'react'
 import LoginModal from '@/components/LoginModal'
@@ -56,7 +54,9 @@ export default function PostLayout({
       })
       setProcessing(false)
     }
-    getUser()
+    return function cleanup(){
+      getUser()
+    }
   }, [postData])
 
   const handleFollow = () => {

@@ -321,8 +321,8 @@ export default function BlogListLayout({ posts, user, setUser }) {
                         <dt className="sr-only">Published on</dt>
                         <dd className="leading-1 text-sm font-medium text-gray-500 dark:text-gray-400">
                           {Math.ceil(wordCount / 225) > 1
-                            ? `${Math.ceil(wordCount / 225)} minutes read`
-                            : `${Math.ceil(wordCount / 225)} minute read`}
+                            ? `${Math.round(wordCount / 225)} minutes read`
+                            : `${Math.round(wordCount / 225)} minute read`}
                         </dd>
                       </dl>
 
@@ -380,7 +380,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
                               {category}
                             </button>
                             {user !== null ? (
-                              user.favoriteBlogs.find((x) => x.postId === postId) ? (
+                              user.favoriteBlogs?.find((x) => x.postId === postId) ? (
                                 <button
                                   type="button"
                                   disabled={processing}

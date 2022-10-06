@@ -9,7 +9,6 @@ import ThemeSwitch from './ThemeSwitch'
 import { withPublic } from 'src/hook/route'
 import { useRouter } from 'next/dist/client/router'
 import CustomNavDropdown from './Dropdowns/CustomNavDropdown'
-import LoadingComponent from './LoadingComponent'
 import LoginModal from './LoginModal'
 import { useState } from 'react'
 
@@ -22,14 +21,6 @@ const LayoutWrapper = ({ children, auth }) => {
       router.pathname === '/dashboard/earning-trx-history'
       ? false
       : true
-
-  if (user !== null) {
-    if (user.accessToken !== undefined) {
-      return (
-       <LoadingComponent />
-      )
-    }
-  }
 
   const handleLoginModal = () => {
     setShowLoginModal(false)

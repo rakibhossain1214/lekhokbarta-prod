@@ -1,5 +1,4 @@
-import LoadingComponent from '@/components/LoadingComponent'
-import { useRouter } from 'next/router'
+import NoPermission from '@/components/NoPermission'
 import React from 'react'
 import useAuth from './auth'
 
@@ -13,10 +12,8 @@ export function withPublic(Component) {
 export function withProtected(Component) {
   return function WithProtected(props) {
     const auth = useAuth()
-    const router = useRouter()
     if (!auth.user) {
-      router.replace('/')
-      return <LoadingComponent />
+      return <NoPermission />
     }
     return <Component auth={auth} {...props} />
   }
