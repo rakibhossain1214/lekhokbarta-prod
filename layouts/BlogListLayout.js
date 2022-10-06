@@ -300,8 +300,8 @@ export default function BlogListLayout({ posts, user, setUser }) {
                           <Image
                             className="rounded-t-lg md:rounded-l-lg"
                             src={postThumbnail}
-                            width={window.innerWidth < 768 ? 500 : 250}
-                            height={window.innerWidth < 768 ? 350 : 208}
+                            width={500}
+                            height={350}
                           />
                         </dd>
                       </Link>
