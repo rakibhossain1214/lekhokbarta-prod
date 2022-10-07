@@ -36,6 +36,9 @@ function FavBlogs({ userInfo, handleFollowChange, userId, setUser }) {
       const userData = await getUserInfo(userId)
       handleFollowChange({ userData })
       setUser(userData)
+      if(typeof window !== 'undefined'){
+        window.localStorage.setItem("userObject", JSON.stringify(userData))
+      }
       setLoading(false)
     })
   }

@@ -11,7 +11,6 @@ import Analytics from '@/components/analytics'
 import LayoutWrapper from '@/components/LayoutWrapper'
 
 import { AuthProvider } from '../src/hook/auth'
-import AuthStateChanged from '../src/layout/AuthStateChanged'
 import NextNProgress from 'nextjs-progressbar'
 
 export default function App({ Component, pageProps }) {
@@ -22,12 +21,10 @@ export default function App({ Component, pageProps }) {
       </Head>
       <Analytics />
       <AuthProvider>
-        <AuthStateChanged>
-          <LayoutWrapper>
-            <NextNProgress />
-            <Component {...pageProps} />
-          </LayoutWrapper>
-        </AuthStateChanged>
+        <LayoutWrapper>
+          <NextNProgress />
+          <Component {...pageProps} />
+        </LayoutWrapper>
       </AuthProvider>
     </ThemeProvider>
   )

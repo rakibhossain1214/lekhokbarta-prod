@@ -10,13 +10,14 @@ export default function AuthStateChanged({ children }) {
 
   useEffect(() => {
     const AuthState = AuthService.waitForUser((userCred) => {
-      setUser(userCred)
+      // setUser(userCred)
       if (userCred !== null) {
         getUserInfo(userCred?.uid).then((data) => {
           if (data !== 'NODATA') {
-            setUser(data)
-          } else {
-            setUser(userCred)
+            if(typeof window !== 'undefined'){
+              window.localStorage.setItem("userObject", JSON.stringify(data))
+            }
+            setUser(data) 
           }
         })
         setLoading(false)
@@ -27,9 +28,6 @@ export default function AuthStateChanged({ children }) {
     return AuthState
   }, [])
 
-  if (loading) {
-    return <LoadingComponent />
-  }
 
   return children
 }

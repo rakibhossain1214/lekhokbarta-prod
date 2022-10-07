@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { withPublic } from 'src/hook/route';
-import { AddFollower, deleteFollower, getUserInfo } from '@/lib/firestoreConnection'
+import { AddFollower, deleteFollower, getAllPostsByAuthorId, getUserInfo } from '@/lib/firestoreConnection'
 import { Tab } from '@headlessui/react'
 import Image from '@/components/Image';
 import ProfileDetails from '@/components/ProfileDetails';
@@ -27,13 +27,13 @@ const metadata = {
 }
 const db = getFirestore()
 
-function profile({ auth }) {
+function profile({ auth, userData, userBlogs }) {
     const { user, setUser } = auth
     const router = useRouter()
     const { userId } = router.query
 
     const [imageLoad, setImageLoad] = useState(false)
-    const [userInfo, setUserInfo] = useState(null)
+    const [userInfo, setUserInfo] = useState(userData)
     const [showFollowButton, setShowFollowButton] = useState(true)
     const [processing, setProcessing] = useState(false)
     const [followersCount, setFollowersCount] = useState(0)
@@ -41,9 +41,7 @@ function profile({ auth }) {
     useEffect(() => {
         async function getUser() {
             setProcessing(true)
-            const userData = await getUserInfo(userId)
-            setUserInfo(userData)
-
+        
             setFollowersCount(userData?.followers?.length)
 
             userData?.followers?.map(follower => {
@@ -55,13 +53,6 @@ function profile({ auth }) {
         }
         getUser();
     }, [])
-
-    if (userInfo === null) {
-        return (
-            <p className='text-teal-500'>Loading...</p>
-        )
-    }
-
 
     const handleChange = (values) => {
         setUserInfo({ ...userInfo, ...values })
@@ -353,16 +344,16 @@ function profile({ auth }) {
 
                         </Tab.List>
                         <Tab.Panels>
-                            <Tab.Panel><MyBlogs userInfo={userInfo} /></Tab.Panel>
+                            <Tab.Panel><MyBlogs userInfo={userInfo} userBlogs={userBlogs} /></Tab.Panel>
                             {user !== null ?
                                 userId === user.uid &&
-                                <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} setUser={setUser} /></Tab.Panel>
+                                <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
                                 : ""
                             }
                             
                             {user !== null ?
                                 userId === user.uid &&
-                                <Tab.Panel><Following userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} setUser={setUser} /></Tab.Panel>
+                                <Tab.Panel><Following userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
                                 : ""
                             }
 
@@ -382,3 +373,11 @@ function profile({ auth }) {
 }
 
 export default withPublic(profile);
+
+export async function getServerSideProps({ params }) {
+    const userData = await getUserInfo(params.userId)
+    const userBlogs = await getAllPostsByAuthorId({ authorId: params.userId })
+    return {
+      props: { userData, userBlogs }
+    }
+  }

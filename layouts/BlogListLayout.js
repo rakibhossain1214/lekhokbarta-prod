@@ -2,7 +2,7 @@ import Link from '@/components/Link'
 import { useEffect, useState } from 'react'
 import formatDate from '@/lib/utils/formatDate'
 import Image from '@/components/Image'
-import { AddToFavoriteBlogs, RemoveFavoriteBlogs } from '@/lib/firestoreConnection'
+import { AddToFavoriteBlogs, getUserInfo, RemoveFavoriteBlogs } from '@/lib/firestoreConnection'
 import kebabCase from '@/lib/utils/kebabCase'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
@@ -144,8 +144,14 @@ export default function BlogListLayout({ posts, user, setUser }) {
     })
   }
 
-  useEffect(() => {
-    setUser(user)
+  useEffect(async () => {
+    if (user !== null) {
+      const userData = await getUserInfo(user.uid)
+      setUser(userData)
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem("userObject", JSON.stringify(userData))
+      }
+    }
   }, [effectCaller])
 
   const handleCategorySearch = (category) => {

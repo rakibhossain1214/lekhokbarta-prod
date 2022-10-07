@@ -51,6 +51,9 @@ function ProfileDetails({ userInfo, handleChange, userId, user, setUser }) {
         updateDoc(userRef, { ...values, lastmod: new Date().toString() }).then(() => {
           handleChange(values)
           setUser({ ...userInfo, ...values })
+          if(typeof window !== 'undefined'){
+            window.localStorage.setItem("userObject", JSON.stringify({ ...userInfo, ...values }))
+          }
           setLoading(false)
         })
       }}

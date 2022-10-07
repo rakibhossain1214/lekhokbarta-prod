@@ -164,8 +164,8 @@ export default function PostLayout({
                     <dl className="text-sm font-medium leading-5">
                       <dt className="sr-only">Follow</dt>
                       <dd className="mt-4">
-                        {user !== null ? (
-                          authorDetails.id !== user?.uid ? (
+                        {
+                          user !== null && authorDetails.id !== user?.uid ? (
                             showFollowButton ? (
                               <button
                                 disabled={processing}
@@ -207,31 +207,8 @@ export default function PostLayout({
                                 Unfollow
                               </button>
                             )
-                          ) : (
-                            ''
-                          )
-                        ) : (
-                          <button
-                            onClick={() => setShowLoginModal(true)}
-                            className="m-1 flex items-center rounded border border-gray-200 bg-red-500 pl-2 pr-2 text-xs text-gray-100"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="mt-1 mb-1 mr-1 h-4 w-4"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
-                              />
-                            </svg>
-                            Login to follow
-                          </button>
-                        )}
+                          ) : ('')
+                        }
                       </dd>
                       <dd></dd>
                     </dl>
