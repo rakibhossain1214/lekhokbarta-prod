@@ -6,6 +6,8 @@ import AuthService from '../service/AuthService'
 
 export default function AuthStateChanged({ children }) {
   const { setUser } = useAuth()
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     const AuthState = AuthService.waitForUser((userCred) => {
       setUser(userCred)
@@ -17,10 +19,17 @@ export default function AuthStateChanged({ children }) {
             setUser(userCred)
           }
         })
-      } 
+        setLoading(false)
+      } else {
+        setLoading(false)
+      }
     })
     return AuthState
   }, [])
+
+  if (loading) {
+    return <LoadingComponent />
+  }
 
   return children
 }

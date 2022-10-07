@@ -54,9 +54,7 @@ export default function PostLayout({
       })
       setProcessing(false)
     }
-    return function cleanup(){
-      getUser()
-    }
+    getUser()
   }, [postData])
 
   const handleFollow = () => {

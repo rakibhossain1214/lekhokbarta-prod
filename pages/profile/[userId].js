@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { withPublic } from 'src/hook/route';
-import { AddFollower, deleteFollower, getAllPostsByAuthorId, getUserInfo } from '@/lib/firestoreConnection'
+import { AddFollower, deleteFollower, getUserInfo } from '@/lib/firestoreConnection'
 import { Tab } from '@headlessui/react'
 import Image from '@/components/Image';
 import ProfileDetails from '@/components/ProfileDetails';
@@ -27,13 +27,13 @@ const metadata = {
 }
 const db = getFirestore()
 
-function profile({ auth, userData, userPosts }) {
+function profile({ auth }) {
     const { user, setUser } = auth
     const router = useRouter()
     const { userId } = router.query
 
     const [imageLoad, setImageLoad] = useState(false)
-    const [userInfo, setUserInfo] = useState(userData)
+    const [userInfo, setUserInfo] = useState(null)
     const [showFollowButton, setShowFollowButton] = useState(true)
     const [processing, setProcessing] = useState(false)
     const [followersCount, setFollowersCount] = useState(0)
@@ -41,6 +41,9 @@ function profile({ auth, userData, userPosts }) {
     useEffect(() => {
         async function getUser() {
             setProcessing(true)
+            const userData = await getUserInfo(userId)
+            setUserInfo(userData)
+
             setFollowersCount(userData?.followers?.length)
 
             userData?.followers?.map(follower => {
@@ -350,7 +353,7 @@ function profile({ auth, userData, userPosts }) {
 
                         </Tab.List>
                         <Tab.Panels>
-                            <Tab.Panel><MyBlogs userInfo={userInfo} userPosts={userPosts} /></Tab.Panel>
+                            <Tab.Panel><MyBlogs userInfo={userInfo} /></Tab.Panel>
                             {user !== null ?
                                 userId === user.uid &&
                                 <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} setUser={setUser} /></Tab.Panel>
@@ -379,12 +382,3 @@ function profile({ auth, userData, userPosts }) {
 }
 
 export default withPublic(profile);
-
-
-export async function getServerSideProps({ params }) {
-    const userData = await getUserInfo(params.userId)
-    const userPosts = await getAllPostsByAuthorId({ authorId: params.userId })
-    return {
-      props: { userData, userPosts },
-    }
-}
