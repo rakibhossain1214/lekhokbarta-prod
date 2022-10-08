@@ -9,8 +9,7 @@
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts",
-    "prepare": "husky install",
-    "postbuild": "next-sitemap"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@fontsource/inter": "4.5.2",
@@ -32,7 +31,6 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.34",
     "next": "12.1.4",
-    "next-sitemap": "^3.1.24",
     "next-themes": "^0.0.14",
     "nextjs-progressbar": "^0.0.14",
     "postcss": "^8.4.5",
