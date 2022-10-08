@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Image from '@/components/Image'
-import { getAllPostsByAuthorId } from '@/lib/firestoreConnection'
 import Link from 'next/link'
 
 function MyBlogs({ userBlogs }) {
@@ -19,8 +18,8 @@ function MyBlogs({ userBlogs }) {
             <table className="m-1 table-auto p-2">
                 <tbody>
                     {userBlogs
-                        .map((post) => (
-                            <tr key={post.postId} className="border-b border-gray-400">
+                        .map((post, i) => (
+                            <tr key={i} className="border-b border-gray-400">
                                 <td className="w-9">
                                     <Link href={`/blog/${post.postId}/${post.frontMatter.slug}`}>
                                         {post.frontMatter.postThumbnail !== undefined && post.frontMatter.postThumbnail !== '' ? (

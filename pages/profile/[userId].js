@@ -41,7 +41,7 @@ function profile({ auth, userData, userBlogs }) {
     useEffect(() => {
         async function getUser() {
             setProcessing(true)
-        
+
             setFollowersCount(userData?.followers?.length)
 
             userData?.followers?.map(follower => {
@@ -182,22 +182,20 @@ function profile({ auth, userData, userBlogs }) {
                                 }
 
                                 {
-                                    user !== null ?
-                                        userId === user.uid &&
-                                        <button className='flex items-start -ml-2 overflow-hidden relative w-5 h-5'>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-5 w-5 rounded-full text-teal-500 bg-gray-300">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
-                                            </svg>
-                                            <input className="cursor-pointer absolute opacity-0 block pin-r pin-t" type="file"
-                                                accept="image/png, image/jpeg, image/jpg"
-                                                onChange={(event) => {
-                                                    handleImageUploadBefore(event.target.files)
-                                                }}
-                                            />
-                                        </button>
-                                        :
-                                        ''
+                                    user !== null &&
+                                    userId === user.uid &&
+                                    <button className='flex items-start -ml-2 overflow-hidden relative w-5 h-5'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-5 w-5 rounded-full text-teal-500 bg-gray-300">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                                        </svg>
+                                        <input className="cursor-pointer absolute opacity-0 block pin-r pin-t" type="file"
+                                            accept="image/png, image/jpeg, image/jpg"
+                                            onChange={(event) => {
+                                                handleImageUploadBefore(event.target.files)
+                                            }}
+                                        />
+                                    </button>
                                 }
                             </div>
                         ) : (
@@ -239,35 +237,43 @@ function profile({ auth, userData, userBlogs }) {
                                     ''
                             }
 
-                            {user !== null ?
-                                userId === user.uid &&
-                                <p className='text-xs md:text-xs text-gray-100 border-b border-teal-500 m-1 p-1 flex items-center'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                    {userInfo.authorScore}
-                                </p>
-                                :
-                                ''
-                            }
+                            <p className='text-xs md:text-xs text-gray-100 border-b border-teal-500 m-1 p-1 flex items-center'>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                {userInfo.authorScore}
+                            </p>
+
                             <p className='text-xs md:text-xs text-gray-100 border-b border-teal-500 m-1 p-1 flex items-center'>
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                                 </svg>
                                 {followersCount}
                             </p>
+
                             <p className='text-xs md:text-xs text-gray-100 border-b border-teal-500 m-1 p-1 flex items-center'>
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                                 </svg>
                                 {userInfo.following.length}
                             </p>
+                            
                         </div>
                     </div>
                 </div>
                 <div>
                     <Tab.Group>
                         <Tab.List className="flex flex-wrap mt-4 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+
+                            <Tab
+                                className={({ selected }) =>
+                                    selected ? 'bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
+                                }
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                </svg>
+                            </Tab>
 
                             <Tab
                                 className={({ selected }) =>
@@ -281,7 +287,7 @@ function profile({ auth, userData, userBlogs }) {
                                 />
                             </Tab>
 
-                            {user !== null ?
+                            {user !== null &&
                                 userId === user.uid &&
                                 <Tab
                                     className={({ selected }) =>
@@ -291,13 +297,10 @@ function profile({ auth, userData, userBlogs }) {
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                                     </svg>
-                                    {/* ({userInfo.followers.length}) */}
                                 </Tab>
-                                :
-                                ''
                             }
 
-                            {user !== null ?
+                            {user !== null &&
                                 userId === user.uid &&
                                 <Tab
                                     className={({ selected }) =>
@@ -307,13 +310,10 @@ function profile({ auth, userData, userBlogs }) {
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                                     </svg>
-                                    {/* ({userInfo.following.length}) */}
                                 </Tab>
-                                :
-                                ''
                             }
 
-                            {user !== null ?
+                            {user !== null &&
                                 userId === user.uid &&
                                 <Tab
                                     className={({ selected }) =>
@@ -325,44 +325,30 @@ function profile({ auth, userData, userBlogs }) {
                                         width={22}
                                         height={22}
                                     />
-                                    {/* ({userInfo.favoriteBlogs.length}) */}
                                 </Tab>
-                                :
-                                ''
                             }
-
-                            <Tab
-                                className={({ selected }) =>
-                                    selected ? 'bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
-                                }
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-                                </svg>
-
-                            </Tab>
-
                         </Tab.List>
                         <Tab.Panels>
+
+                            <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} setUser={setUser} /></Tab.Panel>
+
                             <Tab.Panel><MyBlogs userInfo={userInfo} userBlogs={userBlogs} /></Tab.Panel>
-                            {user !== null ?
+
+                            {user !== null &&
                                 userId === user.uid &&
                                 <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
-                                : ""
-                            }
-                            
-                            {user !== null ?
-                                userId === user.uid &&
-                                <Tab.Panel><Following userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
-                                : ""
                             }
 
-                            {user !== null ?
+                            {user !== null &&
+                                userId === user.uid &&
+                                <Tab.Panel><Following userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
+                            }
+
+                            {user !== null &&
                                 userId === user.uid &&
                                 <Tab.Panel><FavBlogs userInfo={userInfo} userId={userId} handleFollowChange={handleFollowChange} setUser={setUser} /></Tab.Panel>
-                                : ""
                             }
-                            <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} setUser={setUser} /></Tab.Panel>
+
                         </Tab.Panels>
                     </Tab.Group>
 
@@ -378,6 +364,6 @@ export async function getServerSideProps({ params }) {
     const userData = await getUserInfo(params.userId)
     const userBlogs = await getAllPostsByAuthorId({ authorId: params.userId })
     return {
-      props: { userData, userBlogs }
+        props: { userData, userBlogs }
     }
-  }
+}
