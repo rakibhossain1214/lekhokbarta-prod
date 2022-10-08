@@ -1,5 +1,5 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
+  enabled: process.env.ANALYZE === 'false',
 })
 
 // You might need to insert additional domains in script-src if you are using external services
