@@ -4,13 +4,13 @@ const siteMetadata = require('./data/siteMetadata')
 module.exports = {
   siteUrl: siteMetadata.siteUrl,
   generateRobotsTxt: true,
-  exclude: ['/server-sitemap-index.xml'],
+  exclude: ['/server-sitemap.xml'],
   robotsTxtOptions: {
     // policies: [
     //     { userAgent: "*", disallow: "/write/*" },
     //     { userAgent: "*", allow: "/" }
     // ],
-    additionalSitemaps: [`${siteMetadata.siteUrl}/server-sitemap-index.xml`],
+    additionalSitemaps: [`${siteMetadata.siteUrl}/server-sitemap.xml`],
   },
   // exclude: ['/write/*'],
 }
