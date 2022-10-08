@@ -10,7 +10,6 @@ const siteMetadata = {
   siteRepo: 'https://github.com/rakibhossain1214/lekhokbarta-prod',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
-  thumbnail: '/static/images/mahamudullah.jpg',
   socialBanner: '/static/images/twitter-card.png',
   email: 'amrakibulhossain@gmail.com',
   github: 'https://github.com',

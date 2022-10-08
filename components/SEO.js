@@ -12,7 +12,6 @@ const CommonSEO = ({
   thumbnail = '',
 }) => {
   const router = useRouter()
-  const thumbnailUrl = siteMetadata.siteUrl + siteMetadata.thumbnail
   return (
     <Head>
       <title>{title}</title>
