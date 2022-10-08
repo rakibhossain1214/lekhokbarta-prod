@@ -20,11 +20,8 @@ import {
   WhatsappIcon,
 } from 'react-share'
 import LoadingComponent from './LoadingComponent'
-import LoginModal from './LoginModal'
 import siteMetadata from '@/data/siteMetadata'
 
-let url = 'https://lekhokbarta.com'
-let title = 'Lekhokbarta'
 let size = 32
 
 function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect }) {
@@ -36,7 +33,6 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
   const [buttonActive, setButtonActive] = useState(false)
   const [commentText, setCommentText] = useState('')
   const [loadComment, setLoadComment] = useState(false)
-  const [showLoginModal, setShowLoginModal] = useState(false)
 
   const db = getFirestore()
   const postRef = doc(db, 'posts', postId)
@@ -137,10 +133,6 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
 
   const handleCommentOpen = () => {
     setLoadComment(true)
-  }
-
-  const handleLoginModal = () => {
-    setShowLoginModal(false)
   }
 
   return (
@@ -351,33 +343,6 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
           postData={postData}
           user={user}
           handleCommentOpen={handleCommentOpen}
-        />
-      ) : (
-        <button
-          onClick={() => setShowLoginModal(true)}
-          className="m-1 flex items-center rounded border border-gray-200 bg-red-500 pl-2 pr-2 text-xs text-gray-100"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="mt-1 mb-1 mr-1 h-4 w-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"
-            />
-          </svg>
-          Please login to vote and comment
-        </button>
-      )}
-      {showLoginModal ? (
-        <LoginModal
-          handleLoginModal={handleLoginModal}
-          loginWithGoogleNoRedirect={loginWithGoogleNoRedirect}
         />
       ) : (
         ''
