@@ -2,8 +2,8 @@ import { TagSEO } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import kebabCase from '@/lib/utils/kebabCase'
 import { getAllPostsFrontMatterWithPostId } from '@/lib/firestoreConnection'
-import BlogListLayout from '@/layouts/BlogListLayout'
 import { withPublic } from 'src/hook/route'
+import ListLayout from '@/layouts/ListLayout'
 
 export async function getServerSideProps({ params }) {
   const posts = await getAllPostsFrontMatterWithPostId()
@@ -24,7 +24,7 @@ function Tag({ posts, tag, auth }) {
         title={`${tag} - ${siteMetadata.author}`}
         description={`${tag} tags - ${siteMetadata.author}`}
       />
-      <BlogListLayout posts={posts} title={title} user={user} setUser={setUser} />
+      <ListLayout posts={posts} title={title} user={user} setUser={setUser} />
     </>
   )
 }
