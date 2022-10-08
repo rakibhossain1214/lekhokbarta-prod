@@ -21,6 +21,7 @@ import {
 } from 'react-share'
 import LoadingComponent from './LoadingComponent'
 import LoginModal from './LoginModal'
+import siteMetadata from '@/data/siteMetadata'
 
 let url = 'https://lekhokbarta.com'
 let title = 'Lekhokbarta'
@@ -154,7 +155,7 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
           <div className="flex justify-end">
             <FacebookShareButton
               quote={postData?.frontMatter.title}
-              url={`${postData?.postId}/${postData?.frontMatter.slug}`}
+              url={`${siteMetadata.siteUrl}/${postData?.postId}/${postData?.frontMatter.slug}`}
               className="m-1"
             >
               <FacebookIcon size={size} />
@@ -162,7 +163,7 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
 
             <TwitterShareButton
               title={postData?.frontMatter.title}
-              url={`${postData?.postId}/${postData?.frontMatter.slug}`}
+              url={`${siteMetadata.siteUrl}/${postData?.postId}/${postData?.frontMatter.slug}`}
               className="m-1"
             >
               <TwitterIcon size={size} />
@@ -171,7 +172,7 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
             <WhatsappShareButton
               title={postData?.frontMatter.title}
               separator=":: "
-              url={`${postData?.postId}/${postData?.frontMatter.slug}`}
+              url={`${siteMetadata.siteUrl}/${postData?.postId}/${postData?.frontMatter.slug}`}
               className="m-1"
             >
               <WhatsappIcon size={size} />
@@ -181,7 +182,7 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
               title={postData?.frontMatter.title}
               windowWidth={750}
               windowHeight={600}
-              url={`${postData?.postId}/${postData?.frontMatter.slug}`}
+              url={`${siteMetadata.siteUrl}/${postData?.postId}/${postData?.frontMatter.slug}`}
               className="m-1"
             >
               <LinkedinIcon size={size} />
