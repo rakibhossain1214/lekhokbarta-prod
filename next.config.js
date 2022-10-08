@@ -57,7 +57,7 @@ module.exports = withBundleAnalyzer({
     domains: ['lh3.googleusercontent.com', 'firebasestorage.googleapis.com'],
   },
   reactStrictMode: false,
-  pageExtensions: ['js', 'jsx', 'md', 'mdx'],
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'xml', 'ts', 'tsx'],
   eslint: {
     // dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
     ignoreDuringBuilds: true,
