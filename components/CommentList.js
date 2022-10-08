@@ -26,10 +26,10 @@ let url = 'https://lekhokbarta.com'
 let title = 'Lekhokbarta'
 let size = 32
 
-if (typeof window !== 'undefined') {
-  url = String(window.location)
-  title = String(window.title)
-}
+// if (typeof window !== 'undefined') {
+//   url = String(window.location)
+//   title = String(window.title)
+// }
 
 function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect }) {
   const [upVoted, setUpVoted] = useState(false)
@@ -152,23 +152,36 @@ function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect 
       <div className="bg-white dark:bg-stone-800">
         <div className="block sm:flex sm:justify-between">
           <div className="flex justify-end">
-            <FacebookShareButton quote={title} url={url} className="m-1">
+            <FacebookShareButton
+              quote={postData?.frontMatter.title}
+              url={`${postData?.postId}/${postData?.frontMatter.slug}`}
+              className="m-1"
+            >
               <FacebookIcon size={size} />
             </FacebookShareButton>
 
-            <TwitterShareButton title={title} url={url} className="m-1">
+            <TwitterShareButton
+              title={postData?.frontMatter.title}
+              url={`${postData?.postId}/${postData?.frontMatter.slug}`}
+              className="m-1"
+            >
               <TwitterIcon size={size} />
             </TwitterShareButton>
 
-            <WhatsappShareButton title={title} separator=":: " url={url} className="m-1">
+            <WhatsappShareButton
+              title={postData?.frontMatter.title}
+              separator=":: "
+              url={`${postData?.postId}/${postData?.frontMatter.slug}`}
+              className="m-1"
+            >
               <WhatsappIcon size={size} />
             </WhatsappShareButton>
 
             <LinkedinShareButton
-              title={title}
+              title={postData?.frontMatter.title}
               windowWidth={750}
               windowHeight={600}
-              url={url}
+              url={`${postData?.postId}/${postData?.frontMatter.slug}`}
               className="m-1"
             >
               <LinkedinIcon size={size} />
