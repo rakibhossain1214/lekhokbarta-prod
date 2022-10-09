@@ -64,7 +64,7 @@ const LayoutWrapper = ({ children, auth }) => {
                   </Link>
                 ))}
               </div>
-              {user !== null ? (
+              {user !== null && user !== "NODATA" ? (
                 <CustomNavDropdown userInfo={user} logout={logout} />
               ) : (
                 <Link

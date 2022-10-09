@@ -7,7 +7,7 @@ function CustomNavDropdown({ userInfo, logout }) {
     <Menu as="div" className="relative ml-3 mr-2 inline-block text-left z-50">
       <div>
         <Menu.Button className="inline-flex w-full justify-center rounded-md">
-          {userInfo !== null && userInfo.accessToken === undefined ? (
+          {userInfo !== null ? (
             <Image
               src={userInfo.photoURL}
               width="35px"
