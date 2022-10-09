@@ -3,7 +3,7 @@
 const siteMetadata = require('./data/siteMetadata')
 module.exports = {
   siteUrl: siteMetadata.siteUrl,
-  exclude: ['/404', '/server-sitemap.xml.js'],
+  exclude: ['/404', '/server-sitemap.xml'],
   generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [
@@ -15,25 +15,4 @@ module.exports = {
     ],
     additionalSitemaps: [`${siteMetadata.siteUrl}/server-sitemap.xml`],
   },
-  // exclude: ['/write/*'],
 }
-
-// const siteUrl = process.env.NEXT_PUBLIC_DOMAIN_URL;
-// module.exports = {
-//   siteUrl,
-//   exclude: ["/404"],
-//   generateRobotsTxt: true,
-//   robotsTxtOptions: {
-//     policies: [
-//       {
-//         userAgent: "*",
-//         disallow: ["/404"],
-//       },
-//       { userAgent: "*", allow: "/" },
-//     ],
-//     additionalSitemaps: [
-//       `${siteUrl}sitemap.xml`,
-//       `${siteUrl}server-sitemap.xml`,
-//     ],
-//   },
-// };
