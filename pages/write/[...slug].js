@@ -53,6 +53,8 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
   const [showToast, setShowToast] = useState(false)
   const [draftToast, setDraftToast] = useState(false)
   const [publishToast, setPublishToast] = useState(false)
+  const [sourceToast, setSourceToast] = useState(false)
+  const [postSource, setPostSource] = useState(postData?.referenceSources)
 
   const db = getFirestore()
   const storage = getStorage()
@@ -94,6 +96,8 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
 
     if (postRef !== null) {
       postData.frontMatter.tags = tagArray
+      postData.frontMatter.draft = true
+      postData.frontMatter.status = 'pending'
       setDoc(postRef, { ...postData, lastmod: new Date().toString() })
     }
   }
@@ -143,6 +147,8 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
               const postRef = doc(db, 'posts', postData.postId)
               postData.frontMatter.postThumbnail = downloadURL
+              postData.frontMatter.draft = true
+              postData.frontMatter.status = 'pending'
               setDoc(postRef, {
                 ...postData
               }).then(() => {
@@ -162,6 +168,8 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
     deleteObject(fileRef)
       .then(() => {
         postData.frontMatter.postThumbnail = ''
+        postData.frontMatter.draft = true
+        postData.frontMatter.status = 'pending'
         setDoc(postRef, {
           ...postData
         }).then(() => {
@@ -189,9 +197,19 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
     }, 3000);
   }
 
+  const handleSourceSave = (e) => {
+    e.preventDefault()
+    postData.referenceSources = postSource
+    updatePostDraft({ postData })
+    setSourceToast(true)
+    setTimeout(() => {
+      setSourceToast(false)
+    }, 3000);
+  }
+
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
-      <h5>Notes: Updating blogs after publishing will lead to another review process.</h5>
+      <h5>Notes: Updating any field of your blog after publishing will lead to another review process.</h5>
       <div className='flex justify-start my-2 pt-6'>
         <div className="text-base font-medium leading-6">
           {
@@ -253,6 +271,44 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
       </div>
 
       <SunEditor postData={postData} editorContent={postData.content} />
+
+      <div className="flex justify-center">
+        <div className="mb-3 mt-3 w-full">
+          <div className='flex items-center justify-between'>
+            <label for="exampleFormControlTextarea1" className="form-label inline-block mb-2 mr-2 text-gray-700 pt-2">Sources</label>
+            <button className='text-gray-100 flex bg-teal-500 rounded mr-2' onClick={handleSourceSave}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="m-1 w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+              </svg>
+              <span className='mr-2'>Save</span>
+            </button>
+          </div>
+          <textarea
+            className="
+              form-control
+              block
+              w-full
+              px-3
+              py-1.5
+              text-base
+              font-normal
+              text-gray-700
+              bg-white bg-clip-padding
+              border border-solid border-gray-300
+              rounded
+              transition
+              ease-in-out
+              m-0
+              focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+            "
+            id="exampleFormControlTextarea1"
+            rows="3"
+            placeholder='Example: 1. Joan Bloggs, "This Is An Important Academic Blog," World of Clever Blogging (blog), December, 25, 2015, http://www.topuniversities.com'
+            value={postSource}
+            onChange={(e) => setPostSource(e.target.value)}
+          ></textarea>
+        </div>
+      </div>
 
       <Accordion className='mt-3'>
         <AccordionSummary
@@ -415,6 +471,17 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
           ""
       }
 
+      {
+        sourceToast ?
+          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20 dark:bg-gray-700">
+            <p className="text-sm">
+              <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
+              Your blog sources are updated and submitted for approval!
+            </p>
+          </div>
+          :
+          ""
+      }
 
     </div>
   )
