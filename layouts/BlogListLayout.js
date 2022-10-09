@@ -149,7 +149,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
       const userData = await getUserInfo(user.uid)
       setUser(userData)
       if (typeof window !== 'undefined') {
-        window.localStorage.setItem("userObject", JSON.stringify(userData))
+        window.localStorage.setItem('userObject', JSON.stringify(userData))
       }
     }
   }, [effectCaller])
@@ -318,9 +318,9 @@ export default function BlogListLayout({ posts, user, setUser }) {
                   <div className="w-full flex-1">
                     <div className="flex flex-col justify-between p-3 leading-normal">
                       <Link href={`/blog/${postId}/${slug}`}>
-                        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                           <div className="flex items-center">{title}</div>
-                        </h5>
+                        </h2>
                       </Link>
 
                       <dl>
