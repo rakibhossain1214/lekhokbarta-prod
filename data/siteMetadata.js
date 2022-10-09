@@ -8,9 +8,9 @@ const siteMetadata = {
   theme: 'system', // system, dark or light
   siteUrl: 'https://roarspot.vercel.app',
   siteRepo: 'https://github.com/rakibhossain1214/lekhokbarta-prod',
-  siteLogo: '/static/images/logo.png',
+  siteLogo: '/static/images/roarspot-logo.png',
   image: '/static/images/avatar.png',
-  socialBanner: '/static/images/logo.png',
+  socialBanner: '/static/images/roarspot-logo.png',
   email: 'amrakibulhossain@gmail.com',
   github: 'https://github.com',
   twitter: 'https://twitter.com/Twitter',
