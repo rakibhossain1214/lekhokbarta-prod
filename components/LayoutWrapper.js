@@ -35,7 +35,7 @@ const LayoutWrapper = ({ children, auth }) => {
               <Link href="/" aria-label={siteMetadata.headerTitle}>
                 <div className="flex items-center justify-between">
                   <div className="mr-2">
-                    <Image src={'/static/images/roarspot-logo.png'} height={50} width={50} />
+                    <Image src={'/static/images/roarspot-logo.png'} height={42} width={50} />
                   </div>
                   {typeof siteMetadata.headerTitle === 'string' ? (
                     <div className="block h-6 text-2xl font-semibold text-teal-500 dark:text-teal-600">
