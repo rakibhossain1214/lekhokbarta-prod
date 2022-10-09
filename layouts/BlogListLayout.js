@@ -5,8 +5,9 @@ import Image from '@/components/Image'
 import { AddToFavoriteBlogs, getUserInfo, RemoveFavoriteBlogs } from '@/lib/firestoreConnection'
 import kebabCase from '@/lib/utils/kebabCase'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import categories from '../data/categories'
 
-const allBlogCategories = ['Trending', 'Review', 'Sports', 'Entertainment', 'Other']
+
 const POSTS_PER_PAGE = 6
 
 export default function BlogListLayout({ posts, user, setUser }) {
@@ -252,12 +253,12 @@ export default function BlogListLayout({ posts, user, setUser }) {
               id="slider"
               className="scroll h-full w-full overflow-x-scroll scroll-smooth whitespace-nowrap text-sm uppercase scrollbar-hide"
             >
-              {allBlogCategories.map((item) => (
+              {categories.map((item) => (
                 <ul
-                  key={item}
+                  key={item.value}
                   className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105"
                 >
-                  <button onClick={() => handleCategorySearch(item.toLowerCase())}>{item}</button>
+                  <button onClick={() => handleCategorySearch(item.value.toLowerCase())}>{item.label}</button>
                 </ul>
               ))}
             </div>

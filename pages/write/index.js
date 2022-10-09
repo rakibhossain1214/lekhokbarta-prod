@@ -12,6 +12,7 @@ import WriteAgreement from '@/components/WriteAgreement'
 import kebabCase from '@/lib/utils/kebabCase'
 import { PageSEO } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
+import categories from '../../data/categories'
 
 const postValidationSchema = Yup.object().shape({
   title: Yup.string()
@@ -153,11 +154,11 @@ function Write({ auth }) {
                         className="focus:shadow-outline block w-full appearance-none rounded border-b border-teal-500 bg-white px-4 py-2 pr-8 leading-tight text-gray-500 shadow hover:border-gray-500 focus:outline-none"
                       >
                         <option value="">Select a category</option>
-                        <option value="trending">Trending</option>
-                        <option value="review">Review</option>
-                        <option value="sports">Sports</option>
-                        <option value="entertainment">Entertainment</option>
-                        <option value="other">other</option>
+                        {
+                          categories.map((item)=>(
+                            <option value={item.value}>{item.label}</option>
+                          ))
+                        }
                       </Field>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg

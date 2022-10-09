@@ -3,7 +3,7 @@ import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import { getPostFrontMatterByUserIdAndPostId, getAllTagsArray, updatePost, updatePostDraft, updatePostPublish } from '@/lib/firestoreConnection'
 import { withProtected } from 'src/hook/route'
-import { getFirestore, doc, setDoc, updateDoc } from 'firebase/firestore'
+import { getFirestore, doc, setDoc } from 'firebase/firestore'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
@@ -28,6 +28,7 @@ import {
 import Compressor from 'compressorjs'
 import Image from '@/components/Image'
 import kebabCase from '@/lib/utils/kebabCase'
+import categories from '../../data/categories'
 
 const postValidationSchema = Yup.object().shape({
   title: Yup.string()
@@ -210,6 +211,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
       <h5>Notes: Updating any field of your blog after publishing will lead to another review process.</h5>
+      {/* <p>Did not submitted for approval!</p> */}
       <div className='flex justify-start my-2 pt-6'>
         <div className="text-base font-medium leading-6">
           {
@@ -265,7 +267,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
         </div>
         <div className="text-base font-medium leading-6">
           <button onClick={handlePostPublish} className="focus:shadow-outline-teal mx-1 inline rounded-lg border border-transparent bg-teal-600 px-4 py-1 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-blue-700 focus:outline-none dark:hover:bg-blue-500">
-            Publish
+            Submit for Approval
           </button>
         </div>
       </div>
@@ -360,11 +362,11 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
                       className="focus:shadow-outline block w-full appearance-none rounded border-b border-teal-500 bg-white px-4 py-2 pr-8 leading-tight text-gray-500 shadow hover:border-gray-500 focus:outline-none"
                     >
                       <option value="">Select a category</option>
-                      <option value="trending">Trending</option>
-                      <option value="review">Review</option>
-                      <option value="sports">Sports</option>
-                      <option value="entertainment">Entertainment</option>
-                      <option value="other">other</option>
+                      {
+                        categories.map((item)=>(
+                          <option value={item.value}>{item.label}</option>
+                        ))
+                      }
                     </Field>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                       <svg
