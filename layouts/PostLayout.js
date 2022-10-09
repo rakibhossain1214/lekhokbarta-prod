@@ -27,7 +27,7 @@ export default function PostLayout({
   user,
   loginWithGoogleNoRedirect,
 }) {
-  const { slug, title, tags, postThumbnail, summary } = frontMatter
+  const { slug, title, tags, postThumbnail, summary, category } = frontMatter
 
   const [showFollowButton, setShowFollowButton] = useState(true)
   const [followersCount, setFollowersCount] = useState(0)
@@ -280,13 +280,23 @@ export default function PostLayout({
                     <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                       Tags
                     </h2>
-                    <div className="flex flex-wrap">
+                    <div className="mt-1 flex flex-wrap">
                       {tags.map((tag) => (
                         <Tag key={tag.value} text={tag.value} />
                       ))}
                     </div>
                   </div>
                 )}
+
+                <div className="py-4 xl:py-8">
+                  <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                    Category
+                  </h2>
+                  <div className="mt-1 flex flex-wrap text-sm text-blue-500">
+                    {category.replace(/-/g, ' ').toUpperCase()}
+                  </div>
+                </div>
+
                 {(next || prev) && (
                   <div className="flex justify-between py-4 xl:block xl:space-y-8 xl:py-8">
                     {prev && (
