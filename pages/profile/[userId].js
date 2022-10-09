@@ -332,7 +332,7 @@ function profile({ auth, userData, userBlogs }) {
 
                             <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} setUser={setUser} /></Tab.Panel>
 
-                            <Tab.Panel><MyBlogs userInfo={userInfo} userBlogs={userBlogs} /></Tab.Panel>
+                            <Tab.Panel><MyBlogs userInfo={userInfo} userBlogs={userBlogs} userId={userId} user={user} /></Tab.Panel>
 
                             {user !== null &&
                                 userId === user.uid &&

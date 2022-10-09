@@ -2,7 +2,7 @@ import React from 'react'
 import Image from '@/components/Image'
 import Link from 'next/link'
 
-function MyBlogs({ userBlogs }) {
+function MyBlogs({ userBlogs, userId, user }) {
 
     if (userBlogs === null) {
         return <p>Loading...</p>
@@ -44,6 +44,13 @@ function MyBlogs({ userBlogs }) {
                                 <td className="pl-2 pt-3 pb-3">
                                     <Link href={`/blog/${post.postId}/${post.frontMatter.slug}`}>{post.frontMatter.title}</Link>
                                 </td>
+                                {
+                                    user !== null && userId === user.uid &&
+                                    <td className="pl-3 text-teal-500">
+                                        <Link href={`/write/${user.uid}/${post.postId}`}>Edit</Link>
+                                    </td>
+                                }
+
                             </tr>
                         ))}
                 </tbody>
