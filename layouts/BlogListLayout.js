@@ -7,7 +7,6 @@ import kebabCase from '@/lib/utils/kebabCase'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import categories from '../data/categories'
 
-
 const POSTS_PER_PAGE = 6
 
 export default function BlogListLayout({ posts, user, setUser }) {
@@ -164,7 +163,8 @@ export default function BlogListLayout({ posts, user, setUser }) {
     setFilteredPosts(filteredPostsByTags)
     document.getElementById('search-text-input').value = ''
     setSearchValue(category)
-    setPageTitle(category.charAt(0).toUpperCase() + category.slice(1))
+    let catStr = category.replace(/-/g, ' ')
+    setPageTitle(catStr.charAt(0).toUpperCase() + catStr.slice(1))
     window.scrollTo(0, 0)
   }
 
@@ -258,7 +258,9 @@ export default function BlogListLayout({ posts, user, setUser }) {
                   key={item.value}
                   className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105"
                 >
-                  <button onClick={() => handleCategorySearch(item.value.toLowerCase())}>{item.label}</button>
+                  <button onClick={() => handleCategorySearch(item.value.toLowerCase())}>
+                    {item.label}
+                  </button>
                 </ul>
               ))}
             </div>
