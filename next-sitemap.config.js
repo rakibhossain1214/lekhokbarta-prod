@@ -13,7 +13,7 @@ module.exports = {
       },
       { userAgent: '*', allow: '/' },
     ],
-    additionalSitemaps: [`${siteMetadata.siteUrl}/server-sitemap.xml.js`],
+    additionalSitemaps: [`${siteMetadata.siteUrl}/server-sitemap.xml`],
   },
   // exclude: ['/write/*'],
 }

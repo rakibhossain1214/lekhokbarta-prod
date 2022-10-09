@@ -1,6 +1,6 @@
 import { getServerSideSitemap } from 'next-sitemap'
-import siteMetadata from '../../data/siteMetadata'
-import { getAllPostsFrontMatterWithPostId } from '../../lib/firestoreConnection'
+import siteMetadata from '../data/siteMetadata'
+import { getAllPostsFrontMatterWithPostId } from '../lib/firestoreConnection'
 
 export const getServerSideProps = async (ctx) => {
   let posts = await getAllPostsFrontMatterWithPostId()
