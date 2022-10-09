@@ -54,9 +54,32 @@ function Write({ auth }) {
   const handleChange = (newValue) => {
     let tagArray = []
     newValue.map((node) => {
-      tagArray.push({ label: kebabCase(node.label.toLowerCase()), value: kebabCase(node.value.toLowerCase()) })
+      tagArray.push({
+        label: kebabCase(node.label.toLowerCase()),
+        value: kebabCase(node.value.toLowerCase()),
+      })
     })
     setSelectedTags(tagArray)
+  }
+
+  if (user.userRole === 'regular') {
+    return (
+      <>
+        <div className="mt-24 text-center">
+          <PageTitle>
+            You dont have permission to write blogs!{' '}
+            <span role="img" aria-label="roadwork sign">
+              🚧
+            </span>
+          </PageTitle>
+          <Link href="/">
+            <button className="focus:shadow-outline-blue my-5 inline rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium leading-5 text-white shadow transition-colors duration-150 hover:bg-blue-700 focus:outline-none dark:hover:bg-blue-500">
+              Back to homepage
+            </button>
+          </Link>
+        </div>
+      </>
+    )
   }
 
   return (
@@ -85,7 +108,11 @@ function Write({ auth }) {
             validationSchema={postValidationSchema}
             onSubmit={(values) => {
               if (author !== null) {
-                addPost({ values: { ...values, category: values.category.toLowerCase() }, author, selectedTags })
+                addPost({
+                  values: { ...values, category: values.category.toLowerCase() },
+                  author,
+                  selectedTags,
+                })
                   .then(function (docRef) {
                     router.push(`write/${user.uid}/${docRef.id}`)
                   })
@@ -216,7 +243,6 @@ function Write({ auth }) {
         </Grid>
       </div>
     </>
-
   )
 }
 
