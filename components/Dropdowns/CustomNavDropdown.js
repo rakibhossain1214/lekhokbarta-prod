@@ -37,9 +37,12 @@ function CustomNavDropdown({ userInfo, logout }) {
       >
         <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md border-gray-500 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:bg-gray-800">
           <div className="py-1">
-            <a href='/write' className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
-              Write
-            </a>
+            {
+              userInfo.userRole !== 'regular' &&
+              <a href='/write' className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
+                Write
+              </a>
+            }
             <hr />
             {userInfo !== null ?
               <a href={`/profile/${userInfo.uid}`} className="block px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
