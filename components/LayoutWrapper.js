@@ -38,7 +38,7 @@ const LayoutWrapper = ({ children, auth }) => {
                     <Image src={'/static/images/roarspot-logo.png'} height={50} width={50} />
                   </div>
                   {typeof siteMetadata.headerTitle === 'string' ? (
-                    <div className="h-6 text-2xl font-semibold text-teal-900 sm:block">
+                    <div className="block h-6 text-2xl font-semibold text-teal-500 dark:text-teal-600">
                       {siteMetadata.headerTitle}
                     </div>
                   ) : (
