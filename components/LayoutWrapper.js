@@ -43,7 +43,7 @@ const LayoutWrapper = ({ children, auth }) => {
                     />
                   </div>
                   {typeof siteMetadata.headerTitle === 'string' ? (
-                    <div className="block h-6 text-2xl font-semibold text-teal-500 dark:text-teal-600">
+                    <div className="block h-6 text-2xl font-semibold text-teal-700 dark:text-teal-600">
                       {siteMetadata.headerTitle}
                     </div>
                   ) : (
