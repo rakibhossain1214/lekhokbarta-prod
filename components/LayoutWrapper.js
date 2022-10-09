@@ -1,6 +1,5 @@
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
-import Logo from '@/data/logo.svg'
 import Link from './Link'
 import SectionContainer from './SectionContainer'
 import Footer from './Footer'
@@ -11,6 +10,7 @@ import { useRouter } from 'next/dist/client/router'
 import CustomNavDropdown from './Dropdowns/CustomNavDropdown'
 import LoginModal from './LoginModal'
 import { useState } from 'react'
+import Image from 'next/image'
 
 const LayoutWrapper = ({ children, auth }) => {
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -18,7 +18,7 @@ const LayoutWrapper = ({ children, auth }) => {
   const router = useRouter()
   const showHeader =
     router.pathname === '/dashboard/earning-report' ||
-      router.pathname === '/dashboard/earning-trx-history'
+    router.pathname === '/dashboard/earning-trx-history'
       ? false
       : true
 
@@ -34,11 +34,11 @@ const LayoutWrapper = ({ children, auth }) => {
             <div>
               <Link href="/" aria-label={siteMetadata.headerTitle}>
                 <div className="flex items-center justify-between">
-                  <div className="mr-3">
-                    <Logo />
+                  <div className="mr-2">
+                    <Image src={'/static/images/roarspot-logo.png'} height={50} width={50} />
                   </div>
                   {typeof siteMetadata.headerTitle === 'string' ? (
-                    <div className="hidden h-6 text-2xl font-semibold sm:block">
+                    <div className="h-6 text-2xl font-semibold text-teal-900 sm:block">
                       {siteMetadata.headerTitle}
                     </div>
                   ) : (
@@ -69,7 +69,14 @@ const LayoutWrapper = ({ children, auth }) => {
                   <button onClick={() => setShowLoginModal(true)}>Login</button>
                 </Link>
               )}
-              { showLoginModal ? <LoginModal handleLoginModal={handleLoginModal} loginWithGoogleNoRedirect={loginWithGoogleNoRedirect} /> : ''}
+              {showLoginModal ? (
+                <LoginModal
+                  handleLoginModal={handleLoginModal}
+                  loginWithGoogleNoRedirect={loginWithGoogleNoRedirect}
+                />
+              ) : (
+                ''
+              )}
               <ThemeSwitch />
 
               {/* <MobileNav user={user} /> */}
