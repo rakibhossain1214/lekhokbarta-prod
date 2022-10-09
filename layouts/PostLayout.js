@@ -259,6 +259,12 @@ export default function PostLayout({
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className="prose max-w-none pt-0 pb-8 dark:prose-dark">
                 <ShowPost content={children} />
+                {postData.referenceSources !== '' && (
+                  <>
+                    <p className="mt-2">Sources:</p>
+                    <p className="-mt-4 text-xs">{postData.referenceSources}</p>
+                  </>
+                )}
               </div>
               <CommentList
                 postId={postId}
