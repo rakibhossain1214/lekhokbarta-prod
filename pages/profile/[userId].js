@@ -27,7 +27,7 @@ const metadata = {
 }
 const db = getFirestore()
 
-function profile({ auth, userData, userBlogs }) {
+function profile({ auth, userData, myBlogsList }) {
     const { user, setUser } = auth
     const router = useRouter()
     const { userId } = router.query
@@ -37,6 +37,7 @@ function profile({ auth, userData, userBlogs }) {
     const [showFollowButton, setShowFollowButton] = useState(true)
     const [processing, setProcessing] = useState(false)
     const [followersCount, setFollowersCount] = useState(0)
+    const [userBlogs, setUserBlogs] = useState(myBlogsList)
 
     useEffect(() => {
         async function getUser() {
@@ -61,6 +62,11 @@ function profile({ auth, userData, userBlogs }) {
     const handleFollowChange = ({ userData }) => {
         setUserInfo(userData)
     }
+    
+    const handleMyBlogChange = ({ userBlogsList }) => {
+        setUserBlogs(userBlogsList)
+    }
+
 
     const handleFollow = () => {
         setShowFollowButton(false)
@@ -332,7 +338,7 @@ function profile({ auth, userData, userBlogs }) {
 
                             <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} setUser={setUser} /></Tab.Panel>
 
-                            <Tab.Panel><MyBlogs userInfo={userInfo} userBlogs={userBlogs} userId={userId} user={user} /></Tab.Panel>
+                            <Tab.Panel><MyBlogs userInfo={userInfo} userBlogs={userBlogs} userId={userId} user={user} handleMyBlogChange={handleMyBlogChange} /></Tab.Panel>
 
                             {user !== null &&
                                 userId === user.uid &&
@@ -364,6 +370,6 @@ export async function getServerSideProps({ params }) {
     const userData = await getUserInfo(params.userId)
     const userBlogs = await getAllPostsByAuthorId({ authorId: params.userId })
     return {
-        props: { userData, userBlogs }
+        props: { userData, myBlogsList: userBlogs }
     }
 }

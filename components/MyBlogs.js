@@ -1,8 +1,11 @@
 import React from 'react'
 import Image from '@/components/Image'
 import Link from 'next/link'
+import { useState } from 'react'
+import { deletePost, getAllPostsByAuthorId } from '../lib/firestoreConnection'
 
-function MyBlogs({ userBlogs, userId, user }) {
+function MyBlogs({ userBlogs, userId, user, handleMyBlogChange }) {
+    const [loading, setLoading] = useState(false)
 
     if (userBlogs === null) {
         return <p>Loading...</p>
@@ -10,6 +13,21 @@ function MyBlogs({ userBlogs, userId, user }) {
 
     if (userBlogs.length === 0) {
         return <p>No content found!</p>
+    }
+
+    const handleRemoveBlog = (
+        e,
+        postId,
+        post
+    ) => {
+        e.preventDefault()
+        setLoading(true)
+
+        deletePost({ postId, post }).then(async () => {
+            const userBlogsList = await getAllPostsByAuthorId({ authorId: userId })
+            handleMyBlogChange({ userBlogsList })
+            setLoading(false)
+        })
     }
 
     return (
@@ -51,6 +69,24 @@ function MyBlogs({ userBlogs, userId, user }) {
                                     </td>
                                 }
 
+                                {
+                                    user !== null && userId === user.uid &&
+                                    <td className="pl-2">
+                                        <button
+                                            disabled={loading}
+                                            onClick={(e) =>
+                                                handleRemoveBlog(
+                                                    e,
+                                                    post.postId,
+                                                    post
+                                                )
+                                            }
+                                            className="rounded border border-red-400 p-1 text-xs text-red-400"
+                                        >
+                                            {loading ? 'Waite...' : 'Remove'}
+                                        </button>
+                                    </td>
+                                }
                             </tr>
                         ))}
                 </tbody>
