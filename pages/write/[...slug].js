@@ -345,7 +345,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
                       ${touched.title && errors.title ? 'is-invalid' : ''}
                       `}
                       type="text"
-                      placeholder="Blog title (max: 50 characters)"
+                      placeholder="Blog title (max: 60 characters)"
                       aria-label="Title"
                       name="title"
                       autoComplete="off"
@@ -411,7 +411,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
                       ${touched.summary && errors.summary ? 'is-invalid' : ''}
                       `}
                       as="textarea"
-                      placeholder="Blog Summary (max: 100 characters)"
+                      placeholder="Blog Summary (max: 160 characters)"
                       aria-label="Summary"
                       name="summary"
                       autoComplete="off"
