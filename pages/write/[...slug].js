@@ -55,6 +55,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
   const [showToast, setShowToast] = useState(false)
   const [draftToast, setDraftToast] = useState(false)
   const [publishToast, setPublishToast] = useState(false)
+  const [thumbnailToast, setThumbnailToast] = useState(false)
   const [sourceToast, setSourceToast] = useState(false)
   const [postSource, setPostSource] = useState(postData?.referenceSources)
   const [selectedTags, setSelectedTags] = useState(defaultTags)
@@ -124,6 +125,10 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
                   .then(() => {
                     setImageLoad(false)
                     setPostThumbnail(downloadURL)
+                    setThumbnailToast(true)
+                    setTimeout(() => {
+                      setThumbnailToast(false)
+                    }, 3000);
                   })
               })
           }
@@ -145,6 +150,10 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
         })
           .then(() => {
             setPostThumbnail('')
+            setThumbnailToast(true)
+            setTimeout(() => {
+              setThumbnailToast(false)
+            }, 3000);
           })
       })
       .catch((error) => {
@@ -433,7 +442,7 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
           <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20 dark:bg-gray-700">
             <p className="text-sm">
               <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
-              Your blog is updated!
+              Your blog is updated and drafted!
             </p>
           </div>
           :
@@ -469,7 +478,19 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
           <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20 dark:bg-gray-700">
             <p className="text-sm">
               <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
-              Your blog sources are updated and submitted for approval!
+              Your blog sources is updated and drafted!
+            </p>
+          </div>
+          :
+          ""
+      }
+
+      {
+        thumbnailToast ?
+          <div id="myToast" className="fixed right-10 bottom-10 px-5 py-4 border-r-8 border-blue-500 bg-white drop-shadow-lg z-20 dark:bg-gray-700">
+            <p className="text-sm">
+              <span className="mr-2 inline-block px-3 py-1 rounded-full bg-blue-500 text-white font-extrabold">i</span>
+              Your blog thumbnail is updated and drafted!
             </p>
           </div>
           :

@@ -11,6 +11,7 @@ import {
 } from 'firebase/storage'
 import Compressor from 'compressorjs'
 import { addEditorPhotosToDb, updatePostContent } from '@/lib/firestoreConnection'
+import { updatePostContentForImageUpload } from '../lib/firestoreConnection'
 
 const storage = getStorage()
 const metadata = {
@@ -19,6 +20,7 @@ const metadata = {
 
 const CustomSunEditor = (props) => {
   const [showToast, setShowToast] = useState(false)
+  let contentForImage = props.postData.content
 
   function handleImageUploadBefore(files, info, uploadHandler) {
     const storageRef = ref(storage, 'images/' + props.postData.postId + '/' + files[0].name)
@@ -92,6 +94,23 @@ const CustomSunEditor = (props) => {
               imageArray.splice(index, 1) // 2nd parameter means remove one item only
             }
             addEditorPhotosToDb({ postData: props.postData, imageArray })
+            .then(() => {
+              var cont = contentForImage
+              cont = cont.replace(/<[^>]*>/g, ' ')
+              cont = cont.replace(/\s+/g, ' ')
+              cont = cont.trim()
+              var n = cont.split(' ').length
+
+              updatePostContent({
+                postData: props.postData,
+                content: contentForImage,
+                wordCount: n,
+              })
+              setShowToast(true)
+              setTimeout(() => {
+                setShowToast(false)
+              }, 3000)
+            })
           })
           .catch((error) => {
             // Uh-oh, an error occurred!
@@ -103,9 +122,29 @@ const CustomSunEditor = (props) => {
     } else {
       if (state === 'create') {
         imageArray.push(imageInfo.src)
-        addEditorPhotosToDb({ postData: props.postData, imageArray })
       }
     }
+
+    if (remainingFilesCount === 0) {
+      addEditorPhotosToDb({ postData: props.postData, imageArray })
+      .then(() => {
+        var cont = contentForImage
+        cont = cont.replace(/<[^>]*>/g, ' ')
+        cont = cont.replace(/\s+/g, ' ')
+        cont = cont.trim()
+        var n = cont.split(' ').length
+
+        updatePostContentForImageUpload({
+          postData: props.postData,
+          content: contentForImage,
+          wordCount: n,
+        })
+      })
+    }
+  }
+
+  const handleEditorChange = (content) => {
+    contentForImage = content
   }
 
   return (
@@ -116,38 +155,38 @@ const CustomSunEditor = (props) => {
           buttonList:
             screen.width >= 768
               ? [
-                  ['fullScreen'],
-                  ['font', 'fontSize', 'formatBlock'],
-                  ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor', 'textStyle'],
-                  ['align', 'list', 'outdent', 'indent'],
-                  ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
-                  ['link', 'table', 'image', 'video'],
-                  ['undo', 'redo'],
-                  ['save'],
-                ]
+                ['fullScreen'],
+                ['font', 'fontSize', 'formatBlock'],
+                ['bold', 'underline', 'italic', 'fontColor', 'hiliteColor', 'textStyle'],
+                ['align', 'list', 'outdent', 'indent'],
+                ['strike', 'subscript', 'superscript', 'horizontalRule', 'removeFormat'],
+                ['link', 'table', 'image', 'video'],
+                ['undo', 'redo'],
+                ['save'],
+              ]
               : [
-                  ['bold', 'underline', 'italic'],
-                  [':t-More Text-default.more_text', 'font', 'fontSize', 'formatBlock'],
-                  [
-                    ':p-More Paragraph-default.more_paragraph',
-                    'fontColor',
-                    'hiliteColor',
-                    'textStyle',
-                    'align',
-                    'list',
-                    'outdent',
-                    'indent',
-                    'strike',
-                    'subscript',
-                    'superscript',
-                    'horizontalRule',
-                    'removeFormat',
-                  ],
-                  [':r-More Rich-default.more_plus', 'link', 'table', 'image', 'video'],
-                  ['undo', 'redo'],
-                  ['fullScreen'],
-                  ['save'],
+                ['bold', 'underline', 'italic'],
+                [':t-More Text-default.more_text', 'font', 'fontSize', 'formatBlock'],
+                [
+                  ':p-More Paragraph-default.more_paragraph',
+                  'fontColor',
+                  'hiliteColor',
+                  'textStyle',
+                  'align',
+                  'list',
+                  'outdent',
+                  'indent',
+                  'strike',
+                  'subscript',
+                  'superscript',
+                  'horizontalRule',
+                  'removeFormat',
                 ],
+                [':r-More Rich-default.more_plus', 'link', 'table', 'image', 'video'],
+                ['undo', 'redo'],
+                ['fullScreen'],
+                ['save'],
+              ],
           minHeight: 300,
           defaultStyle: 'font-size:16px; font-family: Arial',
           font: [
@@ -190,6 +229,7 @@ const CustomSunEditor = (props) => {
         setContents={props.editorContent}
         onImageUploadBefore={handleImageUploadBefore}
         onImageUpload={onImageUpload}
+        onChange={handleEditorChange}
       />
 
       {showToast ? (
@@ -201,7 +241,7 @@ const CustomSunEditor = (props) => {
             <span className="mr-2 inline-block rounded-full bg-blue-500 px-3 py-1 font-extrabold text-white">
               i
             </span>
-            Your blog content is updated!
+            Your blog content is updated and drafted!
           </p>
         </div>
       ) : (
