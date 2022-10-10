@@ -266,12 +266,7 @@ export default function PostLayout({
                   </>
                 )}
               </div>
-              <CommentList
-                postId={postId}
-                defaultPostData={postData}
-                user={user}
-                loginWithGoogleNoRedirect={loginWithGoogleNoRedirect}
-              />
+              <CommentList postId={postId} defaultPostData={postData} user={user} />
             </div>
             <footer>
               <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">

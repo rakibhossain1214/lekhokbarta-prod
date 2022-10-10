@@ -18,13 +18,13 @@ import {
   TwitterIcon,
   LinkedinIcon,
   WhatsappIcon,
-} from 'react-share'
+} from 'next-share'
 import LoadingComponent from './LoadingComponent'
 import siteMetadata from '@/data/siteMetadata'
 
 let size = 32
 
-function CommentList({ postId, user, defaultPostData, loginWithGoogleNoRedirect }) {
+function CommentList({ postId, user, defaultPostData }) {
   const [upVoted, setUpVoted] = useState(false)
   const [downVoted, setDownVoted] = useState(false)
   const [comEditId, setComEditId] = useState(null)
