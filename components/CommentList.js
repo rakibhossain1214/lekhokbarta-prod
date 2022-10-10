@@ -142,14 +142,14 @@ function CommentList({ postId, user, defaultPostData }) {
           <div className="flex justify-end">
             <FacebookShareButton
               quote={postData.frontMatter.title}
-              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.title}`}
+              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.slug}`}
             >
               <FacebookIcon size={size} className="m-1" />
             </FacebookShareButton>
 
             <TwitterShareButton
               title={postData.frontMatter.title}
-              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.title}`}
+              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.slug}`}
             >
               <TwitterIcon size={size} className="m-1" />
             </TwitterShareButton>
@@ -157,7 +157,7 @@ function CommentList({ postId, user, defaultPostData }) {
             <WhatsappShareButton
               title={postData.frontMatter.title}
               separator=":: "
-              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.title}`}
+              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.slug}`}
             >
               <WhatsappIcon size={size} className="m-1" />
             </WhatsappShareButton>
@@ -166,7 +166,7 @@ function CommentList({ postId, user, defaultPostData }) {
               title={postData.frontMatter.title}
               windowWidth={750}
               windowHeight={600}
-              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.title}`}
+              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.slug}`}
             >
               <LinkedinIcon size={size} className="m-1" />
             </LinkedinShareButton>

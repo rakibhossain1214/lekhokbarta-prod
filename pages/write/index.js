@@ -13,6 +13,7 @@ import kebabCase from '@/lib/utils/kebabCase'
 import { PageSEO } from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import categories from '../../data/categories'
+import { addPostId } from '../../lib/firestoreConnection'
 
 const postValidationSchema = Yup.object().shape({
   title: Yup.string()
@@ -115,7 +116,9 @@ function Write({ auth }) {
                   selectedTags,
                 })
                   .then(function (docRef) {
-                    router.push(`write/${user.uid}/${docRef.id}`)
+                    addPostId(docRef.id).then(()=>{
+                      router.push(`write/${user.uid}/${docRef.id}`)
+                    })
                   })
                   .catch(function (error) {
                     console.error('Error adding document: ', error)
@@ -137,7 +140,7 @@ function Write({ auth }) {
                       ${touched.title && errors.title ? 'is-invalid' : ''}
                       `}
                         type="text"
-                        placeholder="Blog title (max: 50 characters)"
+                        placeholder="Blog title (max: 60 characters)"
                         aria-label="Title"
                         name="title"
                         autoComplete="off"
@@ -202,7 +205,7 @@ function Write({ auth }) {
                       ${touched.summary && errors.summary ? 'is-invalid' : ''}
                       `}
                         as="textarea"
-                        placeholder="Blog Summary (max: 100 characters)"
+                        placeholder="Blog Summary (max: 160 characters)"
                         aria-label="Summary"
                         name="summary"
                         autoComplete="off"
