@@ -23,11 +23,9 @@ import LoadingComponent from './LoadingComponent'
 
 let size = 32
 let postUrl = 'https://roarspot.com'
-let postTitle = 'Roarspot'
 
 if (typeof window !== 'undefined') {
-  postUrl = String(window.location)
-  postTitle = String(window.title)
+  postUrl = String(window.location.pathname)
 }
 
 function CommentList({ postId, user, defaultPostData }) {
@@ -78,10 +76,6 @@ function CommentList({ postId, user, defaultPostData }) {
       unsub()
     }
   }, [postId])
-
-  if (postData === null) {
-    return <LoadingComponent />
-  }
 
   const handleUpvote = () => {
     setProcessing(true)
@@ -141,25 +135,29 @@ function CommentList({ postId, user, defaultPostData }) {
     setLoadComment(true)
   }
 
+  if (postData === null) {
+    return <LoadingComponent />
+  }
+
   return (
     <>
       <div className="bg-white dark:bg-stone-800">
         <div className="block sm:flex sm:justify-between">
           <div className="flex justify-end">
-            <FacebookShareButton quote={postTitle} url={postUrl}>
+            <FacebookShareButton quote={postData.frontMatter.title} url={postUrl}>
               <FacebookIcon size={size} className="m-1" />
             </FacebookShareButton>
 
-            <TwitterShareButton title={postTitle} url={postUrl}>
+            <TwitterShareButton title={postData.frontMatter.title} url={postUrl}>
               <TwitterIcon size={size} className="m-1" />
             </TwitterShareButton>
 
-            <WhatsappShareButton title={postTitle} separator=":: " url={postUrl}>
+            <WhatsappShareButton title={postData.frontMatter.title} separator=":: " url={postUrl}>
               <WhatsappIcon size={size} className="m-1" />
             </WhatsappShareButton>
 
             <LinkedinShareButton
-              title={postTitle}
+              title={postData.frontMatter.title}
               windowWidth={750}
               windowHeight={600}
               url={postUrl}
