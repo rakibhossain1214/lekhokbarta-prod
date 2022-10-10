@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import 'suneditor/dist/css/suneditor.min.css'
 import SunEditor from 'suneditor-react'
+import uuid from 'react-uuid';
 
 import {
   getStorage,
@@ -23,7 +24,7 @@ const CustomSunEditor = (props) => {
   let contentForImage = props.postData.content
 
   function handleImageUploadBefore(files, info, uploadHandler) {
-    const storageRef = ref(storage, 'images/' + props.postData.postId + '/' + files[0].name)
+    const storageRef = ref(storage, 'post-images/' + props.postData.postId + '/' + uuid())
     const image = files[0]
     new Compressor(image, {
       quality: 0.6, // 0.6 can also be used, but its not recommended to go below.

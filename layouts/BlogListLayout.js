@@ -14,7 +14,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
   const [effectCaller, setEffectCaller] = useState(false)
   const [processing, setProcessing] = useState(false)
   const [filteredPosts, setFilteredPosts] = useState(posts)
-  const [pageTitle, setPageTitle] = useState('All Posts')
+  const [pageTitle, setPageTitle] = useState('Latest')
   const [postCount, setPostCount] = useState(POSTS_PER_PAGE)
   const [showToast, setShowToast] = useState(false)
   const [toastText, setToastText] = useState('')
@@ -184,7 +184,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
     setPostCount(POSTS_PER_PAGE)
     document.getElementById('search-text-input').value = ''
     setSearchValue('')
-    setPageTitle('All Posts')
+    setPageTitle('Latest')
     setFilteredPosts(posts)
   }
 
