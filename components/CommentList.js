@@ -23,11 +23,6 @@ import LoadingComponent from './LoadingComponent'
 import siteMetadata from '@/data/siteMetadata'
 
 let size = 32
-let postUrl = siteMetadata.siteUrl
-
-if (typeof window !== 'undefined') {
-  postUrl = siteMetadata.siteUrl + String(window.location.pathname)
-}
 
 function CommentList({ postId, user, defaultPostData }) {
   const [upVoted, setUpVoted] = useState(false)
@@ -145,15 +140,25 @@ function CommentList({ postId, user, defaultPostData }) {
       <div className="bg-white dark:bg-stone-800">
         <div className="block sm:flex sm:justify-between">
           <div className="flex justify-end">
-            <FacebookShareButton quote={postData.frontMatter.title} url={postUrl}>
+            <FacebookShareButton
+              quote={postData.frontMatter.title}
+              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.title}`}
+            >
               <FacebookIcon size={size} className="m-1" />
             </FacebookShareButton>
 
-            <TwitterShareButton title={postData.frontMatter.title} url={postUrl}>
+            <TwitterShareButton
+              title={postData.frontMatter.title}
+              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.title}`}
+            >
               <TwitterIcon size={size} className="m-1" />
             </TwitterShareButton>
 
-            <WhatsappShareButton title={postData.frontMatter.title} separator=":: " url={postUrl}>
+            <WhatsappShareButton
+              title={postData.frontMatter.title}
+              separator=":: "
+              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.title}`}
+            >
               <WhatsappIcon size={size} className="m-1" />
             </WhatsappShareButton>
 
@@ -161,7 +166,7 @@ function CommentList({ postId, user, defaultPostData }) {
               title={postData.frontMatter.title}
               windowWidth={750}
               windowHeight={600}
-              url={postUrl}
+              url={`${siteMetadata.siteUrl}/blog/${postData.postId}/${postData.frontMatter.title}`}
             >
               <LinkedinIcon size={size} className="m-1" />
             </LinkedinShareButton>
