@@ -20,9 +20,15 @@ import {
   WhatsappIcon,
 } from 'next-share'
 import LoadingComponent from './LoadingComponent'
-import siteMetadata from '@/data/siteMetadata'
 
 let size = 32
+let postUrl = 'https://roarspot.com'
+let postTitle = 'Roarspot'
+
+if (typeof window !== 'undefined') {
+  postUrl = String(window.location)
+  postTitle = String(window.title)
+}
 
 function CommentList({ postId, user, defaultPostData }) {
   const [upVoted, setUpVoted] = useState(false)
@@ -140,39 +146,25 @@ function CommentList({ postId, user, defaultPostData }) {
       <div className="bg-white dark:bg-stone-800">
         <div className="block sm:flex sm:justify-between">
           <div className="flex justify-end">
-            <FacebookShareButton
-              quote={postData?.frontMatter.title}
-              url={`${siteMetadata.siteUrl}/blog/${postData?.postId}/${postData?.frontMatter.slug}`}
-              className="m-1"
-            >
-              <FacebookIcon size={size} />
+            <FacebookShareButton quote={postTitle} url={postUrl}>
+              <FacebookIcon size={size} className="m-1" />
             </FacebookShareButton>
 
-            <TwitterShareButton
-              title={postData?.frontMatter.title}
-              url={`${siteMetadata.siteUrl}/blog/${postData?.postId}/${postData?.frontMatter.slug}`}
-              className="m-1"
-            >
-              <TwitterIcon size={size} />
+            <TwitterShareButton title={postTitle} url={postUrl}>
+              <TwitterIcon size={size} className="m-1" />
             </TwitterShareButton>
 
-            <WhatsappShareButton
-              title={postData?.frontMatter.title}
-              separator=":: "
-              url={`${siteMetadata.siteUrl}/blog/${postData?.postId}/${postData?.frontMatter.slug}`}
-              className="m-1"
-            >
-              <WhatsappIcon size={size} />
+            <WhatsappShareButton title={postTitle} separator=":: " url={postUrl}>
+              <WhatsappIcon size={size} className="m-1" />
             </WhatsappShareButton>
 
             <LinkedinShareButton
-              title={postData?.frontMatter.title}
+              title={postTitle}
               windowWidth={750}
               windowHeight={600}
-              url={`${siteMetadata.siteUrl}/blog/${postData?.postId}/${postData?.frontMatter.slug}`}
-              className="m-1"
+              url={postUrl}
             >
-              <LinkedinIcon size={size} />
+              <LinkedinIcon size={size} className="m-1" />
             </LinkedinShareButton>
           </div>
 
