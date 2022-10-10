@@ -20,12 +20,13 @@ import {
   WhatsappIcon,
 } from 'next-share'
 import LoadingComponent from './LoadingComponent'
+import siteMetadata from '@/data/siteMetadata'
 
 let size = 32
-let postUrl = 'https://roarspot.com'
+let postUrl = siteMetadata.siteUrl
 
 if (typeof window !== 'undefined') {
-  postUrl = String(window.location.pathname)
+  postUrl = siteMetadata.siteUrl + String(window.location.pathname)
 }
 
 function CommentList({ postId, user, defaultPostData }) {
