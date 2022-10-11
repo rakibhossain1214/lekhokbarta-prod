@@ -323,10 +323,16 @@ function CreateContent({ postData, auth, tagsOptions, defaultTags }) {
 
         <AccordionDetails>
           <Formik
-            initialValues={{ title: postData.frontMatter.title, category: postData.frontMatter.category, summary: postData.frontMatter.summary }}
+            initialValues={{ title: postData.frontMatter.title, category: postData.frontMatter.category.value, summary: postData.frontMatter.summary }}
             validationSchema={postValidationSchema}
             onSubmit={(values) => {
-              updatePost({ postData, values, selectedTags })
+              let selectedCategory = {}
+              categories.map(item => {
+                if(item.value === values.category){
+                  selectedCategory = item
+                }
+              })
+              updatePost({ postData, values, selectedTags, selectedCategory })
               setShowToast(true)
               setTimeout(() => {
                 setShowToast(false)

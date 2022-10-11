@@ -109,9 +109,15 @@ function Write({ auth }) {
             initialValues={{ title: '', category: '', summary: '' }}
             validationSchema={postValidationSchema}
             onSubmit={(values) => {
+              let selectedCategory = {}
+              categories.map(item => {
+                if(item.value === values.category){
+                  selectedCategory = item
+                }
+              })
               if (author !== null) {
                 addPost({
-                  values: { ...values, category: values.category.toLowerCase() },
+                  values: { ...values, category: selectedCategory },
                   author,
                   selectedTags,
                 })
@@ -159,7 +165,7 @@ function Write({ auth }) {
                         <option value="">Select a category</option>
                         {
                           categories.map((item)=>(
-                            <option value={item.value}>{item.label}</option>
+                            <option key={item.value} value={item.value}>{item.label}</option>
                           ))
                         }
                       </Field>

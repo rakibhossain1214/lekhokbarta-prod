@@ -22,14 +22,14 @@ export default function BlogListLayout({ posts, user, setUser }) {
   const filteredBlogPosts = filteredPosts.filter((frontMatter) => {
     const searchContent =
       frontMatter.title +
-      frontMatter.category +
+      frontMatter.category.value +
       frontMatter.authorDetails.name +
       frontMatter?.tags
         ?.map((tag) => {
           return tag?.value
         })
         .join(' ')
-    return searchContent.toLowerCase().includes(searchValue.toLowerCase())
+    return searchContent.toLowerCase().includes(kebabCase(searchValue.toLowerCase()))
   })
 
   const displayPosts = filteredPosts.length > 0 && !searchValue ? filteredPosts : filteredBlogPosts
@@ -156,15 +156,20 @@ export default function BlogListLayout({ posts, user, setUser }) {
 
   const handleCategorySearch = (category) => {
     setPostCount(POSTS_PER_PAGE)
-    const filteredPostsByTags = posts.filter(
+    const filteredPostsByCategory = posts.filter(
       // (post) => post.draft !== true && post.tags.map((t) => kebabCase(t.value)).includes(tag)
-      (post) => post.draft !== true && post.category.includes(category)
+      (post) => post.draft !== true && post.category.value.includes(category)
     )
-    setFilteredPosts(filteredPostsByTags)
+    setFilteredPosts(filteredPostsByCategory)
     document.getElementById('search-text-input').value = ''
     setSearchValue(category)
-    let catStr = category.replace(/-/g, ' ')
-    setPageTitle(catStr.charAt(0).toUpperCase() + catStr.slice(1))
+    let selectedCategoryTitle = ""
+    categories.map(item=>{
+      if(item.value === category){
+        selectedCategoryTitle = item.label
+      }
+    })
+    setPageTitle(selectedCategoryTitle)
     window.scrollTo(0, 0)
   }
 
@@ -258,7 +263,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
                   key={item.value}
                   className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105"
                 >
-                  <button onClick={() => handleCategorySearch(item.value.toLowerCase())}>
+                  <button onClick={() => handleCategorySearch(item.value)}>
                     {item.label}
                   </button>
                 </ul>
@@ -384,9 +389,9 @@ export default function BlogListLayout({ posts, user, setUser }) {
                           <div className="flex content-center">
                             <button
                               className="pr-3 pb-2 pt-1 text-sm uppercase text-blue-600"
-                              onClick={() => handleCategorySearch(category)}
+                              onClick={() => handleCategorySearch(category.value)}
                             >
-                              {category}
+                              {category.label}
                             </button>
                             {user !== null ? (
                               user.favoriteBlogs?.find((x) => x.postId === postId) ? (
