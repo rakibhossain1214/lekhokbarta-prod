@@ -287,7 +287,9 @@ export default function PostLayout({
                   <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                     Category
                   </h2>
-                  <div className="mt-1 flex flex-wrap text-sm text-blue-500">{category.label}</div>
+                  <div className="mt-1 flex flex-wrap text-sm text-blue-500">
+                    {category.label.toUpperCase()}
+                  </div>
                 </div>
 
                 {(next || prev) && (

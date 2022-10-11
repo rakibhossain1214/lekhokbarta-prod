@@ -44,13 +44,10 @@ export default function BlogListLayout({ posts, user, setUser }) {
     slider.scrollLeft = slider.scrollLeft + 500
   }
 
-  const handleAddToFavoriteBlogs = (
-    e,
-    postId
-  ) => {
+  const handleAddToFavoriteBlogs = (e, postId) => {
     e.preventDefault()
     setProcessing(true)
-    AddToFavoriteBlogs({ postId, user }).then(()=>{
+    AddToFavoriteBlogs({ postId, user }).then(() => {
       setEffectCaller(!effectCaller)
       setProcessing(false)
       setToastText('Added to favorite blogs.')
@@ -61,16 +58,13 @@ export default function BlogListLayout({ posts, user, setUser }) {
     })
   }
 
-  const handleRemoveFavoriteBlogs = (
-    e,
-    postId
-  ) => {
+  const handleRemoveFavoriteBlogs = (e, postId) => {
     e.preventDefault()
     setProcessing(true)
 
     RemoveFavoriteBlogs({
-      postId,   
-      user
+      postId,
+      user,
     }).then(() => {
       setEffectCaller(!effectCaller)
       setProcessing(false)
@@ -78,7 +72,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
       setShowToast(true)
       setTimeout(() => {
         setShowToast(false)
-      }, 3000)  
+      }, 3000)
     })
   }
 
@@ -101,9 +95,9 @@ export default function BlogListLayout({ posts, user, setUser }) {
     setFilteredPosts(filteredPostsByCategory)
     document.getElementById('search-text-input').value = ''
     setSearchValue(category)
-    let selectedCategoryTitle = ""
-    categories.map(item=>{
-      if(item.value === category){
+    let selectedCategoryTitle = ''
+    categories.map((item) => {
+      if (item.value === category) {
         selectedCategoryTitle = item.label
       }
     })
@@ -201,9 +195,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
                   key={item.value}
                   className="inline-block cursor-pointer pl-4 pr-4 duration-300 ease-in-out hover:scale-105"
                 >
-                  <button onClick={() => handleCategorySearch(item.value)}>
-                    {item.label}
-                  </button>
+                  <button onClick={() => handleCategorySearch(item.value)}>{item.label}</button>
                 </ul>
               ))}
             </div>
@@ -248,14 +240,14 @@ export default function BlogListLayout({ posts, user, setUser }) {
                   {postThumbnail !== undefined && postThumbnail !== '' ? (
                     <div className="md:w-64">
                       <Link href={`/blog/${postId}/${slug}`}>
-                        <dd className="p-2">
+                        <div className="p-2">
                           <Image
                             className="rounded-t-lg md:rounded-l-lg"
                             src={postThumbnail}
                             width={500}
                             height={350}
                           />
-                        </dd>
+                        </div>
                       </Link>
                     </div>
                   ) : (
@@ -269,14 +261,11 @@ export default function BlogListLayout({ posts, user, setUser }) {
                         </h2>
                       </Link>
 
-                      <dl>
-                        <dt className="sr-only">Published on</dt>
-                        <dd className="leading-1 text-sm font-medium text-gray-500 dark:text-gray-400">
-                          {Math.ceil(wordCount / 225) > 1
-                            ? `${Math.round(wordCount / 225)} minutes read`
-                            : `${Math.round(wordCount / 225)} minute read`}
-                        </dd>
-                      </dl>
+                      <div className="leading-1 text-sm font-medium text-gray-500 dark:text-gray-400">
+                        {Math.ceil(wordCount / 225) > 1
+                          ? `${Math.round(wordCount / 225)} minutes read`
+                          : `${Math.round(wordCount / 225)} minute read`}
+                      </div>
 
                       <div className="mb-2 flex flex-wrap">
                         {tags.map((tag) => (
@@ -315,11 +304,9 @@ export default function BlogListLayout({ posts, user, setUser }) {
                                 {authorDetails.name}
                               </p>
                             </Link>
-                            <dl>
-                              <dd className="text-xs font-medium leading-6 text-gray-500 dark:text-gray-400">
-                                <time dateTime={date}>{formatDate(date)}</time>
-                              </dd>
-                            </dl>
+                            <div className="text-xs font-medium leading-6 text-gray-500 dark:text-gray-400">
+                              <time dateTime={date}>{formatDate(date)}</time>
+                            </div>
                           </div>
                         </div>
 
@@ -336,12 +323,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
                                 <button
                                   type="button"
                                   disabled={processing}
-                                  onClick={(e) =>
-                                    handleRemoveFavoriteBlogs(
-                                      e,
-                                      postId
-                                    )
-                                  }
+                                  onClick={(e) => handleRemoveFavoriteBlogs(e, postId)}
                                 >
                                   <Image
                                     src="/static/images/heart-red.png"
