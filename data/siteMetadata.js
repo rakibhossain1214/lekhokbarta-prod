@@ -3,20 +3,17 @@ const siteMetadata = {
   author: 'A. M. Rakibul Hossain',
   headerTitle: 'Roarspot',
   description:
-    'Roarspot is the largest blog publishing website in Bangladesh. It is a world of bloggers, content creators and publishers.',
+    'Roarspot is the largest blog publishing website in Bangladesh with the slogan "I am the best".',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://roarspot.vercel.app',
-  siteRepo: 'https://github.com/rakibhossain1214/lekhokbarta-prod',
-  siteLogo: '/static/images/roarspot-logo.png',
+  siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
-  socialBanner: '/static/images/roarspot-logo.png',
-  email: 'amrakibulhossain@gmail.com',
-  github: 'https://github.com',
-  twitter: 'https://twitter.com/Twitter',
-  facebook: 'https://facebook.com',
-  youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com',
+  socialBanner: '/static/images/logo.png',
+  email: 'roarspotmail@gmail.com',
+  // twitter: 'https://twitter.com/Twitter',
+  facebook: 'https://www.facebook.com/profile.php?id=100086779055740',
+  youtube: 'https://www.youtube.com/channel/UC9D6ARfkgbGdeGsn8OJQSaA',
   locale: 'en-US',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
