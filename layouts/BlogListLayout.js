@@ -14,7 +14,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
   const [effectCaller, setEffectCaller] = useState(false)
   const [processing, setProcessing] = useState(false)
   const [filteredPosts, setFilteredPosts] = useState(posts)
-  const [pageTitle, setPageTitle] = useState('Latest')
+  const [pageTitle, setPageTitle] = useState('সর্বশেষ আপডেট')
   const [postCount, setPostCount] = useState(POSTS_PER_PAGE)
   const [showToast, setShowToast] = useState(false)
   const [toastText, setToastText] = useState('')
@@ -121,7 +121,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
     setPostCount(POSTS_PER_PAGE)
     document.getElementById('search-text-input').value = ''
     setSearchValue('')
-    setPageTitle('Latest')
+    setPageTitle('সর্বশেষ আপডেট')
     setFilteredPosts(posts)
   }
 
@@ -140,7 +140,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
               onChange={(e) => {
                 setSearchValue(e.target.value)
               }}
-              placeholder="Search blogs"
+              placeholder="ব্লগ খুঁজুন..."
               className="block w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
             />
             <svg
@@ -163,7 +163,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
             style={{ marginTop: '8px', marginLeft: '5px' }}
             onClick={handleClearSearch}
           >
-            Clear Search
+            ক্লিয়ার সার্চ হিস্টোরি
           </button>
         </div>
 
@@ -220,7 +220,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
         </>
 
         <ul className="pt-5">
-          {!filteredBlogPosts.length && 'No posts found.'}
+          {!filteredBlogPosts.length && <p className="text-sm">কোন ব্লগ খুঁজে পাওয়া যায়নি।</p>}
           {displayPosts.slice(0, postCount).map((frontMatter) => {
             const {
               slug,
@@ -376,7 +376,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
             className="text-md font-semibold"
             onClick={() => setPostCount(postCount + POSTS_PER_PAGE)}
           >
-            Load More...
+            আরো ব্লগ দেখুন...
           </button>
         </div>
       ) : (
