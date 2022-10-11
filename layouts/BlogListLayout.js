@@ -46,101 +46,39 @@ export default function BlogListLayout({ posts, user, setUser }) {
 
   const handleAddToFavoriteBlogs = (
     e,
-    postId,
-    title,
-    slug,
-    postThumbnail,
-    authorDetails,
-    category,
-    tags
+    postId
   ) => {
     e.preventDefault()
     setProcessing(true)
-
-    setToastText('Added to favorite blogs.')
-    setShowToast(true)
-    setTimeout(() => {
-      setShowToast(false)
-    }, 3000)
-
-    let favList = []
-    user.favoriteBlogs.map((item) => {
-      favList.push(item)
-    })
-
-    favList.push({
-      postId,
-      title,
-      slug,
-      postThumbnail,
-      authorName: authorDetails.name,
-      authorId: authorDetails.id,
-      authorAvatar: authorDetails.avatar,
-      category,
-      tags,
-    })
-
-    user.favoriteBlogs = favList
-
-    AddToFavoriteBlogs({
-      postId,
-      title,
-      slug,
-      postThumbnail,
-      authorName: authorDetails.name,
-      authorId: authorDetails.id,
-      authorAvatar: authorDetails.avatar,
-      user,
-      category,
-      tags,
-    }).then(() => {
+    AddToFavoriteBlogs({ postId, user }).then(()=>{
       setEffectCaller(!effectCaller)
       setProcessing(false)
+      setToastText('Added to favorite blogs.')
+      setShowToast(true)
+      setTimeout(() => {
+        setShowToast(false)
+      }, 3000)
     })
   }
 
   const handleRemoveFavoriteBlogs = (
     e,
-    postId,
-    title,
-    slug,
-    postThumbnail,
-    authorDetails,
-    category,
-    tags
+    postId
   ) => {
     e.preventDefault()
     setProcessing(true)
 
-    setToastText('Removed from favorite blogs.')
-    setShowToast(true)
-    setTimeout(() => {
-      setShowToast(false)
-    }, 3000)
-
-    let favList = []
-    user.favoriteBlogs.map((item) => {
-      if (item.postId !== postId) {
-        favList.push(item)
-      }
-    })
-
-    user.favoriteBlogs = favList
-
     RemoveFavoriteBlogs({
-      postId,
-      title,
-      slug,
-      postThumbnail,
-      authorName: authorDetails.name,
-      authorId: authorDetails.id,
-      authorAvatar: authorDetails.avatar,
-      user,
-      category,
-      tags,
+      postId,   
+      user
     }).then(() => {
       setEffectCaller(!effectCaller)
       setProcessing(false)
+      setToastText('Removed from favorite blogs.')
+      setShowToast(true)
+      setTimeout(() => {
+        setShowToast(false)
+      }, 3000)  
     })
   }
 
@@ -401,13 +339,7 @@ export default function BlogListLayout({ posts, user, setUser }) {
                                   onClick={(e) =>
                                     handleRemoveFavoriteBlogs(
                                       e,
-                                      postId,
-                                      title,
-                                      slug,
-                                      postThumbnail,
-                                      authorDetails,
-                                      category,
-                                      tags
+                                      postId
                                     )
                                   }
                                 >

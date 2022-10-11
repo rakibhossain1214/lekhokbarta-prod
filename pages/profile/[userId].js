@@ -62,7 +62,7 @@ function profile({ auth, userData, myBlogsList }) {
     const handleFollowChange = ({ userData }) => {
         setUserInfo(userData)
     }
-    
+
     const handleMyBlogChange = ({ userBlogsList }) => {
         setUserBlogs(userBlogsList)
     }
@@ -263,24 +263,13 @@ function profile({ auth, userData, myBlogsList }) {
                                 </svg>
                                 {userInfo.following.length}
                             </p>
-                            
+
                         </div>
                     </div>
                 </div>
                 <div>
                     <Tab.Group>
                         <Tab.List className="flex flex-wrap mt-4 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
-
-                            <Tab
-                                className={({ selected }) =>
-                                    selected ? 'bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
-                                }
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-                                </svg>
-                            </Tab>
-
                             <Tab
                                 className={({ selected }) =>
                                     selected ? 'flex bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'flex inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
@@ -291,6 +280,16 @@ function profile({ auth, userData, myBlogsList }) {
                                     width={22}
                                     height={22}
                                 />
+                            </Tab>
+
+                            <Tab
+                                className={({ selected }) =>
+                                    selected ? 'bg-teal-500 text-white inline-block pl-4 pr-4 pt-2 pb-2 text-white-600 rounded-t-lg active dark:bg-teal-500 dark:text-white-500' : 'inline-block pl-4 pr-4 pt-2 pb-2 text-gray-500 bg-gray-100 rounded-t-lg dark:bg-gray-800 dark:text-gray-400'
+                                }
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                </svg>
                             </Tab>
 
                             {user !== null &&
@@ -336,10 +335,10 @@ function profile({ auth, userData, myBlogsList }) {
                         </Tab.List>
                         <Tab.Panels>
 
-                            <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} setUser={setUser} /></Tab.Panel>
-
                             <Tab.Panel><MyBlogs userInfo={userInfo} userBlogs={userBlogs} userId={userId} user={user} handleMyBlogChange={handleMyBlogChange} /></Tab.Panel>
 
+                            <Tab.Panel><ProfileDetails handleChange={handleChange} userInfo={userInfo} userId={userId} user={user} setUser={setUser} /></Tab.Panel>
+                            
                             {user !== null &&
                                 userId === user.uid &&
                                 <Tab.Panel><Followers userInfo={userInfo} userId={userId} user={user} handleFollowChange={handleFollowChange} /></Tab.Panel>
