@@ -10,7 +10,6 @@ const CommonSEO = ({
   twImage,
   canonicalUrl,
   thumbnail = '',
-  author,
 }) => {
   const router = useRouter()
   return (
@@ -37,11 +36,6 @@ const CommonSEO = ({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={twImage} />
-      {author !== undefined ? (
-        <meta name="author" content={author.name} />
-      ) : (
-        <meta name="author" content={`${siteMetadata.author}`} />
-      )}
       <link
         rel="canonical"
         href={canonicalUrl ? canonicalUrl : `${siteMetadata.siteUrl}${router.asPath}`}
@@ -166,7 +160,6 @@ export const BlogSEO = ({
         twImage={twImageUrl}
         canonicalUrl={canonicalUrl}
         thumbnail={thumbnail}
-        author={authorList}
       />
       <Head>
         {date && <meta property="article:published_time" content={publishedAt} />}
