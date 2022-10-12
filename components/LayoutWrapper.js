@@ -38,8 +38,8 @@ const LayoutWrapper = ({ children, auth }) => {
                     <Image
                       src={'/static/images/roarspot-logo.png'}
                       alt="roarspot logo"
-                      height={42}
-                      width={50}
+                      width={53.86}
+                      height={43.61}
                     />
                   </div>
                   {typeof siteMetadata.headerTitle === 'string' ? (
@@ -64,12 +64,12 @@ const LayoutWrapper = ({ children, auth }) => {
                   </Link>
                 ))}
               </div>
-              {user !== null && user !== "NODATA" ? (
+              {user !== null && user !== 'NODATA' ? (
                 <CustomNavDropdown userInfo={user} logout={logout} />
               ) : (
                 <Link
                   key="login"
-                  className="p-1 font-medium text-blue-500 dark:text-blue-500 sm:p-4"
+                  className="p-1 font-medium text-gray-900 dark:text-blue-500 sm:p-4"
                 >
                   <button onClick={() => setShowLoginModal(true)}>Login</button>
                 </Link>
