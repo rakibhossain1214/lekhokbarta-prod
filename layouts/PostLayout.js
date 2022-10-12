@@ -261,7 +261,7 @@ export default function PostLayout({
                 <ShowPost content={children} />
                 {postData.referenceSources !== '' && (
                   <>
-                    <p className="mt-2">Sources:</p>
+                    <p className="text-md mt-2 text-blue-600">তথ্যসূত্র:</p>
                     <p className="-mt-4 text-xs">{postData.referenceSources}</p>
                   </>
                 )}
